@@ -36,3 +36,5 @@ coverage
 # logs folder for aio-run-detached
 logs
 
+.parcel-cache
+
