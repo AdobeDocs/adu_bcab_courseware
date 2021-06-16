@@ -1,0 +1,52 @@
+var _react2 = require("react");
+var _react = $parcel$interopDefault(_react2);
+var { forwardRef  } = _react2;
+var { Flex  } = require("@react-spectrum/layout");
+var { filterDOMProps  } = require("@react-aria/utils");
+var { classNames , SlotProvider , useStyleProps  } = require("@react-spectrum/utils");
+var _babelRuntimeHelpersObjectWithoutPropertiesLoose = $parcel$interopDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+require("./main.css");
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/illustratedmessage/vars.css
+var $d60c55dd9275bfa835b7fd2144f842a$exports = {
+};
+$d60c55dd9275bfa835b7fd2144f842a$exports = {
+    "spectrum-IllustratedMessage": "_spectrum-IllustratedMessage_5a24b",
+    "spectrum-IllustratedMessage-heading": "_spectrum-IllustratedMessage-heading_5a24b",
+    "spectrum-IllustratedMessage-description": "_spectrum-IllustratedMessage-description_5a24b",
+    "spectrum-IllustratedMessage--cta": "_spectrum-IllustratedMessage--cta_5a24b"
+};
+var $d60c55dd9275bfa835b7fd2144f842a$$interop$default = $parcel$interopDefault($d60c55dd9275bfa835b7fd2144f842a$exports);
+function $e32162d4bddfb5035ea02d99d070645$var$IllustratedMessage(props, ref) {
+    let { children  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "children"
+    ]);
+    let { styleProps  } = useStyleProps(otherProps);
+    let headingClassName = classNames($d60c55dd9275bfa835b7fd2144f842a$$interop$default, 'spectrum-IllustratedMessage-heading');
+    let contentClassName = classNames($d60c55dd9275bfa835b7fd2144f842a$$interop$default, 'spectrum-IllustratedMessage-description');
+    let slots = {
+        heading: {
+            UNSAFE_className: headingClassName
+        },
+        content: {
+            UNSAFE_className: contentClassName
+        }
+    };
+    return(/*#__PURE__*/ _react.createElement(Flex, _babelRuntimeHelpersExtends({
+    }, filterDOMProps(otherProps), {
+        UNSAFE_style: styleProps.style,
+        isHidden: styleProps.hidden,
+        UNSAFE_className: classNames($d60c55dd9275bfa835b7fd2144f842a$$interop$default, 'spectrum-IllustratedMessage', styleProps.className),
+        ref: ref
+    }), /*#__PURE__*/ _react.createElement(SlotProvider, {
+        slots: slots
+    }, children)));
+}
+/**
+ * An IllustratedMessage displays an illustration and a message, usually
+ * for an empty state or an error page.
+ */ let IllustratedMessage = /*#__PURE__*/ forwardRef($e32162d4bddfb5035ea02d99d070645$var$IllustratedMessage);
+exports.IllustratedMessage = IllustratedMessage;

@@ -1,0 +1,56 @@
+var { useProviderProps  } = require("@react-spectrum/provider");
+var { useLink  } = require("@react-aria/link");
+var { useHover  } = require("@react-aria/interactions");
+var _react2 = require("react");
+var _react = $parcel$interopDefault(_react2);
+var { useRef  } = _react2;
+var { mergeProps  } = require("@react-aria/utils");
+var { FocusRing  } = require("@react-aria/focus");
+var { classNames , getWrappedElement , useStyleProps  } = require("@react-spectrum/utils");
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+require("./main.css");
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/link/vars.css
+var $ab502cff6933f7953f496b5b8a9d9e20$exports = {
+};
+$ab502cff6933f7953f496b5b8a9d9e20$exports = {
+    "spectrum-Link": "_spectrum-Link_f1e6e",
+    "is-hovered": "_is-hovered_f1e6e",
+    "focus-ring": "_focus-ring_f1e6e",
+    "is-disabled": "_is-disabled_f1e6e",
+    "spectrum-Link--secondary": "_spectrum-Link--secondary_f1e6e",
+    "spectrum-Link--overBackground": "_spectrum-Link--overBackground_f1e6e",
+    "spectrum-Link--quiet": "_spectrum-Link--quiet_f1e6e"
+};
+var $ab502cff6933f7953f496b5b8a9d9e20$$interop$default = $parcel$interopDefault($ab502cff6933f7953f496b5b8a9d9e20$exports);
+/**
+ * Links allow users to navigate to a different location.
+ * They can be presented inline inside a paragraph or as standalone text.
+ */ function Link(props) {
+    props = useProviderProps(props);
+    let { variant ='primary' , isQuiet , children , // @ts-ignore
+    href  } = props;
+    let { styleProps  } = useStyleProps(props);
+    let { hoverProps , isHovered  } = useHover({
+    });
+    if (href) console.warn('href is deprecated, please use an anchor element as children');
+    let ref = useRef();
+    let { linkProps  } = useLink(_babelRuntimeHelpersExtends({
+    }, props, {
+        elementType: typeof children === 'string' ? 'span' : 'a'
+    }), ref);
+    return(/*#__PURE__*/ _react.createElement(FocusRing, {
+        focusRingClass: classNames($ab502cff6933f7953f496b5b8a9d9e20$$interop$default, 'focus-ring')
+    }, /*#__PURE__*/ _react.cloneElement(getWrappedElement(children), _babelRuntimeHelpersExtends({
+    }, styleProps, mergeProps(linkProps, hoverProps), {
+        ref,
+        className: classNames($ab502cff6933f7953f496b5b8a9d9e20$$interop$default, 'spectrum-Link', {
+            'spectrum-Link--quiet': isQuiet,
+            ["spectrum-Link--" + variant]: variant,
+            'is-hovered': isHovered
+        }, styleProps.className)
+    }))));
+}
+exports.Link = Link;

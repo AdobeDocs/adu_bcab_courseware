@@ -1,0 +1,53 @@
+require("./main.css");
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/vars/spectrum-darkest.css
+var $cf8ed174d1fbd864d1206b5e8a3c262$exports = {
+};
+$cf8ed174d1fbd864d1206b5e8a3c262$exports = {
+    "spectrum--darkest": "_spectrum--darkest_acf7f"
+};
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/vars/spectrum-global.css
+var $b3d87d42a3b0ee7f09fdccf7740f9569$exports = {
+};
+$b3d87d42a3b0ee7f09fdccf7740f9569$exports = {
+    "spectrum": "_spectrum_5be2e",
+    "spectrum--medium": "_spectrum--medium_5be2e",
+    "spectrum--large": "_spectrum--large_5be2e",
+    "spectrum--darkest": "_spectrum--darkest_5be2e",
+    "spectrum--dark": "_spectrum--dark_5be2e",
+    "spectrum--light": "_spectrum--light_5be2e",
+    "spectrum--lightest": "_spectrum--lightest_5be2e"
+};
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/vars/spectrum-large.css
+var $b402298dcb2ea73f1cd9cf191$exports = {
+};
+$b402298dcb2ea73f1cd9cf191$exports = {
+    "spectrum--large": "_spectrum--large_4f200"
+};
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/vars/spectrum-light.css
+var $ef8732b4bd8f7534057c4b76375199be$exports = {
+};
+$ef8732b4bd8f7534057c4b76375199be$exports = {
+    "spectrum--light": "_spectrum--light_606b7"
+};
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/vars/spectrum-medium.css
+var $b02b84ece36f72b1103c5ef5d9e1692a$exports = {
+};
+$b02b84ece36f72b1103c5ef5d9e1692a$exports = {
+    "spectrum--medium": "_spectrum--medium_b3c97"
+};
+var $b3d87d42a3b0ee7f09fdccf7740f9569$$interop$default = $parcel$interopDefault($b3d87d42a3b0ee7f09fdccf7740f9569$exports);
+var $ef8732b4bd8f7534057c4b76375199be$$interop$default = $parcel$interopDefault($ef8732b4bd8f7534057c4b76375199be$exports);
+var $cf8ed174d1fbd864d1206b5e8a3c262$$interop$default = $parcel$interopDefault($cf8ed174d1fbd864d1206b5e8a3c262$exports);
+var $b02b84ece36f72b1103c5ef5d9e1692a$$interop$default = $parcel$interopDefault($b02b84ece36f72b1103c5ef5d9e1692a$exports);
+var $b402298dcb2ea73f1cd9cf191$$interop$default = $parcel$interopDefault($b402298dcb2ea73f1cd9cf191$exports);
+let theme = {
+    global: $b3d87d42a3b0ee7f09fdccf7740f9569$$interop$default,
+    light: $ef8732b4bd8f7534057c4b76375199be$$interop$default,
+    dark: $cf8ed174d1fbd864d1206b5e8a3c262$$interop$default,
+    medium: $b02b84ece36f72b1103c5ef5d9e1692a$$interop$default,
+    large: $b402298dcb2ea73f1cd9cf191$$interop$default
+};
+exports.theme = theme;

@@ -11,95 +11,118 @@
         "services": [
           {
             "name": "Adobe Stock",
-            "code": "StockSDK"
+            "code": "StockSDK",
+            "type": "adobeid"
           },
           {
             "name": "PDF Embed API",
-            "code": "ViewSDK"
+            "code": "ViewSDK",
+            "type": "adobeid"
           },
           {
             "name": "Lightroom Services",
-            "code": "LightroomPartnersSDK"
+            "code": "LightroomPartnersSDK",
+            "type": "adobeid"
           },
           {
             "name": "Content and Commerce AI",
-            "code": "ccai-sdk"
+            "code": "ccai-sdk",
+            "type": "adobeid"
           },
           {
             "name": "Creative Cloud Libraries",
-            "code": "CC-Libraries-SDK"
+            "code": "CC-Libraries-SDK",
+            "type": "adobeid"
           },
           {
             "name": "Adobe Analytics",
-            "code": "AdobeAnalyticsSDK"
+            "code": "AdobeAnalyticsSDK",
+            "type": "analytics"
           },
           {
             "name": "Adobe Analytics",
-            "code": "AdobeAnalyticsSDK"
+            "code": "AdobeAnalyticsSDK",
+            "type": "entp"
           },
           {
             "name": "Smart Content",
-            "code": "MCSmartContentServicesSDK"
+            "code": "MCSmartContentServicesSDK",
+            "type": "entp"
           },
           {
             "name": "Privacy Service API",
-            "code": "McGdprSDK"
+            "code": "McGdprSDK",
+            "type": "entp"
           },
           {
             "name": "Experience Platform Launch API",
-            "code": "McDtmSDK"
+            "code": "McDtmSDK",
+            "type": "entp"
           },
           {
             "name": "Asset Compute",
-            "code": "AssetComputeSDK"
+            "code": "AssetComputeSDK",
+            "type": "entp"
           },
           {
             "name": "Adobe Photoshop APIs (Trial)",
-            "code": "CIS SDK"
+            "code": "CIS SDK",
+            "type": "entp"
           },
           {
             "name": "Cloud Manager",
-            "code": "CloudManagerSDK"
+            "code": "CloudManagerSDK",
+            "type": "entp"
           },
           {
             "name": "User Management API",
-            "code": "UserMgmtSDK"
+            "code": "UserMgmtSDK",
+            "type": "entp"
+          },
+          {
+            "name": "Adobe Sign",
+            "code": "AdobeSignSDK",
+            "type": "entp"
           },
           {
             "name": "I/O Events",
-            "code": "CloudIntegrationSDK"
+            "code": "CloudIntegrationSDK",
+            "type": "entp"
           },
           {
             "name": "Audience Manager API",
-            "code": "AudienceManagerCustomerSDK"
+            "code": "AudienceManagerCustomerSDK",
+            "type": "entp"
           },
           {
             "name": "I/O Management API",
-            "code": "AdobeIOManagementAPISDK"
+            "code": "AdobeIOManagementAPISDK",
+            "type": "entp"
           },
           {
             "name": "Adobe Target",
-            "code": "AdobeTargetSDK"
+            "code": "AdobeTargetSDK",
+            "type": "entp"
           },
           {
             "name": "Places",
-            "code": "McPlacesSDK"
+            "code": "McPlacesSDK",
+            "type": "entp"
           }
         ]
       }
     },
     "workspace": {
-      "id": "4566206088344601511",
-      "name": "dbengedev",
-      "title": "dbengedev",
-      "description": "Davids workspace",
-      "action_url": "https://301276-trainingproject-dbengedev.adobeioruntime.net",
-      "app_url": "https://301276-trainingproject-dbengedev.adobeio-static.net",
+      "id": "4566206088344601510",
+      "name": "Stage",
+      "title": "Stage",
+      "action_url": "https://301276-trainingproject-stage.adobeioruntime.net",
+      "app_url": "https://301276-trainingproject-stage.adobeio-static.net",
       "details": {
         "credentials": [
           {
-            "id": "158784",
-            "name": "Project_1618348418351W",
+            "id": "176766",
+            "name": "Project_1623717036214W",
             "integration_type": "oauthweb"
           }
         ],
@@ -111,10 +134,5 @@
         ]
       }
     }
-  },
-  "app": {
-    "actions": "actions",
-    "dist": "dist",
-    "web": "web-src"
   }
 }

@@ -1,0 +1,304 @@
+var { useMessageFormatter  } = require("@react-aria/i18n");
+var { useCallback , useEffect , useRef  } = require("react");
+var { announce  } = require("@react-aria/live-announcer");
+var _babelRuntimeHelpersInteropRequireDefault = $parcel$interopDefault(require("@babel/runtime/helpers/interopRequireDefault"));
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/ar-AE.json
+var $c3f05488d24647f48a8d3915425531f5$exports = {
+};
+$c3f05488d24647f48a8d3915425531f5$exports = JSON.parse("{\"Empty\":\"فارغ\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/bg-BG.json
+var $c548d4e19a7d415fbd330d328941a62d$exports = {
+};
+$c548d4e19a7d415fbd330d328941a62d$exports = JSON.parse("{\"Empty\":\"Изпразни\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/cs-CZ.json
+var $fc6cef73ed60f9302e1b85aadbb2fd2$exports = {
+};
+$fc6cef73ed60f9302e1b85aadbb2fd2$exports = JSON.parse("{\"Empty\":\"Prázdné\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/da-DK.json
+var $bb231bdd6ba2feec533fd4d9c7ac6c2$exports = {
+};
+$bb231bdd6ba2feec533fd4d9c7ac6c2$exports = JSON.parse("{\"Empty\":\"Tom\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/de-DE.json
+var $b5d12325028283f0cfc4910b221995$exports = {
+};
+$b5d12325028283f0cfc4910b221995$exports = JSON.parse("{\"Empty\":\"Leer\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/el-GR.json
+var $d42489ef1f2735d70ec958ca03$exports = {
+};
+$d42489ef1f2735d70ec958ca03$exports = JSON.parse("{\"Empty\":\"Άδειο\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/en-US.json
+var $a3d36b11748baaae2b72d2d06b8d4f$exports = {
+};
+$a3d36b11748baaae2b72d2d06b8d4f$exports = JSON.parse("{\"Empty\":\"Empty\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/es-ES.json
+var $bd9fdde72120aa3296bfb888e979b561$exports = {
+};
+$bd9fdde72120aa3296bfb888e979b561$exports = JSON.parse("{\"Empty\":\"Vacío\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/et-EE.json
+var $b8e0686b145132b537854e4ad43f8153$exports = {
+};
+$b8e0686b145132b537854e4ad43f8153$exports = JSON.parse("{\"Empty\":\"Tühjenda\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/fi-FI.json
+var $cb67d34ec1986ae4ce899649fa400433$exports = {
+};
+$cb67d34ec1986ae4ce899649fa400433$exports = JSON.parse("{\"Empty\":\"Tyhjä\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/fr-FR.json
+var $d398af3c700a617df41e916bad7f12e5$exports = {
+};
+$d398af3c700a617df41e916bad7f12e5$exports = JSON.parse("{\"Empty\":\"Vide\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/he-IL.json
+var $d41fa3b22e61dd6c25a78dfeb$exports = {
+};
+$d41fa3b22e61dd6c25a78dfeb$exports = JSON.parse("{\"Empty\":\"ריק\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/hr-HR.json
+var $f7dc0ea5cd692eed8bcb420f0302865f$exports = {
+};
+$f7dc0ea5cd692eed8bcb420f0302865f$exports = JSON.parse("{\"Empty\":\"Prazno\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/hu-HU.json
+var $c6a5a7aaf2fe130b2df0059729c9f0$exports = {
+};
+$c6a5a7aaf2fe130b2df0059729c9f0$exports = JSON.parse("{\"Empty\":\"Üres\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/it-IT.json
+var $ac64756ac14c2b81eb727a0e625$exports = {
+};
+$ac64756ac14c2b81eb727a0e625$exports = JSON.parse("{\"Empty\":\"Vuoto\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/ja-JP.json
+var $a81b25b0880f7d16b795e54a728bb29$exports = {
+};
+$a81b25b0880f7d16b795e54a728bb29$exports = JSON.parse("{\"Empty\":\"空\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/ko-KR.json
+var $e060150641d9fc7af$exports = {
+};
+$e060150641d9fc7af$exports = JSON.parse("{\"Empty\":\"비어 있음\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/lt-LT.json
+var $a1312532e65fc00702f3f430d9de2$exports = {
+};
+$a1312532e65fc00702f3f430d9de2$exports = JSON.parse("{\"Empty\":\"Tuščias\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/lv-LV.json
+var $e7f8f9085275407ea74b19d37ee95c$exports = {
+};
+$e7f8f9085275407ea74b19d37ee95c$exports = JSON.parse("{\"Empty\":\"Tukšs\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/nb-NO.json
+var $dbeb0b645a29b160801f37417da29237$exports = {
+};
+$dbeb0b645a29b160801f37417da29237$exports = JSON.parse("{\"Empty\":\"Tom\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/nl-NL.json
+var $adc62b182a2bd5c8be093387b010c180$exports = {
+};
+$adc62b182a2bd5c8be093387b010c180$exports = JSON.parse("{\"Empty\":\"Leeg\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/pl-PL.json
+var $ada7dad0f5a84e53c4ee9d8e28716$exports = {
+};
+$ada7dad0f5a84e53c4ee9d8e28716$exports = JSON.parse("{\"Empty\":\"Pusty\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/pt-BR.json
+var $e5021bea6ccc4ee454cc450c7b7e07$exports = {
+};
+$e5021bea6ccc4ee454cc450c7b7e07$exports = JSON.parse("{\"Empty\":\"Vazio\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/pt-PT.json
+var $e3c0a97c491b8382678a0a50134539$exports = {
+};
+$e3c0a97c491b8382678a0a50134539$exports = JSON.parse("{\"Empty\":\"Vazio\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/ro-RO.json
+var $dd30978fd7e514c9877cc015110b7231$exports = {
+};
+$dd30978fd7e514c9877cc015110b7231$exports = JSON.parse("{\"Empty\":\"Gol\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/ru-RU.json
+var $c931a7e1c845a80d96eaa3eb644bf6$exports = {
+};
+$c931a7e1c845a80d96eaa3eb644bf6$exports = JSON.parse("{\"Empty\":\"Не заполнено\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/sk-SK.json
+var $fcae139572b3ab616faa1767db3ad5e4$exports = {
+};
+$fcae139572b3ab616faa1767db3ad5e4$exports = JSON.parse("{\"Empty\":\"Prázdne\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/sl-SI.json
+var $bb9d64d674256d4ec0105b505320df$exports = {
+};
+$bb9d64d674256d4ec0105b505320df$exports = JSON.parse("{\"Empty\":\"Prazen\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/sr-SP.json
+var $a7e20439e972cd0406c8a08f295a2ad$exports = {
+};
+$a7e20439e972cd0406c8a08f295a2ad$exports = JSON.parse("{\"Empty\":\"Prazno\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/sv-SE.json
+var $a56bbf53f8bca3b866c5ade05276887d$exports = {
+};
+$a56bbf53f8bca3b866c5ade05276887d$exports = JSON.parse("{\"Empty\":\"Tomt\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/tr-TR.json
+var $ff4317415bd9d5e5c55b1fb3ab9701fc$exports = {
+};
+$ff4317415bd9d5e5c55b1fb3ab9701fc$exports = JSON.parse("{\"Empty\":\"Boş\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/uk-UA.json
+var $b029c402307c2967096f8d041ac94$exports = {
+};
+$b029c402307c2967096f8d041ac94$exports = JSON.parse("{\"Empty\":\"Пусто\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/zh-CN.json
+var $e90b748bf720360e1e47ad5a796a35d4$exports = {
+};
+$e90b748bf720360e1e47ad5a796a35d4$exports = JSON.parse("{\"Empty\":\"空\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-aria/spinbutton/intl/zh-TW.json
+var $f3827624a5a1724a27668435137c30c6$exports = {
+};
+$f3827624a5a1724a27668435137c30c6$exports = JSON.parse("{\"Empty\":\"空白\"}");
+// @ts-ignore
+const $e2611a2eb0ff0bc5956aba8eea80194b$var$intlMessages = {
+    "ar-AE": _babelRuntimeHelpersInteropRequireDefault($c3f05488d24647f48a8d3915425531f5$exports).default,
+    "bg-BG": _babelRuntimeHelpersInteropRequireDefault($c548d4e19a7d415fbd330d328941a62d$exports).default,
+    "cs-CZ": _babelRuntimeHelpersInteropRequireDefault($fc6cef73ed60f9302e1b85aadbb2fd2$exports).default,
+    "da-DK": _babelRuntimeHelpersInteropRequireDefault($bb231bdd6ba2feec533fd4d9c7ac6c2$exports).default,
+    "de-DE": _babelRuntimeHelpersInteropRequireDefault($b5d12325028283f0cfc4910b221995$exports).default,
+    "el-GR": _babelRuntimeHelpersInteropRequireDefault($d42489ef1f2735d70ec958ca03$exports).default,
+    "en-US": _babelRuntimeHelpersInteropRequireDefault($a3d36b11748baaae2b72d2d06b8d4f$exports).default,
+    "es-ES": _babelRuntimeHelpersInteropRequireDefault($bd9fdde72120aa3296bfb888e979b561$exports).default,
+    "et-EE": _babelRuntimeHelpersInteropRequireDefault($b8e0686b145132b537854e4ad43f8153$exports).default,
+    "fi-FI": _babelRuntimeHelpersInteropRequireDefault($cb67d34ec1986ae4ce899649fa400433$exports).default,
+    "fr-FR": _babelRuntimeHelpersInteropRequireDefault($d398af3c700a617df41e916bad7f12e5$exports).default,
+    "he-IL": _babelRuntimeHelpersInteropRequireDefault($d41fa3b22e61dd6c25a78dfeb$exports).default,
+    "hr-HR": _babelRuntimeHelpersInteropRequireDefault($f7dc0ea5cd692eed8bcb420f0302865f$exports).default,
+    "hu-HU": _babelRuntimeHelpersInteropRequireDefault($c6a5a7aaf2fe130b2df0059729c9f0$exports).default,
+    "it-IT": _babelRuntimeHelpersInteropRequireDefault($ac64756ac14c2b81eb727a0e625$exports).default,
+    "ja-JP": _babelRuntimeHelpersInteropRequireDefault($a81b25b0880f7d16b795e54a728bb29$exports).default,
+    "ko-KR": _babelRuntimeHelpersInteropRequireDefault($e060150641d9fc7af$exports).default,
+    "lt-LT": _babelRuntimeHelpersInteropRequireDefault($a1312532e65fc00702f3f430d9de2$exports).default,
+    "lv-LV": _babelRuntimeHelpersInteropRequireDefault($e7f8f9085275407ea74b19d37ee95c$exports).default,
+    "nb-NO": _babelRuntimeHelpersInteropRequireDefault($dbeb0b645a29b160801f37417da29237$exports).default,
+    "nl-NL": _babelRuntimeHelpersInteropRequireDefault($adc62b182a2bd5c8be093387b010c180$exports).default,
+    "pl-PL": _babelRuntimeHelpersInteropRequireDefault($ada7dad0f5a84e53c4ee9d8e28716$exports).default,
+    "pt-BR": _babelRuntimeHelpersInteropRequireDefault($e5021bea6ccc4ee454cc450c7b7e07$exports).default,
+    "pt-PT": _babelRuntimeHelpersInteropRequireDefault($e3c0a97c491b8382678a0a50134539$exports).default,
+    "ro-RO": _babelRuntimeHelpersInteropRequireDefault($dd30978fd7e514c9877cc015110b7231$exports).default,
+    "ru-RU": _babelRuntimeHelpersInteropRequireDefault($c931a7e1c845a80d96eaa3eb644bf6$exports).default,
+    "sk-SK": _babelRuntimeHelpersInteropRequireDefault($fcae139572b3ab616faa1767db3ad5e4$exports).default,
+    "sl-SI": _babelRuntimeHelpersInteropRequireDefault($bb9d64d674256d4ec0105b505320df$exports).default,
+    "sr-SP": _babelRuntimeHelpersInteropRequireDefault($a7e20439e972cd0406c8a08f295a2ad$exports).default,
+    "sv-SE": _babelRuntimeHelpersInteropRequireDefault($a56bbf53f8bca3b866c5ade05276887d$exports).default,
+    "tr-TR": _babelRuntimeHelpersInteropRequireDefault($ff4317415bd9d5e5c55b1fb3ab9701fc$exports).default,
+    "uk-UA": _babelRuntimeHelpersInteropRequireDefault($b029c402307c2967096f8d041ac94$exports).default,
+    "zh-CN": _babelRuntimeHelpersInteropRequireDefault($e90b748bf720360e1e47ad5a796a35d4$exports).default,
+    "zh-TW": _babelRuntimeHelpersInteropRequireDefault($f3827624a5a1724a27668435137c30c6$exports).default
+};
+function useSpinButton(props) {
+    const _async = useRef();
+    let { value , textValue , minValue , maxValue , isDisabled , isReadOnly , isRequired , onIncrement , onIncrementPage , onDecrement , onDecrementPage , onDecrementToMin , onIncrementToMax  } = props;
+    const formatMessage = useMessageFormatter($e2611a2eb0ff0bc5956aba8eea80194b$var$intlMessages);
+    const clearAsync = ()=>clearTimeout(_async.current)
+    ; // eslint-disable-next-line arrow-body-style
+    useEffect(()=>{
+        return ()=>clearAsync()
+        ;
+    }, []);
+    let onKeyDown = (e)=>{
+        if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey || isReadOnly) return;
+        switch(e.key){
+            case 'PageUp':
+                if (onIncrementPage) {
+                    e.preventDefault();
+                    onIncrementPage();
+                    break;
+                }
+            // fallthrough!
+            case 'ArrowUp':
+            case 'Up':
+                if (onIncrement) {
+                    e.preventDefault();
+                    onIncrement();
+                }
+                break;
+            case 'PageDown':
+                if (onDecrementPage) {
+                    e.preventDefault();
+                    onDecrementPage();
+                    break;
+                }
+            // fallthrough
+            case 'ArrowDown':
+            case 'Down':
+                if (onDecrement) {
+                    e.preventDefault();
+                    onDecrement();
+                }
+                break;
+            case 'Home':
+                if (onDecrementToMin) {
+                    e.preventDefault();
+                    onDecrementToMin();
+                }
+                break;
+            case 'End':
+                if (onIncrementToMax) {
+                    e.preventDefault();
+                    onIncrementToMax();
+                }
+                break;
+        }
+    };
+    let isFocused = useRef(false);
+    let onFocus = ()=>{
+        isFocused.current = true;
+    };
+    let onBlur = ()=>{
+        isFocused.current = false;
+    }; // Replace Unicode hyphen-minus (U+002D) with minus sign (U+2212).
+    // This ensures that macOS VoiceOver announces it as "minus" even with other characters between the minus sign
+    // and the number (e.g. currency symbol). Otherwise it announces nothing because it assumes the character is a hyphen.
+    // In addition, replace the empty string with the word "Empty" so that iOS VoiceOver does not read "50%" for an empty field.
+    textValue = textValue === '' ? formatMessage('Empty') : (textValue || "" + value).replace('-', '\u2212');
+    useEffect(()=>{
+        if (isFocused.current) announce(textValue, 'assertive');
+    }, [
+        textValue
+    ]);
+    const onIncrementPressStart = useCallback((initialStepDelay)=>{
+        clearAsync();
+        onIncrement(); // Start spinning after initial delay
+        _async.current = window.setTimeout(()=>{
+            if (isNaN(maxValue) || isNaN(value) || value < maxValue) onIncrementPressStart(60);
+        }, initialStepDelay);
+    }, [
+        onIncrement,
+        maxValue,
+        value
+    ]);
+    const onDecrementPressStart = useCallback((initialStepDelay)=>{
+        clearAsync();
+        onDecrement(); // Start spinning after initial delay
+        _async.current = window.setTimeout(()=>{
+            if (isNaN(minValue) || isNaN(value) || value > minValue) onDecrementPressStart(60);
+        }, initialStepDelay);
+    }, [
+        onDecrement,
+        minValue,
+        value
+    ]);
+    return {
+        spinButtonProps: {
+            role: 'spinbutton',
+            'aria-valuenow': !isNaN(value) ? value : null,
+            'aria-valuetext': textValue,
+            'aria-valuemin': minValue,
+            'aria-valuemax': maxValue,
+            'aria-disabled': isDisabled || null,
+            'aria-readonly': isReadOnly || null,
+            'aria-required': isRequired || null,
+            onKeyDown,
+            onFocus,
+            onBlur
+        },
+        incrementButtonProps: {
+            onPressStart: ()=>onIncrementPressStart(400)
+            ,
+            onPressEnd: clearAsync,
+            onFocus,
+            onBlur
+        },
+        decrementButtonProps: {
+            onPressStart: ()=>onDecrementPressStart(400)
+            ,
+            onPressEnd: clearAsync,
+            onFocus,
+            onBlur
+        }
+    };
+}
+exports.useSpinButton = useSpinButton;

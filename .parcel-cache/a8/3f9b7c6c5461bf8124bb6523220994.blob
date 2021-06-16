@@ -1,0 +1,236 @@
+var { useIsSSR  } = require("@react-aria/ssr");
+var _react2 = require("react");
+var _react = $parcel$interopDefault(_react2);
+var { forwardRef  } = _react2;
+var { filterDOMProps  } = require("@react-aria/utils");
+var { baseStyleProps , dimensionValue , passthroughStyle , useDOMRef , useStyleProps , classNames , responsiveDimensionValue , useBreakpoint  } = require("@react-spectrum/utils");
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+var _babelRuntimeHelpersObjectWithoutPropertiesLoose = $parcel$interopDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
+require("./main.css");
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+const $f784fbb881b5b101cd7607722a86$var$gridStyleProps = _babelRuntimeHelpersExtends({
+}, baseStyleProps, {
+    autoFlow: [
+        'gridAutoFlow',
+        passthroughStyle
+    ],
+    autoColumns: [
+        'gridAutoColumns',
+        $f784fbb881b5b101cd7607722a86$var$gridDimensionValue
+    ],
+    autoRows: [
+        'gridAutoRows',
+        $f784fbb881b5b101cd7607722a86$var$gridDimensionValue
+    ],
+    areas: [
+        'gridTemplateAreas',
+        $f784fbb881b5b101cd7607722a86$var$gridTemplateAreasValue
+    ],
+    columns: [
+        'gridTemplateColumns',
+        $f784fbb881b5b101cd7607722a86$var$gridTemplateValue
+    ],
+    rows: [
+        'gridTemplateRows',
+        $f784fbb881b5b101cd7607722a86$var$gridTemplateValue
+    ],
+    gap: [
+        'gap',
+        dimensionValue
+    ],
+    rowGap: [
+        'rowGap',
+        dimensionValue
+    ],
+    columnGap: [
+        'columnGap',
+        dimensionValue
+    ],
+    justifyItems: [
+        'justifyItems',
+        passthroughStyle
+    ],
+    justifyContent: [
+        'justifyContent',
+        passthroughStyle
+    ],
+    alignItems: [
+        'alignItems',
+        passthroughStyle
+    ],
+    alignContent: [
+        'alignContent',
+        passthroughStyle
+    ]
+});
+function $f784fbb881b5b101cd7607722a86$var$Grid(props, ref) {
+    let { children  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "children"
+    ]);
+    let { styleProps  } = useStyleProps(otherProps, $f784fbb881b5b101cd7607722a86$var$gridStyleProps);
+    styleProps.style.display = 'grid'; // inline-grid?
+    let domRef = useDOMRef(ref);
+    return(/*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, filterDOMProps(otherProps), styleProps, {
+        ref: domRef
+    }), children));
+}
+/**
+ * Can be used to make a repeating fragment of the columns or rows list.
+ * See [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/repeat).
+ * @param count - The number of times to repeat the fragment.
+ * @param repeat - The fragment to repeat.
+ */ function repeat(count, repeat1) {
+    return "repeat(" + count + ", " + $f784fbb881b5b101cd7607722a86$var$gridTemplateValue(repeat1) + ")";
+}
+/**
+ * Defines a size range greater than or equal to min and less than or equal to max.
+ * See [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/minmax).
+ * @param min - The minimum size.
+ * @param max - The maximum size.
+ */ exports.repeat = repeat;
+function minmax(min, max) {
+    return "minmax(" + $f784fbb881b5b101cd7607722a86$var$gridDimensionValue(min) + ", " + $f784fbb881b5b101cd7607722a86$var$gridDimensionValue(max) + ")";
+}
+/**
+ * Clamps a given size to an available size.
+ * See [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/fit-content).
+ * @param dimension - The size to clamp.
+ */ exports.minmax = minmax;
+function fitContent(dimension) {
+    return "fit-content(" + $f784fbb881b5b101cd7607722a86$var$gridDimensionValue(dimension) + ")";
+}
+exports.fitContent = fitContent;
+function $f784fbb881b5b101cd7607722a86$var$gridTemplateAreasValue(value) {
+    return value.map((v)=>"\"" + v + "\""
+    ).join('\n');
+}
+function $f784fbb881b5b101cd7607722a86$var$gridDimensionValue(value) {
+    if (/^max-content|min-content|minmax|auto|fit-content|repeat|subgrid/.test(value)) return value;
+    return dimensionValue(value);
+}
+function $f784fbb881b5b101cd7607722a86$var$gridTemplateValue(value) {
+    if (Array.isArray(value)) return value.map($f784fbb881b5b101cd7607722a86$var$gridDimensionValue).join(' ');
+    return $f784fbb881b5b101cd7607722a86$var$gridDimensionValue(value);
+}
+/**
+ * A layout container using CSS grid. Supports Spectrum dimensions as values to
+ * ensure consistent and adaptive sizing and spacing.
+ */ const Grid = /*#__PURE__*/ forwardRef($f784fbb881b5b101cd7607722a86$var$Grid);
+exports.Grid = Grid;
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/layout/src/flex-gap.css
+var $fc072772828195097956358aadf4fa$exports = {
+};
+$fc072772828195097956358aadf4fa$exports = {
+    "flex-container": "_flex-container_ffbb7",
+    "-ms-flex": "_flex_ffbb7",
+    "flex": "_flex_ffbb7",
+    "flex-gap": "_flex-gap_ffbb7"
+};
+const $e9098d18abf2a118bc3bc95f0d402bb5$var$flexStyleProps = {
+    direction: [
+        'flexDirection',
+        passthroughStyle
+    ],
+    wrap: [
+        'flexWrap',
+        $e9098d18abf2a118bc3bc95f0d402bb5$var$flexWrapValue
+    ],
+    justifyContent: [
+        'justifyContent',
+        $e9098d18abf2a118bc3bc95f0d402bb5$var$flexAlignValue
+    ],
+    alignItems: [
+        'alignItems',
+        $e9098d18abf2a118bc3bc95f0d402bb5$var$flexAlignValue
+    ],
+    alignContent: [
+        'alignContent',
+        $e9098d18abf2a118bc3bc95f0d402bb5$var$flexAlignValue
+    ]
+};
+var $fc072772828195097956358aadf4fa$$interop$default = $parcel$interopDefault($fc072772828195097956358aadf4fa$exports);
+function $e9098d18abf2a118bc3bc95f0d402bb5$var$Flex(props, ref) {
+    let { children  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "children"
+    ]);
+    let breakpointProvider = useBreakpoint();
+    let matchedBreakpoints = (breakpointProvider == null ? void 0 : breakpointProvider.matchedBreakpoints) || [
+        'base'
+    ];
+    let { styleProps  } = useStyleProps(otherProps);
+    let { styleProps: flexStyle  } = useStyleProps(otherProps, $e9098d18abf2a118bc3bc95f0d402bb5$var$flexStyleProps);
+    let domRef = useDOMRef(ref);
+    let isSSR = useIsSSR(); // If a gap property is specified, and there is no native support or we're in SSR, use a shim.
+    // Two divs are required for this: the outer one contains most style properties, and the inner
+    // one is the flex container. Each item inside the flex container gets a margin around it based
+    // on the gap, and the flex container has a negative margin to counteract this. The outer container
+    // is necessary to allow nesting of flex containers with gaps, so that the inner CSS variable doesn't
+    // override the outer one.
+    if ((props.gap || props.rowGap || props.columnGap) && (isSSR || !$e9098d18abf2a118bc3bc95f0d402bb5$var$isFlexGapSupported())) {
+        let style = _babelRuntimeHelpersExtends({
+        }, flexStyle.style, {
+            '--column-gap': props.columnGap != null ? responsiveDimensionValue(props.columnGap, matchedBreakpoints) : undefined,
+            '--row-gap': props.rowGap != null ? responsiveDimensionValue(props.rowGap, matchedBreakpoints) : undefined,
+            '--gap': props.gap != null ? responsiveDimensionValue(props.gap, matchedBreakpoints) : undefined
+        });
+        return(/*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+        }, filterDOMProps(otherProps), styleProps, {
+            className: classNames($fc072772828195097956358aadf4fa$$interop$default, 'flex-container', styleProps.className),
+            ref: domRef
+        }), /*#__PURE__*/ _react.createElement("div", {
+            className: classNames($fc072772828195097956358aadf4fa$$interop$default, 'flex', 'flex-gap'),
+            style: style
+        }, children)));
+    } // If no gaps, or native support exists, then we only need to render a single div.
+    let style = _babelRuntimeHelpersExtends({
+    }, styleProps.style, flexStyle.style);
+    if (props.gap != null) style.gap = responsiveDimensionValue(props.gap, matchedBreakpoints);
+    if (props.columnGap != null) style.columnGap = responsiveDimensionValue(props.columnGap, matchedBreakpoints);
+    if (props.rowGap != null) style.rowGap = responsiveDimensionValue(props.rowGap, matchedBreakpoints);
+    return(/*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, filterDOMProps(otherProps), {
+        className: classNames($fc072772828195097956358aadf4fa$$interop$default, 'flex', styleProps.className),
+        style: style,
+        ref: domRef
+    }), children));
+}
+/**
+ * Normalize 'start' and 'end' alignment values to 'flex-start' and 'flex-end'
+ * in flex containers for browser compatibility.
+ */ function $e9098d18abf2a118bc3bc95f0d402bb5$var$flexAlignValue(value) {
+    if (value === 'start') return 'flex-start';
+    if (value === 'end') return 'flex-end';
+    return value;
+}
+/**
+ * Takes a boolean and translates it to flex wrap or nowrap.
+ */ function $e9098d18abf2a118bc3bc95f0d402bb5$var$flexWrapValue(value) {
+    if (typeof value === 'boolean') return value ? 'wrap' : 'nowrap';
+    return value;
+} // Original licensing for the following method can be found in the
+// NOTICE file in the root directory of this source tree.
+// See https://github.com/Modernizr/Modernizr/blob/7efb9d0edd66815fb115fdce95fabaf019ce8db5/feature-detects/css/flexgap.js
+let $e9098d18abf2a118bc3bc95f0d402bb5$var$_isFlexGapSupported = null;
+function $e9098d18abf2a118bc3bc95f0d402bb5$var$isFlexGapSupported() {
+    if ($e9098d18abf2a118bc3bc95f0d402bb5$var$_isFlexGapSupported != null) return $e9098d18abf2a118bc3bc95f0d402bb5$var$_isFlexGapSupported;
+    if (typeof document === 'undefined') return false;
+     // create flex container with row-gap set
+    var flex = document.createElement('div');
+    flex.style.display = 'flex';
+    flex.style.flexDirection = 'column';
+    flex.style.rowGap = '1px'; // create two, elements inside it
+    flex.appendChild(document.createElement('div'));
+    flex.appendChild(document.createElement('div')); // append to the DOM (needed to obtain scrollHeight)
+    document.body.appendChild(flex);
+    $e9098d18abf2a118bc3bc95f0d402bb5$var$_isFlexGapSupported = flex.scrollHeight === 1; // flex container should be 1px high from the row-gap
+    flex.parentNode.removeChild(flex);
+    return $e9098d18abf2a118bc3bc95f0d402bb5$var$_isFlexGapSupported;
+}
+/**
+ * A layout container using flexbox. Provides Spectrum dimension values, and supports the gap
+ * property to define consistent spacing between items.
+ */ const Flex = /*#__PURE__*/ forwardRef($e9098d18abf2a118bc3bc95f0d402bb5$var$Flex);
+exports.Flex = Flex;

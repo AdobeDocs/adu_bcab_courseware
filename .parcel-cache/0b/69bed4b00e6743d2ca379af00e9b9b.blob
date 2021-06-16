@@ -1,0 +1,106 @@
+var { useEffect , useRef  } = require("react");
+var { useLocale  } = require("@react-aria/i18n");
+var { filterDOMProps , mergeProps  } = require("@react-aria/utils");
+var { createFocusManager  } = require("@react-aria/focus");
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+const $fe726d25076e66037c1148278675$var$BUTTON_GROUP_ROLES = {
+    'none': 'toolbar',
+    'single': 'radiogroup',
+    'multiple': 'toolbar'
+};
+function useActionGroup(props, state, ref) {
+    let { isDisabled , orientation ='horizontal'  } = props;
+    let allKeys = [
+        ...state.collection.getKeys()
+    ];
+    if (!allKeys.some((key)=>!state.disabledKeys.has(key)
+    )) isDisabled = true;
+    let { direction  } = useLocale();
+    let focusManager = createFocusManager(ref);
+    let flipDirection = direction === 'rtl' && orientation === 'horizontal';
+    let onKeyDown = (e)=>{
+        if (!e.currentTarget.contains(e.target)) return;
+        switch(e.key){
+            case 'ArrowRight':
+            case 'ArrowDown':
+                e.preventDefault();
+                e.stopPropagation();
+                if (e.key === 'ArrowRight' && flipDirection) focusManager.focusPrevious({
+                    wrap: true
+                });
+                else focusManager.focusNext({
+                    wrap: true
+                });
+                break;
+            case 'ArrowLeft':
+            case 'ArrowUp':
+                e.preventDefault();
+                e.stopPropagation();
+                if (e.key === 'ArrowLeft' && flipDirection) focusManager.focusNext({
+                    wrap: true
+                });
+                else focusManager.focusPrevious({
+                    wrap: true
+                });
+                break;
+        }
+    };
+    let role = $fe726d25076e66037c1148278675$var$BUTTON_GROUP_ROLES[state.selectionManager.selectionMode];
+    return {
+        actionGroupProps: _babelRuntimeHelpersExtends({
+        }, filterDOMProps(props, {
+            labelable: true
+        }), {
+            role,
+            'aria-orientation': role === 'toolbar' ? orientation : null,
+            'aria-disabled': isDisabled,
+            onKeyDown
+        })
+    };
+}
+exports.useActionGroup = useActionGroup;
+const $f62a7779a4b926c91f5485d05f434a$var$BUTTON_ROLES = {
+    'none': null,
+    'single': 'radio',
+    'multiple': 'checkbox'
+}; // eslint-disable-next-line @typescript-eslint/no-unused-vars
+function useActionGroupItem(props, state, ref) {
+    let selectionMode = state.selectionManager.selectionMode;
+    let buttonProps = {
+        role: $f62a7779a4b926c91f5485d05f434a$var$BUTTON_ROLES[selectionMode]
+    };
+    if (selectionMode !== 'none') {
+        let isSelected = state.selectionManager.isSelected(props.key);
+        buttonProps['aria-checked'] = isSelected;
+    }
+    let isFocused = props.key === state.selectionManager.focusedKey;
+    let lastRender = useRef({
+        isFocused,
+        state
+    });
+    lastRender.current = {
+        isFocused,
+        state
+    }; // If the focused item is removed from the DOM, reset the focused key to null.
+    // eslint-disable-next-line arrow-body-style
+    useEffect(()=>{
+        return ()=>{
+            if (lastRender.current.isFocused) lastRender.current.state.selectionManager.setFocusedKey(null);
+        };
+    }, []);
+    return {
+        buttonProps: mergeProps(buttonProps, {
+            tabIndex: isFocused || state.selectionManager.focusedKey == null ? 0 : -1,
+            onFocus () {
+                state.selectionManager.setFocusedKey(props.key);
+            },
+            onPress () {
+                state.selectionManager.select(props.key);
+            }
+        })
+    };
+}
+exports.useActionGroupItem = useActionGroupItem;

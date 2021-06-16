@@ -1,0 +1,389 @@
+var _helpers = require("@swc/helpers");
+"use strict";
+var regeneratorRuntime = require("regenerator-runtime");
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.ListView = void 0;
+var _react = _interopRequireWildcard(require("react"));
+require("@spectrum-css/typography");
+require("@spectrum-css/table");
+var _reactSpectrum = require("@adobe/react-spectrum");
+var _reactRouterDom = require("react-router-dom");
+var _utils = _interopRequireDefault(require("../utils"));
+var _config = _interopRequireDefault(require("../config"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop1) {
+        return nodeInterop1 ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") return {
+        default: obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj.default = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
+/*
+ * <license header>
+ */ var BRIEF_FIELDS = [
+    'Brief date',
+    'Campaign',
+    'Copy date',
+    'Deliverables',
+    'Description',
+    'Release print date',
+    'Request type',
+    'Selected Assets'
+];
+var selection = new Set();
+var ListView = (function(param) {
+    var ims = param.ims;
+    var ref = _helpers.slicedToArray(_react.useState(true), 2), isLoading = ref[0], setIsLoading = ref[1];
+    var ref1 = _helpers.slicedToArray(_react.useState(true), 2), briefs = ref1[0], setBriefs = ref1[1];
+    var ref2 = _helpers.slicedToArray(_react.useState(selection), 2), selectedBriefs = ref2[0], setSelectedBriefs = ref2[1];
+    var ref3 = _helpers.slicedToArray(_react.useState(false), 2), isDialogOpen = ref3[0], setDialogIsOpen = ref3[1];
+    var ref4 = _helpers.slicedToArray(_react.useState(false), 2), isDeleting = ref4[0], setIsDeleting = ref4[1];
+    var history = _reactRouterDom.useHistory();
+    _react.useEffect(function() {
+        _helpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            var res;
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        _ctx.next = 2;
+                        return _utils.default(ims, _config.default['brief-list']);
+                    case 2:
+                        res = _ctx.sent;
+                        if (res.error) alert(res.error.message);
+                        else setBriefs(res.reverse());
+                        console.log(res);
+                        setIsLoading(false);
+                    case 6:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    }, []);
+    return(/*#__PURE__*/ React.createElement(_reactSpectrum.View, {
+        elementType: "main",
+        minHeight: "100vh",
+        marginX: "size-400",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+            lineNumber: 57
+        },
+        __self: this
+    }, /*#__PURE__*/ React.createElement(_reactSpectrum.Flex, {
+        alignItems: "center",
+        justifyContent: "center",
+        direction: "column",
+        marginY: "size-400",
+        gap: "size-400",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+            lineNumber: 58
+        },
+        __self: this
+    }, /*#__PURE__*/ React.createElement("h2", {
+        className: "spectrum-Heading spectrum-Heading--sizeL spectrum-Heading--serif",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+            lineNumber: 59
+        },
+        __self: this
+    }, "Browse all briefs"), /*#__PURE__*/ React.createElement(_reactSpectrum.Flex, {
+        width: "100%",
+        alignItems: "center",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+            lineNumber: 61
+        },
+        __self: this
+    }, /*#__PURE__*/ React.createElement(_reactSpectrum.ButtonGroup, {
+        marginEnd: "size-200",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+            lineNumber: 62
+        },
+        __self: this
+    }, /*#__PURE__*/ React.createElement(_reactSpectrum.Button, {
+        variant: "cta",
+        onPress: function() {
+            history.push('/create');
+        },
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+            lineNumber: 63
+        },
+        __self: this
+    }, "New brief"), /*#__PURE__*/ React.createElement(_reactSpectrum.Button, {
+        variant: "primary",
+        isDisabled: selection.size === 0,
+        onPress: function() {
+            setDialogIsOpen(true);
+        },
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+            lineNumber: 68
+        },
+        __self: this
+    }, "Delete selection")), isDeleting && /*#__PURE__*/ React.createElement(_reactSpectrum.ProgressCircle, {
+        size: "S",
+        "aria-label": "Is deleting\u2026",
+        isIndeterminate: true,
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+            lineNumber: 74
+        },
+        __self: this
+    })), isLoading ? /*#__PURE__*/ React.createElement(_reactSpectrum.ProgressCircle, {
+        size: "L",
+        "aria-label": "Loading\u2026",
+        isIndeterminate: true,
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+            lineNumber: 77
+        },
+        __self: this
+    }) : /*#__PURE__*/ React.createElement("table", {
+        className: "spectrum-Table",
+        style: {
+            width: '100%'
+        },
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+            lineNumber: 77
+        },
+        __self: this
+    }, /*#__PURE__*/ React.createElement("thead", {
+        className: "spectrum-Table-head",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+            lineNumber: 80
+        },
+        __self: this
+    }, /*#__PURE__*/ React.createElement("tr", {
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+            lineNumber: 81
+        },
+        __self: this
+    }, /*#__PURE__*/ React.createElement("th", {
+        className: "spectrum-Table-headCell",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+            lineNumber: 82
+        },
+        __self: this
+    }, /*#__PURE__*/ React.createElement(_reactSpectrum.Checkbox, {
+        "aria-label": "Select All",
+        onChange: function(checked) {
+            selection.clear();
+            if (checked) {
+                selection.clear();
+                briefs.forEach(function(brief) {
+                    return selection.add(brief.id);
+                });
+            }
+            setSelectedBriefs(new Set(selection));
+        },
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+            lineNumber: 83
+        },
+        __self: this
+    })), BRIEF_FIELDS.map((function(field, index) {
+        /*#__PURE__*/ return React.createElement("th", {
+            key: index,
+            className: "spectrum-Table-headCell",
+            __source: {
+                fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+                lineNumber: 94
+            },
+            __self: this
+        }, field);
+    }).bind(this)))), /*#__PURE__*/ React.createElement("tbody", {
+        className: "spectrum-Table-body",
+        style: {
+            verticalAlign: 'middle'
+        },
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+            lineNumber: 99
+        },
+        __self: this
+    }, briefs.map((function(brief) {
+        /*#__PURE__*/ return React.createElement("tr", {
+            key: brief.id,
+            className: "spectrum-Table-row",
+            __source: {
+                fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+                lineNumber: 102
+            },
+            __self: this
+        }, /*#__PURE__*/ React.createElement("td", {
+            className: "spectrum-Table-cell",
+            __source: {
+                fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+                lineNumber: 103
+            },
+            __self: this
+        }, /*#__PURE__*/ React.createElement(_reactSpectrum.Checkbox, {
+            "aria-label": "Select brief",
+            isSelected: selectedBriefs.has(brief.id),
+            onChange: function() {
+                // Toggle brief selection
+                if (selection.has(brief.id)) selection.delete(brief.id);
+                else selection.add(brief.id);
+                setSelectedBriefs(new Set(selection));
+            },
+            __source: {
+                fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+                lineNumber: 104
+            },
+            __self: this
+        })), Object.keys(brief).filter(function(key) {
+            return key !== 'selectedAssets' && key !== 'id';
+        }).map((function(key, index) {
+            /*#__PURE__*/ return React.createElement("td", {
+                key: index,
+                className: "spectrum-Table-cell",
+                __source: {
+                    fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+                    lineNumber: 116
+                },
+                __self: this
+            }, brief[key].split('\n').map((function(s, j) {
+                /*#__PURE__*/ return React.createElement("span", {
+                    key: j,
+                    __source: {
+                        fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+                        lineNumber: 117
+                    },
+                    __self: this
+                }, s, /*#__PURE__*/ React.createElement("br", {
+                    __source: {
+                        fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+                        lineNumber: 119
+                    },
+                    __self: this
+                }));
+            }).bind(this)));
+        }).bind(this)), /*#__PURE__*/ React.createElement("td", {
+            className: "spectrum-Table-cell",
+            __source: {
+                fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+                lineNumber: 123
+            },
+            __self: this
+        }, /*#__PURE__*/ React.createElement(_reactSpectrum.Flex, {
+            gap: "size-100",
+            alignItems: "center",
+            wrap: true,
+            __source: {
+                fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+                lineNumber: 124
+            },
+            __self: this
+        }, brief.selectedAssets.map((function(asset) {
+            /*#__PURE__*/ return React.createElement("a", {
+                key: asset.id,
+                href: asset.thumbnail_url,
+                target: "_blank",
+                __source: {
+                    fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+                    lineNumber: 126
+                },
+                __self: this
+            }, /*#__PURE__*/ React.createElement("img", {
+                alt: asset.title,
+                src: asset.thumbnail_url,
+                width: "50px",
+                __source: {
+                    fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+                    lineNumber: 127
+                },
+                __self: this
+            }));
+        }).bind(this)))));
+    }).bind(this))))), /*#__PURE__*/ React.createElement(_reactSpectrum.DialogContainer, {
+        onDismiss: function() {
+            return setDialogIsOpen(false);
+        },
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+            lineNumber: 136
+        },
+        __self: this
+    }, isDialogOpen && /*#__PURE__*/ React.createElement(_reactSpectrum.AlertDialog, {
+        title: "Are you sure ?",
+        variant: "destructive",
+        primaryActionLabel: "Confirm",
+        cancelLabel: "Cancel",
+        onPrimaryAction: _helpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            var res;
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        setIsDeleting(true);
+                        _ctx.next = 3;
+                        return _utils.default(ims, _config.default['brief-delete'], {
+                        }, {
+                            briefIds: Array.from(selection)
+                        });
+                    case 3:
+                        res = _ctx.sent;
+                        if (res.error) alert(res.error.message);
+                        else {
+                            setBriefs(function(briefs1) {
+                                return briefs1.filter(function(brief) {
+                                    return !selection.has(brief.id);
+                                });
+                            });
+                            selection.clear();
+                            setSelectedBriefs(new Set());
+                        }
+                        console.log(res);
+                        setIsDeleting(false);
+                    case 7:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        })),
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+            lineNumber: 137
+        },
+        __self: this
+    }, /*#__PURE__*/ React.createElement("strong", {
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\ListView.js",
+            lineNumber: 154
+        },
+        __self: this
+    }, selection.size, " brief", selection.size > 1 && 's'), ' ', "will be deleted. Do you want to continue ?"))));
+}).bind(undefined);
+exports.ListView = ListView;

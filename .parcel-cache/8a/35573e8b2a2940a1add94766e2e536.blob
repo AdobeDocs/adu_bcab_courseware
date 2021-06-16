@@ -1,0 +1,372 @@
+var { useTab , useTabList , useTabPanel  } = require("@react-aria/tabs");
+var { useProvider , useProviderProps  } = require("@react-spectrum/provider");
+var { useLocale  } = require("@react-aria/i18n");
+var { useHover  } = require("@react-aria/interactions");
+var { Text: Text1  } = require("@react-spectrum/text");
+var { useTabListState  } = require("@react-stately/tabs");
+var _react2 = require("react");
+var _react = $parcel$interopDefault(_react2);
+var { useCallback , useContext , useEffect , useRef , useState  } = _react2;
+var { mergeProps , useId , useLayoutEffect , useResizeObserver  } = require("@react-aria/utils");
+var { ListCollection  } = require("@react-stately/list");
+var { Item: _Item , Picker  } = require("@react-spectrum/picker");
+var { FocusRing  } = require("@react-aria/focus");
+var { classNames , SlotProvider , unwrapDOMRef , useDOMRef , useStyleProps , useValueEffect  } = require("@react-spectrum/utils");
+var _babelRuntimeHelpersObjectWithoutPropertiesLoose = $parcel$interopDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+var { Item , useCollection  } = require("@react-stately/collections");
+exports.Item = Item;
+require("./main.css");
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/tabs/vars.css
+var $a221257d7bd2e9d0c131cda7c75f4f5$exports = {
+};
+$a221257d7bd2e9d0c131cda7c75f4f5$exports = {
+    "spectrum-TabsPanel": "_spectrum-TabsPanel_0248f",
+    "spectrum-TabsPanel--horizontal": "_spectrum-TabsPanel--horizontal_0248f",
+    "spectrum-TabsPanel--vertical": "_spectrum-TabsPanel--vertical_0248f",
+    "spectrum-Tabs": "_spectrum-Tabs_0248f",
+    "spectrum-Tabs-item": "_spectrum-Tabs-item_0248f",
+    "is-disabled": "_is-disabled_0248f",
+    "spectrum-Tabs-itemLabel": "_spectrum-Tabs-itemLabel_0248f",
+    "spectrum-Icon": "_spectrum-Icon_0248f",
+    "spectrum-Tabs-selectionIndicator": "_spectrum-Tabs-selectionIndicator_0248f",
+    "spectrum-Tabs--horizontal": "_spectrum-Tabs--horizontal_0248f",
+    "spectrum-Tabs--compact": "_spectrum-Tabs--compact_0248f",
+    "spectrum-Tabs--isCollapsed": "_spectrum-Tabs--isCollapsed_0248f",
+    "spectrum-Tabs--quiet": "_spectrum-Tabs--quiet_0248f",
+    "spectrum-Tabs--vertical": "_spectrum-Tabs--vertical_0248f",
+    "spectrum-TabsPanel-collapseWrapper": "_spectrum-TabsPanel-collapseWrapper_0248f",
+    "spectrum-TabsPanel-tabs": "_spectrum-TabsPanel-tabs_0248f",
+    "spectrum-TabsPanel-tabpanel": "_spectrum-TabsPanel-tabpanel_0248f",
+    "focus-ring": "_focus-ring_0248f",
+    "is-hovered": "_is-hovered_0248f",
+    "is-selected": "_is-selected_0248f"
+};
+const $a016f96d614f365ec6ad3cd2df19b52$var$TabContext = /*#__PURE__*/ _react.createContext(null);
+var $a221257d7bd2e9d0c131cda7c75f4f5$$interop$default = $parcel$interopDefault($a221257d7bd2e9d0c131cda7c75f4f5$exports);
+function $a016f96d614f365ec6ad3cd2df19b52$var$Tabs(props, ref) {
+    props = useProviderProps(props);
+    let { orientation ='horizontal' , density ='regular' , children  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "orientation",
+        "density",
+        "children"
+    ]);
+    let domRef = useDOMRef(ref);
+    let tablistRef = useRef();
+    let wrapperRef = useRef();
+    let { direction  } = useLocale();
+    let { styleProps  } = useStyleProps(otherProps);
+    let [collapse, setCollapse] = useValueEffect(false);
+    let [selectedTab, setSelectedTab] = useState();
+    const [tabListState, setTabListState] = useState(null);
+    useEffect(()=>{
+        if (tablistRef.current) {
+            let selectedTab1 = tablistRef.current.querySelector("[data-key=\"" + (tabListState == null ? void 0 : tabListState.selectedKey) + "\"]");
+            if (selectedTab1 != null) setSelectedTab(selectedTab1);
+        } // collapse is in the dep array so selectedTab can be updated for TabLine positioning
+    }, [
+        children,
+        tabListState == null ? void 0 : tabListState.selectedKey,
+        collapse,
+        tablistRef
+    ]);
+    let checkShouldCollapse = useCallback(()=>{
+        let computeShouldCollapse = ()=>{
+            if (wrapperRef.current) {
+                let tabsComponent = wrapperRef.current;
+                let tabs = tablistRef.current.querySelectorAll('[role="tab"]');
+                let lastTab = tabs[tabs.length - 1];
+                let end = direction === 'rtl' ? 'left' : 'right';
+                let farEdgeTabList = tabsComponent.getBoundingClientRect()[end];
+                let farEdgeLastTab = lastTab == null ? void 0 : lastTab.getBoundingClientRect()[end];
+                let shouldCollapse = direction === 'rtl' ? farEdgeLastTab < farEdgeTabList : farEdgeTabList < farEdgeLastTab;
+                return shouldCollapse;
+            }
+        };
+        if (orientation !== 'vertical') setCollapse(function*() {
+            // Make Tabs render in non-collapsed state
+            yield false; // Compute if Tabs should collapse and update
+            yield computeShouldCollapse();
+        });
+    }, [
+        tablistRef,
+        wrapperRef,
+        direction,
+        orientation,
+        setCollapse
+    ]);
+    useEffect(()=>{
+        checkShouldCollapse();
+    }, [
+        children,
+        checkShouldCollapse
+    ]);
+    useResizeObserver({
+        ref: wrapperRef,
+        onResize: checkShouldCollapse
+    });
+    let tabPanelProps = {
+        'aria-labelledby': undefined
+    }; // When the tabs are collapsed, the tabPanel should be labelled by the Picker button element.
+    let collapsibleTabListId = useId();
+    if (collapse && orientation !== 'vertical') tabPanelProps['aria-labelledby'] = collapsibleTabListId;
+    return(/*#__PURE__*/ _react.createElement($a016f96d614f365ec6ad3cd2df19b52$var$TabContext.Provider, {
+        value: {
+            tabProps: _babelRuntimeHelpersExtends({
+            }, props, {
+                orientation,
+                density
+            }),
+            tabState: {
+                tabListState,
+                setTabListState,
+                selectedTab,
+                collapse
+            },
+            refs: {
+                tablistRef,
+                wrapperRef
+            },
+            tabPanelProps
+        }
+    }, /*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, styleProps, {
+        ref: domRef,
+        className: classNames($a221257d7bd2e9d0c131cda7c75f4f5$$interop$default, 'spectrum-TabsPanel', "spectrum-TabsPanel--" + orientation, styleProps.className)
+    }), props.children)));
+}
+// @private
+function $a016f96d614f365ec6ad3cd2df19b52$var$Tab(props) {
+    let { item , state , isDisabled: propsDisabled  } = props;
+    let { key , rendered  } = item;
+    let isDisabled = propsDisabled || state.disabledKeys.has(key);
+    let ref = useRef();
+    let { tabProps  } = useTab({
+        key,
+        isDisabled
+    }, state, ref);
+    let { hoverProps , isHovered  } = useHover(_babelRuntimeHelpersExtends({
+    }, props));
+    let isSelected = state.selectedKey === key;
+    return(/*#__PURE__*/ _react.createElement(FocusRing, {
+        focusRingClass: classNames($a221257d7bd2e9d0c131cda7c75f4f5$$interop$default, 'focus-ring')
+    }, /*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, mergeProps(tabProps, hoverProps), {
+        ref: ref,
+        className: classNames($a221257d7bd2e9d0c131cda7c75f4f5$$interop$default, 'spectrum-Tabs-item', {
+            'is-selected': isSelected,
+            'is-disabled': isDisabled,
+            'is-hovered': isHovered
+        })
+    }), /*#__PURE__*/ _react.createElement(SlotProvider, {
+        slots: {
+            icon: {
+                size: 'S',
+                UNSAFE_className: classNames($a221257d7bd2e9d0c131cda7c75f4f5$$interop$default, 'spectrum-Icon')
+            },
+            text: {
+                UNSAFE_className: classNames($a221257d7bd2e9d0c131cda7c75f4f5$$interop$default, 'spectrum-Tabs-itemLabel')
+            }
+        }
+    }, typeof rendered === 'string' ? /*#__PURE__*/ _react.createElement(Text1, null, rendered) : rendered))));
+}
+// @private
+function $a016f96d614f365ec6ad3cd2df19b52$var$TabLine(props) {
+    let { orientation , // Is either the tab node (non-collapsed) or the picker node (collapsed)
+    selectedTab , // selectedKey is provided so that the TabLine styles are updated when the TabPicker's width updates from a selection change
+    selectedKey  } = props;
+    let { direction  } = useLocale();
+    let { scale  } = useProvider();
+    let [style, setStyle] = useState({
+        width: undefined,
+        height: undefined
+    });
+    useLayoutEffect(()=>{
+        if (selectedTab) {
+            var _selectedTab$offsetPa;
+            let styleObj = {
+                transform: undefined,
+                width: undefined,
+                height: undefined
+            }; // In RTL, calculate the transform from the right edge of the tablist so that resizing the window doesn't break the Tabline position due to offsetLeft changes
+            let offset = direction === 'rtl' ? -1 * (((_selectedTab$offsetPa = selectedTab.offsetParent) == null ? void 0 : _selectedTab$offsetPa.offsetWidth) - selectedTab.offsetWidth - selectedTab.offsetLeft) : selectedTab.offsetLeft;
+            styleObj.transform = orientation === 'vertical' ? "translateY(" + selectedTab.offsetTop + "px)" : "translateX(" + offset + "px)";
+            if (orientation === 'horizontal') styleObj.width = selectedTab.offsetWidth + "px";
+            else styleObj.height = selectedTab.offsetHeight + "px";
+            setStyle(styleObj);
+        }
+    }, [
+        direction,
+        setStyle,
+        selectedTab,
+        orientation,
+        scale,
+        selectedKey
+    ]);
+    return(/*#__PURE__*/ _react.createElement("div", {
+        className: classNames($a221257d7bd2e9d0c131cda7c75f4f5$$interop$default, 'spectrum-Tabs-selectionIndicator'),
+        role: "presentation",
+        style: style
+    }));
+}
+/**
+ * A TabList is used within Tabs to group tabs that a user can switch between.
+ * The keys of the items within the <TabList> must match up with a corresponding item inside the <TabPanels>.
+ */ function TabList(props) {
+    const tabContext = useContext($a016f96d614f365ec6ad3cd2df19b52$var$TabContext);
+    const { refs , tabState , tabProps , tabPanelProps  } = tabContext;
+    const { isQuiet , density , isDisabled , orientation  } = tabProps;
+    const { selectedTab , collapse , setTabListState  } = tabState;
+    const { tablistRef , wrapperRef  } = refs; // Pass original Tab props but override children to create the collection.
+    const state = useTabListState(_babelRuntimeHelpersExtends({
+    }, tabProps, {
+        children: props.children
+    }));
+    let { styleProps  } = useStyleProps(props);
+    const { tabListProps  } = useTabList(_babelRuntimeHelpersExtends({
+    }, tabProps, props), state, tablistRef);
+    useEffect(()=>{
+        // Passing back to root as useTabPanel needs the TabListState
+        setTabListState(state); // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+        state.disabledKeys,
+        state.selectedItem,
+        state.selectedKey,
+        props.children
+    ]);
+    let stylePropsForVertical = orientation === 'vertical' ? styleProps : {
+    };
+    let tabListclassName = classNames($a221257d7bd2e9d0c131cda7c75f4f5$$interop$default, 'spectrum-TabsPanel-tabs');
+    const tabContent = /*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, stylePropsForVertical, tabListProps, {
+        ref: tablistRef,
+        className: classNames($a221257d7bd2e9d0c131cda7c75f4f5$$interop$default, 'spectrum-Tabs', "spectrum-Tabs--" + orientation, tabListclassName, {
+            'spectrum-Tabs--quiet': isQuiet,
+            ['spectrum-Tabs--compact']: density === 'compact'
+        }, orientation === 'vertical' && styleProps.className)
+    }), [
+        ...state.collection
+    ].map((item)=>/*#__PURE__*/ _react.createElement($a016f96d614f365ec6ad3cd2df19b52$var$Tab, {
+            key: item.key,
+            item: item,
+            state: state,
+            isDisabled: isDisabled,
+            orientation: orientation
+        })
+    ), /*#__PURE__*/ _react.createElement($a016f96d614f365ec6ad3cd2df19b52$var$TabLine, {
+        orientation: orientation,
+        selectedTab: selectedTab
+    }));
+    if (orientation === 'vertical') return tabContent;
+    else return(/*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, styleProps, {
+        ref: wrapperRef,
+        className: classNames($a221257d7bd2e9d0c131cda7c75f4f5$$interop$default, 'spectrum-TabsPanel-collapseWrapper', styleProps.className)
+    }), collapse ? /*#__PURE__*/ _react.createElement($a016f96d614f365ec6ad3cd2df19b52$var$TabPicker, _babelRuntimeHelpersExtends({
+    }, props, tabProps, {
+        id: tabPanelProps['aria-labelledby'],
+        state: state,
+        className: tabListclassName
+    })) : tabContent));
+}
+/**
+ * TabPanels is used within Tabs as a container for the content of each tab.
+ * The keys of the items within the <TabPanels> must match up with a corresponding item inside the <TabList>.
+ */ exports.TabList = TabList;
+function TabPanels(props) {
+    const { tabState , tabProps  } = useContext($a016f96d614f365ec6ad3cd2df19b52$var$TabContext);
+    const { tabListState  } = tabState;
+    const factory = (nodes)=>new ListCollection(nodes)
+    ;
+    const collection = useCollection(_babelRuntimeHelpersExtends({
+        items: tabProps.items
+    }, props), factory, {
+        suppressTextValueWarning: true
+    });
+    const selectedItem = tabListState ? collection.getItem(tabListState.selectedKey) : null;
+    return(/*#__PURE__*/ _react.createElement($a016f96d614f365ec6ad3cd2df19b52$var$TabPanel, _babelRuntimeHelpersExtends({
+    }, props, {
+        key: tabListState == null ? void 0 : tabListState.selectedKey
+    }), selectedItem && selectedItem.props.children));
+} // @private
+exports.TabPanels = TabPanels;
+function $a016f96d614f365ec6ad3cd2df19b52$var$TabPanel(props) {
+    const { tabState , tabPanelProps: ctxTabPanelProps  } = useContext($a016f96d614f365ec6ad3cd2df19b52$var$TabContext);
+    const { tabListState  } = tabState;
+    let ref = useRef();
+    const { tabPanelProps  } = useTabPanel(props, tabListState, ref);
+    let { styleProps  } = useStyleProps(props);
+    if (ctxTabPanelProps['aria-labelledby']) tabPanelProps['aria-labelledby'] = ctxTabPanelProps['aria-labelledby'];
+    return(/*#__PURE__*/ _react.createElement(FocusRing, {
+        focusRingClass: classNames($a221257d7bd2e9d0c131cda7c75f4f5$$interop$default, 'focus-ring')
+    }, /*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, styleProps, tabPanelProps, {
+        ref: ref,
+        className: classNames($a221257d7bd2e9d0c131cda7c75f4f5$$interop$default, 'spectrum-TabsPanel-tabpanel', styleProps.className)
+    }), props.children)));
+}
+function $a016f96d614f365ec6ad3cd2df19b52$var$TabPicker(props) {
+    let { isDisabled , isQuiet , state , 'aria-labelledby': ariaLabeledBy , 'aria-label': ariaLabel , density , className , id  } = props;
+    let ref = useRef();
+    let [pickerNode, setPickerNode] = useState(null);
+    useEffect(()=>{
+        let node = unwrapDOMRef(ref);
+        setPickerNode(node.current);
+    }, [
+        ref
+    ]);
+    let items = [
+        ...state.collection
+    ].map((item)=>({
+            rendered: item.rendered,
+            textValue: item.textValue,
+            id: item.key
+        })
+    );
+    let pickerProps = {
+        'aria-labelledby': ariaLabeledBy,
+        'aria-label': ariaLabel
+    }; // TODO: Figure out if tabListProps should go onto the div here, v2 doesn't do it
+    return(/*#__PURE__*/ _react.createElement("div", {
+        className: classNames($a221257d7bd2e9d0c131cda7c75f4f5$$interop$default, 'spectrum-Tabs', 'spectrum-Tabs--horizontal', 'spectrum-Tabs--isCollapsed', {
+            'spectrum-Tabs--quiet': isQuiet,
+            ['spectrum-Tabs--compact']: density === 'compact'
+        }, className)
+    }, /*#__PURE__*/ _react.createElement(SlotProvider, {
+        slots: {
+            icon: {
+                size: 'S',
+                UNSAFE_className: classNames($a221257d7bd2e9d0c131cda7c75f4f5$$interop$default, 'spectrum-Icon')
+            },
+            button: {
+                focusRingClass: classNames($a221257d7bd2e9d0c131cda7c75f4f5$$interop$default, 'focus-ring')
+            }
+        }
+    }, /*#__PURE__*/ _react.createElement(Picker, _babelRuntimeHelpersExtends({
+    }, pickerProps, {
+        id: id,
+        items: items,
+        ref: ref,
+        isQuiet: true,
+        isDisabled: isDisabled,
+        selectedKey: state.selectedKey,
+        disabledKeys: state.disabledKeys,
+        onSelectionChange: state.setSelectedKey
+    }), (item)=>/*#__PURE__*/ _react.createElement(_Item, {
+            textValue: item.textValue
+        }, item.rendered)
+    ), pickerNode && /*#__PURE__*/ _react.createElement($a016f96d614f365ec6ad3cd2df19b52$var$TabLine, {
+        orientation: "horizontal",
+        selectedTab: pickerNode,
+        selectedKey: state.selectedKey
+    }))));
+}
+/**
+ * Tabs organize content into multiple sections and allow users to navigate between them. The content under the set of tabs should be related and form a coherent unit.
+ */ // forwardRef doesn't support generic parameters, so cast the result to the correct type
+// https://stackoverflow.com/questions/58469229/react-with-typescript-generics-while-using-react-forwardref
+const Tabs = /*#__PURE__*/ _react.forwardRef($a016f96d614f365ec6ad3cd2df19b52$var$Tabs);
+exports.Tabs = Tabs;

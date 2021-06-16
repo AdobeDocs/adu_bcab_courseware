@@ -1,0 +1,185 @@
+var { useNumberFieldState  } = require("@react-stately/numberfield");
+var { useNumberField  } = require("@react-aria/numberfield");
+var { useLocale  } = require("@react-aria/i18n");
+var { useFormProps  } = require("@react-spectrum/form");
+var { TextFieldBase  } = require("@react-spectrum/textfield");
+var { useProvider , useProviderProps  } = require("@react-spectrum/provider");
+var { useHover  } = require("@react-aria/interactions");
+var { useButton  } = require("@react-aria/button");
+var _spectrumIconsWorkflowRemove = $parcel$interopDefault(require("@spectrum-icons/workflow/Remove"));
+var _spectrumIconsUiChevronUpSmall = $parcel$interopDefault(require("@spectrum-icons/ui/ChevronUpSmall"));
+var _spectrumIconsUiChevronDownSmall = $parcel$interopDefault(require("@spectrum-icons/ui/ChevronDownSmall"));
+var _spectrumIconsWorkflowAdd = $parcel$interopDefault(require("@spectrum-icons/workflow/Add"));
+var _react2 = require("react");
+var _react = $parcel$interopDefault(_react2);
+var { useRef  } = _react2;
+var { mergeProps  } = require("@react-aria/utils");
+var { FocusRing  } = require("@react-aria/focus");
+var { Field  } = require("@react-spectrum/label");
+var { classNames , useFocusableRef , useStyleProps  } = require("@react-spectrum/utils");
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+require("./main.css");
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/stepper/vars.css
+var $d4a007006219f2f0747e8180$exports = {
+};
+$d4a007006219f2f0747e8180$exports = {
+    "spectrum-Button": "_spectrum-Button_82b07",
+    "spectrum-ActionButton": "_spectrum-ActionButton_82b07",
+    "spectrum-LogicButton": "_spectrum-LogicButton_82b07",
+    "spectrum-FieldButton": "_spectrum-FieldButton_82b07",
+    "spectrum-ClearButton": "_spectrum-ClearButton_82b07",
+    "spectrum-Stepper-button": "_spectrum-Stepper-button_82b07",
+    "focus-ring": "_focus-ring_82b07",
+    "spectrum-Icon": "_spectrum-Icon_82b07",
+    "is-hovered": "_is-hovered_82b07",
+    "spectrum-Button-label": "_spectrum-Button-label_82b07",
+    "spectrum-ActionButton-label": "_spectrum-ActionButton-label_82b07",
+    "spectrum-ActionButton-hold": "_spectrum-ActionButton-hold_82b07",
+    "spectrum-ActionButton--quiet": "_spectrum-ActionButton--quiet_82b07",
+    "is-disabled": "_is-disabled_82b07",
+    "is-open": "_is-open_82b07",
+    "spectrum-FieldButton--quiet": "_spectrum-FieldButton--quiet_82b07",
+    "spectrum-ClearButton--overBackground": "_spectrum-ClearButton--overBackground_82b07",
+    "spectrum-ClearButton--small": "_spectrum-ClearButton--small_82b07",
+    "spectrum-Stepper": "_spectrum-Stepper_82b07",
+    "spectrum-Stepper--isMobile": "_spectrum-Stepper--isMobile_82b07",
+    "spectrum-Stepper-button--stepUp": "_spectrum-Stepper-button--stepUp_82b07",
+    "spectrum-Stepper-button--stepDown": "_spectrum-Stepper-button--stepDown_82b07",
+    "spectrum-Stepper-field": "_spectrum-Stepper-field_82b07",
+    "spectrum-Stepper-icon": "_spectrum-Stepper-icon_82b07",
+    "spectrum-Stepper--isQuiet": "_spectrum-Stepper--isQuiet_82b07",
+    "spectrum-Stepper--showStepper": "_spectrum-Stepper--showStepper_82b07",
+    "spectrum-Stepper-input": "_spectrum-Stepper-input_82b07",
+    "spectrum-Stepper-container": "_spectrum-Stepper-container_82b07",
+    "spectrum-Stepper-container--isMobile": "_spectrum-Stepper-container--isMobile_82b07",
+    "spectrum-Stepper-button-icon": "_spectrum-Stepper-button-icon_82b07",
+    "is-active": "_is-active_82b07",
+    "is-focused": "_is-focused_82b07",
+    "is-invalid": "_is-invalid_82b07"
+};
+var $d4a007006219f2f0747e8180$$interop$default = $parcel$interopDefault($d4a007006219f2f0747e8180$exports);
+function $a76af8b854aff60e70a87f94896d9fa1$var$StepButton(props, ref) {
+    props = useProviderProps(props);
+    let { scale  } = useProvider();
+    let { direction , isDisabled , isQuiet  } = props;
+    /**
+   * Must use div for now because Safari pointer event bugs on disabled form elements.
+   * Link https://bugs.webkit.org/show_bug.cgi?id=219188.
+   */ let { buttonProps , isPressed  } = useButton(_babelRuntimeHelpersExtends({
+    }, props, {
+        elementType: 'div'
+    }), ref);
+    let { hoverProps , isHovered  } = useHover(props);
+    return(/*#__PURE__*/ _react.createElement(FocusRing, {
+        focusRingClass: classNames($d4a007006219f2f0747e8180$$interop$default, 'focus-ring')
+    }, /*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+        className: classNames($d4a007006219f2f0747e8180$$interop$default, 'spectrum-Stepper-button', {
+            'spectrum-Stepper-button--stepUp': direction === 'up',
+            'spectrum-Stepper-button--stepDown': direction === 'down',
+            'spectrum-Stepper-button--isQuiet': isQuiet,
+            'is-hovered': isHovered,
+            'is-active': isPressed,
+            'is-disabled': isDisabled
+        })
+    }, mergeProps(hoverProps, buttonProps), {
+        ref: ref
+    }), direction === 'up' && scale === 'large' && /*#__PURE__*/ _react.createElement(_spectrumIconsWorkflowAdd, {
+        UNSAFE_className: classNames($d4a007006219f2f0747e8180$$interop$default, 'spectrum-Stepper-button-icon', 'spectrum-Stepper-stepUpIcon'),
+        size: "S"
+    }), direction === 'up' && scale === 'medium' && /*#__PURE__*/ _react.createElement(_spectrumIconsUiChevronUpSmall, {
+        UNSAFE_className: classNames($d4a007006219f2f0747e8180$$interop$default, 'spectrum-Stepper-button-icon', 'spectrum-Stepper-stepUpIcon')
+    }), direction === 'down' && scale === 'large' && /*#__PURE__*/ _react.createElement(_spectrumIconsWorkflowRemove, {
+        UNSAFE_className: classNames($d4a007006219f2f0747e8180$$interop$default, 'spectrum-Stepper-button-icon', 'spectrum-Stepper-stepDownIcon'),
+        size: "S"
+    }), direction === 'down' && scale === 'medium' && /*#__PURE__*/ _react.createElement(_spectrumIconsUiChevronDownSmall, {
+        UNSAFE_className: classNames($d4a007006219f2f0747e8180$$interop$default, 'spectrum-Stepper-button-icon', 'spectrum-Stepper-stepDownIcon')
+    }))));
+}
+/**
+ * Buttons for NumberField.
+ */ let $a76af8b854aff60e70a87f94896d9fa1$export$StepButton = /*#__PURE__*/ _react.forwardRef($a76af8b854aff60e70a87f94896d9fa1$var$StepButton);
+function $ce21b38982d1913bcad5f7c7ce6464f8$var$NumberField(props, ref) {
+    props = useProviderProps(props);
+    props = useFormProps(props);
+    let provider = useProvider();
+    let { isQuiet , isReadOnly , isDisabled , hideStepper  } = props;
+    let { styleProps: style  } = useStyleProps(props);
+    let { locale  } = useLocale();
+    let state = useNumberFieldState(_babelRuntimeHelpersExtends({
+    }, props, {
+        locale
+    }));
+    let inputRef = useRef();
+    let domRef = useFocusableRef(ref, inputRef);
+    let { groupProps , labelProps , inputProps , incrementButtonProps , decrementButtonProps  } = useNumberField(props, state, inputRef);
+    let isMobile = provider.scale === 'large';
+    let showStepper = !hideStepper;
+    let { isHovered , hoverProps  } = useHover({
+        isDisabled
+    });
+    let className = classNames($d4a007006219f2f0747e8180$$interop$default, 'spectrum-Stepper', {
+        'spectrum-Stepper--isQuiet': isQuiet,
+        'is-disabled': isDisabled,
+        'spectrum-Stepper--readonly': isReadOnly,
+        'is-invalid': props.validationState === 'invalid',
+        'spectrum-Stepper--showStepper': showStepper,
+        'spectrum-Stepper--isMobile': isMobile,
+        'is-hovered': isHovered,
+        // because FocusRing won't pass along the className from Field, we have to handle that ourselves
+        [style.className]: !props.label && style.className
+    });
+    return(/*#__PURE__*/ _react.createElement(Field, _babelRuntimeHelpersExtends({
+    }, props, {
+        labelProps: labelProps,
+        ref: domRef,
+        wrapperClassName: classNames($d4a007006219f2f0747e8180$$interop$default, 'spectrum-Stepper-container', {
+            'spectrum-Stepper-container--isMobile': isMobile
+        })
+    }), /*#__PURE__*/ _react.createElement($ce21b38982d1913bcad5f7c7ce6464f8$var$NumberFieldInput, _babelRuntimeHelpersExtends({
+    }, props, {
+        groupProps: mergeProps(groupProps, hoverProps),
+        inputProps: inputProps,
+        inputRef: inputRef,
+        incrementProps: incrementButtonProps,
+        decrementProps: decrementButtonProps,
+        className: className,
+        style: style
+    }))));
+}
+const $ce21b38982d1913bcad5f7c7ce6464f8$var$NumberFieldInput = /*#__PURE__*/ _react.forwardRef(function NumberFieldInput(props, ref) {
+    let { groupProps , inputProps , inputRef , incrementProps , decrementProps , className , style , autoFocus , isQuiet , hideStepper , validationState  } = props;
+    let showStepper = !hideStepper;
+    return(/*#__PURE__*/ _react.createElement(FocusRing, {
+        within: true,
+        isTextInput: true,
+        focusClass: classNames($d4a007006219f2f0747e8180$$interop$default, 'is-focused'),
+        focusRingClass: classNames($d4a007006219f2f0747e8180$$interop$default, 'focus-ring'),
+        autoFocus: autoFocus
+    }, /*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, groupProps, {
+        ref: ref,
+        style: style,
+        className: className
+    }), /*#__PURE__*/ _react.createElement(TextFieldBase, {
+        UNSAFE_className: classNames($d4a007006219f2f0747e8180$$interop$default, 'spectrum-Stepper-field'),
+        inputClassName: classNames($d4a007006219f2f0747e8180$$interop$default, 'spectrum-Stepper-input'),
+        validationIconClassName: classNames($d4a007006219f2f0747e8180$$interop$default, 'spectrum-Stepper-icon'),
+        isQuiet: isQuiet,
+        inputRef: inputRef,
+        validationState: validationState,
+        inputProps: inputProps
+    }), showStepper && /*#__PURE__*/ _react.createElement(_react.Fragment, null, /*#__PURE__*/ _react.createElement($a76af8b854aff60e70a87f94896d9fa1$export$StepButton, _babelRuntimeHelpersExtends({
+        direction: "up",
+        isQuiet: isQuiet
+    }, incrementProps)), /*#__PURE__*/ _react.createElement($a76af8b854aff60e70a87f94896d9fa1$export$StepButton, _babelRuntimeHelpersExtends({
+        direction: "down",
+        isQuiet: isQuiet
+    }, decrementProps))))));
+});
+/**
+ * NumberFields allow users to enter a number, and increment or decrement the value using stepper buttons.
+ */ let NumberField = /*#__PURE__*/ _react.forwardRef($ce21b38982d1913bcad5f7c7ce6464f8$var$NumberField);
+exports.NumberField = NumberField;

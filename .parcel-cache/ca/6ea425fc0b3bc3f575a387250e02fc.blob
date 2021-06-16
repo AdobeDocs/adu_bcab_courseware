@@ -1,0 +1,582 @@
+var _babelRuntimeHelpersInteropRequireDefault = $parcel$interopDefault(require("@babel/runtime/helpers/interopRequireDefault"));
+var { VisuallyHidden  } = require("@react-aria/visually-hidden");
+var { useHover  } = require("@react-aria/interactions");
+var { FocusRing  } = require("@react-aria/focus");
+var { useSlider , useSliderThumb  } = require("@react-aria/slider");
+var { useProviderProps  } = require("@react-spectrum/provider");
+var { useNumberFormatter , useLocale , useMessageFormatter  } = require("@react-aria/i18n");
+var { useSliderState  } = require("@react-stately/slider");
+var _react2 = require("react");
+var _react = $parcel$interopDefault(_react2);
+var { useRef  } = _react2;
+var { classNames , useFocusableRef , useStyleProps  } = require("@react-spectrum/utils");
+var { clamp , mergeProps  } = require("@react-aria/utils");
+var _babelRuntimeHelpersObjectWithoutPropertiesLoose = $parcel$interopDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+require("./main.css");
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/slider/vars.css
+var $c8f0b01c76499f8ceef39abc1b587900$exports = {
+};
+$c8f0b01c76499f8ceef39abc1b587900$exports = {
+    "spectrum-Slider": "_spectrum-Slider_48d11",
+    "spectrum-Dial": "_spectrum-Dial_48d11",
+    "spectrum-Slider--positionTop": "_spectrum-Slider--positionTop_48d11",
+    "spectrum-Slider-controls": "_spectrum-Slider-controls_48d11",
+    "spectrum-Dial-controls": "_spectrum-Dial-controls_48d11",
+    "spectrum-Slider--positionSide": "_spectrum-Slider--positionSide_48d11",
+    "spectrum-Slider-labelContainer": "_spectrum-Slider-labelContainer_48d11",
+    "spectrum-Dial-labelContainer": "_spectrum-Dial-labelContainer_48d11",
+    "spectrum-Slider-valueLabelContainer": "_spectrum-Slider-valueLabelContainer_48d11",
+    "spectrum-Slider-value": "_spectrum-Slider-value_48d11",
+    "spectrum-Slider-track": "_spectrum-Slider-track_48d11",
+    "spectrum-Slider-buffer": "_spectrum-Slider-buffer_48d11",
+    "spectrum-Slider-ramp": "_spectrum-Slider-ramp_48d11",
+    "spectrum-Slider-fill": "_spectrum-Slider-fill_48d11",
+    "spectrum-Slider-fill--right": "_spectrum-Slider-fill--right_48d11",
+    "spectrum-Slider--range": "_spectrum-Slider--range_48d11",
+    "spectrum-Slider-handle": "_spectrum-Slider-handle_48d11",
+    "spectrum-Dial-handle": "_spectrum-Dial-handle_48d11",
+    "is-dragged": "_is-dragged_48d11",
+    "is-focused": "_is-focused_48d11",
+    "is-tophandle": "_is-tophandle_48d11",
+    "spectrum-Slider-input": "_spectrum-Slider-input_48d11",
+    "spectrum-Dial-input": "_spectrum-Dial-input_48d11",
+    "spectrum-Slider-label": "_spectrum-Slider-label_48d11",
+    "spectrum-Dial-label": "_spectrum-Dial-label_48d11",
+    "spectrum-Dial-value": "_spectrum-Dial-value_48d11",
+    "spectrum-Slider-ticks": "_spectrum-Slider-ticks_48d11",
+    "spectrum-Slider-tick": "_spectrum-Slider-tick_48d11",
+    "spectrum-Slider-tickLabel": "_spectrum-Slider-tickLabel_48d11",
+    "spectrum-Slider--color": "_spectrum-Slider--color_48d11",
+    "spectrum-Dial--small": "_spectrum-Dial--small_48d11",
+    "is-disabled": "_is-disabled_48d11",
+    "is-hovered": "_is-hovered_48d11",
+    "u-isGrabbing": "_u-isGrabbing_48d11",
+    "spectrum-Slider--filled": "_spectrum-Slider--filled_48d11",
+    "spectrum-Slider--ramp": "_spectrum-Slider--ramp_48d11",
+    "spectrum-Slider--label-side": "_spectrum-Slider--label-side_48d11"
+};
+var $c8f0b01c76499f8ceef39abc1b587900$$interop$default = $parcel$interopDefault($c8f0b01c76499f8ceef39abc1b587900$exports);
+function $e14249f20430d37bc9376d3f2ea9af72$var$SliderBase(props, ref) {
+    props = useProviderProps(props);
+    let { isDisabled , children , classes , style , labelPosition ='top' , getValueLabel , showValueLabel =!!props.label , formatOptions , minValue =0 , maxValue =100  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "isDisabled",
+        "children",
+        "classes",
+        "style",
+        "labelPosition",
+        "getValueLabel",
+        "showValueLabel",
+        "formatOptions",
+        "minValue",
+        "maxValue"
+    ]);
+    let { styleProps  } = useStyleProps(otherProps); // `Math.abs(Math.sign(a) - Math.sign(b)) === 2` is true if the values have a different sign.
+    let alwaysDisplaySign = Math.abs(Math.sign(minValue) - Math.sign(maxValue)) === 2;
+    if (alwaysDisplaySign) {
+        if (formatOptions != null) {
+            if (!('signDisplay' in formatOptions)) formatOptions = _babelRuntimeHelpersExtends({
+            }, formatOptions, {
+                // @ts-ignore
+                signDisplay: 'exceptZero'
+            });
+        } else // @ts-ignore
+        formatOptions = {
+            signDisplay: 'exceptZero'
+        };
+    }
+    const formatter = useNumberFormatter(formatOptions);
+    const state = useSliderState(_babelRuntimeHelpersExtends({
+    }, props, {
+        numberFormatter: formatter,
+        minValue,
+        maxValue
+    }));
+    let trackRef = useRef();
+    let { groupProps , trackProps , labelProps , outputProps  } = useSlider(props, state, trackRef);
+    let inputRef = useRef();
+    let domRef = useFocusableRef(ref, inputRef);
+    let displayValue = '';
+    let maxLabelLength = undefined;
+    if (typeof getValueLabel === 'function') {
+        displayValue = getValueLabel(state.values);
+        switch(state.values.length){
+            case 1:
+                maxLabelLength = Math.max(getValueLabel([
+                    minValue
+                ]).length, getValueLabel([
+                    maxValue
+                ]).length);
+                break;
+            case 2:
+                // Try all possible combinations of min and max values.
+                maxLabelLength = Math.max(getValueLabel([
+                    minValue,
+                    minValue
+                ]).length, getValueLabel([
+                    minValue,
+                    maxValue
+                ]).length, getValueLabel([
+                    maxValue,
+                    minValue
+                ]).length, getValueLabel([
+                    maxValue,
+                    maxValue
+                ]).length);
+                break;
+            default:
+                throw new Error('Only sliders with 1 or 2 handles are supported!');
+        }
+    } else {
+        maxLabelLength = Math.max([
+            ...formatter.format(minValue)
+        ].length, [
+            ...formatter.format(maxValue)
+        ].length);
+        switch(state.values.length){
+            case 1:
+                displayValue = state.getThumbValueLabel(0);
+                break;
+            case 2:
+                // This should really use the NumberFormat#formatRange proposal...
+                // https://github.com/tc39/ecma402/issues/393
+                // https://github.com/tc39/proposal-intl-numberformat-v3#formatrange-ecma-402-393
+                displayValue = state.getThumbValueLabel(0) + " \u2013 " + state.getThumbValueLabel(1);
+                maxLabelLength = 3 + 2 * Math.max(maxLabelLength, [
+                    ...formatter.format(minValue)
+                ].length, [
+                    ...formatter.format(maxValue)
+                ].length);
+                break;
+            default:
+                throw new Error('Only sliders with 1 or 2 handles are supported!');
+        }
+    }
+    let labelNode = /*#__PURE__*/ _react.createElement("label", _babelRuntimeHelpersExtends({
+        className: classNames($c8f0b01c76499f8ceef39abc1b587900$$interop$default, 'spectrum-Slider-label')
+    }, labelProps), props.label);
+    let valueNode = /*#__PURE__*/ _react.createElement("output", _babelRuntimeHelpersExtends({
+    }, outputProps, {
+        className: classNames($c8f0b01c76499f8ceef39abc1b587900$$interop$default, 'spectrum-Slider-value'),
+        style: maxLabelLength && {
+            width: maxLabelLength + "ch",
+            minWidth: maxLabelLength + "ch"
+        }
+    }), displayValue);
+    return(/*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+        ref: domRef,
+        className: classNames($c8f0b01c76499f8ceef39abc1b587900$$interop$default, 'spectrum-Slider', {
+            'spectrum-Slider--positionTop': labelPosition === 'top',
+            'spectrum-Slider--positionSide': labelPosition === 'side',
+            'is-disabled': isDisabled
+        }, classes, styleProps.className),
+        style: _babelRuntimeHelpersExtends({
+        }, style, styleProps.style)
+    }, groupProps), props.label && /*#__PURE__*/ _react.createElement("div", {
+        className: classNames($c8f0b01c76499f8ceef39abc1b587900$$interop$default, 'spectrum-Slider-labelContainer'),
+        role: "presentation"
+    }, props.label && labelNode, labelPosition === 'top' && showValueLabel && valueNode), /*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+        className: classNames($c8f0b01c76499f8ceef39abc1b587900$$interop$default, 'spectrum-Slider-controls'),
+        ref: trackRef
+    }, trackProps, {
+        role: "presentation"
+    }), children({
+        trackRef,
+        inputRef,
+        state
+    })), labelPosition === 'side' && /*#__PURE__*/ _react.createElement("div", {
+        className: classNames($c8f0b01c76499f8ceef39abc1b587900$$interop$default, 'spectrum-Slider-valueLabelContainer'),
+        role: "presentation"
+    }, showValueLabel && valueNode)));
+}
+const $e14249f20430d37bc9376d3f2ea9af72$export$SliderBase = /*#__PURE__*/ _react.forwardRef($e14249f20430d37bc9376d3f2ea9af72$var$SliderBase);
+function $d5bef0bb79767419ec0237e591b28$export$SliderThumb(props) {
+    let { index , inputRef , state  } = props;
+    let backupRef = useRef();
+    inputRef = inputRef || backupRef;
+    let { thumbProps , inputProps  } = useSliderThumb(_babelRuntimeHelpersExtends({
+    }, props, {
+        inputRef
+    }), state);
+    let { hoverProps , isHovered  } = useHover({
+    });
+    let { direction  } = useLocale();
+    let cssDirection = direction === 'rtl' ? 'right' : 'left';
+    return(/*#__PURE__*/ _react.createElement(FocusRing, {
+        within: true,
+        focusRingClass: classNames($c8f0b01c76499f8ceef39abc1b587900$$interop$default, 'is-focused')
+    }, /*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+        className: classNames($c8f0b01c76499f8ceef39abc1b587900$$interop$default, 'spectrum-Slider-handle', {
+            'is-hovered': isHovered,
+            'is-dragged': state.isThumbDragging(index),
+            'is-tophandle': state.focusedThumb === index
+        }),
+        style: {
+            [cssDirection]: state.getThumbPercent(index) * 100 + "%"
+        }
+    }, mergeProps(thumbProps, hoverProps), {
+        role: "presentation"
+    }), /*#__PURE__*/ _react.createElement(VisuallyHidden, null, /*#__PURE__*/ _react.createElement("input", _babelRuntimeHelpersExtends({
+        className: classNames($c8f0b01c76499f8ceef39abc1b587900$$interop$default, 'spectrum-Slider-input'),
+        ref: inputRef
+    }, inputProps))))));
+}
+function $de4e99e1d6ad6d61a9bc95d4631$var$Slider(props, ref) {
+    let { onChange: _onChange , onChangeEnd: _onChangeEnd , value , defaultValue , isFilled , fillOffset , trackGradient , getValueLabel  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "onChange",
+        "onChangeEnd",
+        "value",
+        "defaultValue",
+        "isFilled",
+        "fillOffset",
+        "trackGradient",
+        "getValueLabel"
+    ]);
+    let baseProps = _babelRuntimeHelpersExtends({
+    }, otherProps, {
+        // Normalize `value: number[]` to `value: number`
+        value: value != null ? [
+            value
+        ] : undefined,
+        defaultValue: defaultValue != null ? [
+            defaultValue
+        ] : undefined,
+        onChange: (v)=>{
+            _onChange == null || _onChange(v[0]);
+        },
+        onChangeEnd: (v)=>{
+            _onChangeEnd == null || _onChangeEnd(v[0]);
+        },
+        getValueLabel: getValueLabel ? (_ref)=>{
+            let [v] = _ref;
+            return getValueLabel(v);
+        } : undefined
+    });
+    let { direction  } = useLocale();
+    return(/*#__PURE__*/ _react.createElement($e14249f20430d37bc9376d3f2ea9af72$export$SliderBase, _babelRuntimeHelpersExtends({
+    }, baseProps, {
+        ref: ref,
+        classes: {
+            'spectrum-Slider--filled': isFilled && fillOffset == null
+        },
+        style: {
+            '--spectrum-slider-track-gradient': trackGradient && "linear-gradient(to " + (direction === 'ltr' ? 'right' : 'left') + ", " + trackGradient.join(', ') + ")"
+        }
+    }), (_ref2)=>{
+        let { trackRef , inputRef , state  } = _ref2;
+        fillOffset = fillOffset != null ? clamp(fillOffset, state.getThumbMinValue(0), state.getThumbMaxValue(0)) : fillOffset;
+        let cssDirection = direction === 'rtl' ? 'right' : 'left';
+        let lowerTrack = /*#__PURE__*/ _react.createElement("div", {
+            className: classNames($c8f0b01c76499f8ceef39abc1b587900$$interop$default, 'spectrum-Slider-track'),
+            style: {
+                width: state.getThumbPercent(0) * 100 + "%",
+                // TODO not sure if it has advantages, but this could also be implemented as CSS calc():
+                // .track::before {
+                //    background-size: calc((1/ (var(--width)/100)) * 100%);
+                //    width: calc(var(--width) * 1%)M
+                // }
+                // @ts-ignore
+                '--spectrum-track-background-size': 1 / state.getThumbPercent(0) * 100 + "%",
+                '--spectrum-track-background-position': direction === 'ltr' ? '0' : '100%'
+            }
+        });
+        let upperTrack = /*#__PURE__*/ _react.createElement("div", {
+            className: classNames($c8f0b01c76499f8ceef39abc1b587900$$interop$default, 'spectrum-Slider-track'),
+            style: {
+                width: (1 - state.getThumbPercent(0)) * 100 + "%",
+                // @ts-ignore
+                '--spectrum-track-background-size': 1 / (1 - state.getThumbPercent(0)) * 100 + "%",
+                '--spectrum-track-background-position': direction === 'ltr' ? '100%' : '0'
+            }
+        });
+        let filledTrack = null;
+        if (isFilled && fillOffset != null) {
+            let width = state.getThumbPercent(0) - state.getValuePercent(fillOffset);
+            let isRightOfOffset = width > 0;
+            let offset = isRightOfOffset ? state.getValuePercent(fillOffset) : state.getThumbPercent(0);
+            filledTrack = /*#__PURE__*/ _react.createElement("div", {
+                className: classNames($c8f0b01c76499f8ceef39abc1b587900$$interop$default, 'spectrum-Slider-fill', {
+                    'spectrum-Slider-fill--right': isRightOfOffset
+                }),
+                style: {
+                    [cssDirection]: offset * 100 + "%",
+                    width: Math.abs(width) * 100 + "%"
+                }
+            });
+        }
+        return(/*#__PURE__*/ _react.createElement(_react.Fragment, null, lowerTrack, /*#__PURE__*/ _react.createElement($d5bef0bb79767419ec0237e591b28$export$SliderThumb, {
+            index: 0,
+            isDisabled: props.isDisabled,
+            trackRef: trackRef,
+            inputRef: inputRef,
+            state: state
+        }), upperTrack, filledTrack));
+    }));
+}
+/**
+ * Sliders allow users to quickly select a value within a range. They should be used when the upper and lower bounds to the range are invariable.
+ */ const Slider = /*#__PURE__*/ _react.forwardRef($de4e99e1d6ad6d61a9bc95d4631$var$Slider);
+exports.Slider = Slider;
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/ar-AE.json
+var $d78e0b50ed86b529de1ea5a9c2e5e3a0$exports = {
+};
+$d78e0b50ed86b529de1ea5a9c2e5e3a0$exports = JSON.parse("{\"maximum\":\"أقصى\",\"minimum\":\"أدنى\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/bg-BG.json
+var $b8053210c821c3657151d27d3a03aba$exports = {
+};
+$b8053210c821c3657151d27d3a03aba$exports = JSON.parse("{\"maximum\":\"Максимум\",\"minimum\":\"Минимум\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/cs-CZ.json
+var $b3123d5771edb4be28c66dce211c946$exports = {
+};
+$b3123d5771edb4be28c66dce211c946$exports = JSON.parse("{\"maximum\":\"Maximum\",\"minimum\":\"Minimum\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/da-DK.json
+var $afd096174a90c8a61a0f8ed18$exports = {
+};
+$afd096174a90c8a61a0f8ed18$exports = JSON.parse("{\"maximum\":\"Maksimum\",\"minimum\":\"Minimum\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/de-DE.json
+var $ae2c9e4bda6c39a90d65a27f5c556788$exports = {
+};
+$ae2c9e4bda6c39a90d65a27f5c556788$exports = JSON.parse("{\"maximum\":\"Maximum\",\"minimum\":\"Minimum\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/el-GR.json
+var $a105026d6afa9e6267d2ddbcfd39a$exports = {
+};
+$a105026d6afa9e6267d2ddbcfd39a$exports = JSON.parse("{\"maximum\":\"Μέγιστο\",\"minimum\":\"Ελάχιστο\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/en-US.json
+var $fe0427bf71697a80afe363fd174c3d2$exports = {
+};
+$fe0427bf71697a80afe363fd174c3d2$exports = JSON.parse("{\"minimum\":\"Minimum\",\"maximum\":\"Maximum\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/es-ES.json
+var $ebe61748ec02536aa113857af1f4e72$exports = {
+};
+$ebe61748ec02536aa113857af1f4e72$exports = JSON.parse("{\"maximum\":\"Máximo\",\"minimum\":\"Mínimo\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/et-EE.json
+var $e9a9a4dcf098fc49e73a17fe63b$exports = {
+};
+$e9a9a4dcf098fc49e73a17fe63b$exports = JSON.parse("{\"maximum\":\"Maksimaalne\",\"minimum\":\"Minimaalne\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/fi-FI.json
+var $ad34360a22b458ec27cdfc71d13e23$exports = {
+};
+$ad34360a22b458ec27cdfc71d13e23$exports = JSON.parse("{\"maximum\":\"Maksimi\",\"minimum\":\"Minimi\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/fr-FR.json
+var $d8b4689d285edca7cf57f1be30cad1d$exports = {
+};
+$d8b4689d285edca7cf57f1be30cad1d$exports = JSON.parse("{\"maximum\":\"Maximum\",\"minimum\":\"Minimum\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/he-IL.json
+var $c2ccacfd828d16a0780a500ec6f2b3e$exports = {
+};
+$c2ccacfd828d16a0780a500ec6f2b3e$exports = JSON.parse("{\"maximum\":\"מקסימום\",\"minimum\":\"מינימום\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/hr-HR.json
+var $e131faf50c4d52f6155cb1da25ec1594$exports = {
+};
+$e131faf50c4d52f6155cb1da25ec1594$exports = JSON.parse("{\"maximum\":\"Najviše\",\"minimum\":\"Najmanje\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/hu-HU.json
+var $c4df3691058a446ced0dd150dfe$exports = {
+};
+$c4df3691058a446ced0dd150dfe$exports = JSON.parse("{\"maximum\":\"Maximum\",\"minimum\":\"Minimum\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/it-IT.json
+var $f4bcae96d6025c3425150015e7c1$exports = {
+};
+$f4bcae96d6025c3425150015e7c1$exports = JSON.parse("{\"maximum\":\"Massimo\",\"minimum\":\"Minimo\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/ja-JP.json
+var $ce4641ff9c7f6cd81880de9ec4aea1$exports = {
+};
+$ce4641ff9c7f6cd81880de9ec4aea1$exports = JSON.parse("{\"maximum\":\"最大\",\"minimum\":\"最小\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/ko-KR.json
+var $fc7f2dc28877fe5ef711423f43ab4ec$exports = {
+};
+$fc7f2dc28877fe5ef711423f43ab4ec$exports = JSON.parse("{\"maximum\":\"최대\",\"minimum\":\"최소\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/lt-LT.json
+var $e9780606fc2786708924a487ef051090$exports = {
+};
+$e9780606fc2786708924a487ef051090$exports = JSON.parse("{\"maximum\":\"Daugiausia\",\"minimum\":\"Mažiausia\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/lv-LV.json
+var $f78f2303da5064e404af9736fac047$exports = {
+};
+$f78f2303da5064e404af9736fac047$exports = JSON.parse("{\"maximum\":\"Maksimālā vērtība\",\"minimum\":\"Minimālā vērtība\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/nb-NO.json
+var $cee5ad394707cc520a38ce3ba3cf$exports = {
+};
+$cee5ad394707cc520a38ce3ba3cf$exports = JSON.parse("{\"maximum\":\"Maksimum\",\"minimum\":\"Minimum\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/nl-NL.json
+var $cb082e87d27553826af25629e5be5497$exports = {
+};
+$cb082e87d27553826af25629e5be5497$exports = JSON.parse("{\"maximum\":\"Maximum\",\"minimum\":\"Minimum\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/pl-PL.json
+var $c157e78f7f989ea301b76269c14e187$exports = {
+};
+$c157e78f7f989ea301b76269c14e187$exports = JSON.parse("{\"maximum\":\"Maksimum\",\"minimum\":\"Minimum\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/pt-BR.json
+var $b8a8c2b158e59b4a0c2e03bc13ca6d$exports = {
+};
+$b8a8c2b158e59b4a0c2e03bc13ca6d$exports = JSON.parse("{\"maximum\":\"Máximo\",\"minimum\":\"Mínimo\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/pt-PT.json
+var $fdc632fdd31e71a1b5a58a9b01a0$exports = {
+};
+$fdc632fdd31e71a1b5a58a9b01a0$exports = JSON.parse("{\"maximum\":\"Máximo\",\"minimum\":\"Mínimo\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/ro-RO.json
+var $b4afde306c2e45ef13d84f99c1f9$exports = {
+};
+$b4afde306c2e45ef13d84f99c1f9$exports = JSON.parse("{\"maximum\":\"Maximum\",\"minimum\":\"Minimum\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/ru-RU.json
+var $f70785a191c1047fe82970e3e4ca90a$exports = {
+};
+$f70785a191c1047fe82970e3e4ca90a$exports = JSON.parse("{\"maximum\":\"Максимум\",\"minimum\":\"Минимум\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/sk-SK.json
+var $d9f1e67ea22a6278ecf4429d8d6404b7$exports = {
+};
+$d9f1e67ea22a6278ecf4429d8d6404b7$exports = JSON.parse("{\"maximum\":\"Maximum\",\"minimum\":\"Minimum\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/sl-SI.json
+var $d935f82244fe405429542f38796$exports = {
+};
+$d935f82244fe405429542f38796$exports = JSON.parse("{\"maximum\":\"Največji\",\"minimum\":\"Najmanj\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/sr-SP.json
+var $f34be9f827d85a700494af98057c32$exports = {
+};
+$f34be9f827d85a700494af98057c32$exports = JSON.parse("{\"maximum\":\"Najviše\",\"minimum\":\"Najmanje\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/sv-SE.json
+var $d5bc44175c568de085b694f2193a7616$exports = {
+};
+$d5bc44175c568de085b694f2193a7616$exports = JSON.parse("{\"maximum\":\"Maximum\",\"minimum\":\"Minimum\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/tr-TR.json
+var $eebf5c30d8cd80b9b3f852c78275c4f1$exports = {
+};
+$eebf5c30d8cd80b9b3f852c78275c4f1$exports = JSON.parse("{\"maximum\":\"Maksimum\",\"minimum\":\"Minimum\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/uk-UA.json
+var $cac4b10af9ebf64a6b9df2e9a4d$exports = {
+};
+$cac4b10af9ebf64a6b9df2e9a4d$exports = JSON.parse("{\"maximum\":\"Максимум\",\"minimum\":\"Мінімум\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/zh-CN.json
+var $b2d7ef1e8161e192c7a2a26b282f26e$exports = {
+};
+$b2d7ef1e8161e192c7a2a26b282f26e$exports = JSON.parse("{\"maximum\":\"最大\",\"minimum\":\"最小\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/slider/intl/zh-TW.json
+var $d8c66ddb465b487c64522ffc49e44c8$exports = {
+};
+$d8c66ddb465b487c64522ffc49e44c8$exports = JSON.parse("{\"maximum\":\"最大值\",\"minimum\":\"最小值\"}");
+// @ts-ignore
+const $b7614884795b0b78874e0b09da85cc36$var$intlMessages = {
+    "ar-AE": _babelRuntimeHelpersInteropRequireDefault($d78e0b50ed86b529de1ea5a9c2e5e3a0$exports).default,
+    "bg-BG": _babelRuntimeHelpersInteropRequireDefault($b8053210c821c3657151d27d3a03aba$exports).default,
+    "cs-CZ": _babelRuntimeHelpersInteropRequireDefault($b3123d5771edb4be28c66dce211c946$exports).default,
+    "da-DK": _babelRuntimeHelpersInteropRequireDefault($afd096174a90c8a61a0f8ed18$exports).default,
+    "de-DE": _babelRuntimeHelpersInteropRequireDefault($ae2c9e4bda6c39a90d65a27f5c556788$exports).default,
+    "el-GR": _babelRuntimeHelpersInteropRequireDefault($a105026d6afa9e6267d2ddbcfd39a$exports).default,
+    "en-US": _babelRuntimeHelpersInteropRequireDefault($fe0427bf71697a80afe363fd174c3d2$exports).default,
+    "es-ES": _babelRuntimeHelpersInteropRequireDefault($ebe61748ec02536aa113857af1f4e72$exports).default,
+    "et-EE": _babelRuntimeHelpersInteropRequireDefault($e9a9a4dcf098fc49e73a17fe63b$exports).default,
+    "fi-FI": _babelRuntimeHelpersInteropRequireDefault($ad34360a22b458ec27cdfc71d13e23$exports).default,
+    "fr-FR": _babelRuntimeHelpersInteropRequireDefault($d8b4689d285edca7cf57f1be30cad1d$exports).default,
+    "he-IL": _babelRuntimeHelpersInteropRequireDefault($c2ccacfd828d16a0780a500ec6f2b3e$exports).default,
+    "hr-HR": _babelRuntimeHelpersInteropRequireDefault($e131faf50c4d52f6155cb1da25ec1594$exports).default,
+    "hu-HU": _babelRuntimeHelpersInteropRequireDefault($c4df3691058a446ced0dd150dfe$exports).default,
+    "it-IT": _babelRuntimeHelpersInteropRequireDefault($f4bcae96d6025c3425150015e7c1$exports).default,
+    "ja-JP": _babelRuntimeHelpersInteropRequireDefault($ce4641ff9c7f6cd81880de9ec4aea1$exports).default,
+    "ko-KR": _babelRuntimeHelpersInteropRequireDefault($fc7f2dc28877fe5ef711423f43ab4ec$exports).default,
+    "lt-LT": _babelRuntimeHelpersInteropRequireDefault($e9780606fc2786708924a487ef051090$exports).default,
+    "lv-LV": _babelRuntimeHelpersInteropRequireDefault($f78f2303da5064e404af9736fac047$exports).default,
+    "nb-NO": _babelRuntimeHelpersInteropRequireDefault($cee5ad394707cc520a38ce3ba3cf$exports).default,
+    "nl-NL": _babelRuntimeHelpersInteropRequireDefault($cb082e87d27553826af25629e5be5497$exports).default,
+    "pl-PL": _babelRuntimeHelpersInteropRequireDefault($c157e78f7f989ea301b76269c14e187$exports).default,
+    "pt-BR": _babelRuntimeHelpersInteropRequireDefault($b8a8c2b158e59b4a0c2e03bc13ca6d$exports).default,
+    "pt-PT": _babelRuntimeHelpersInteropRequireDefault($fdc632fdd31e71a1b5a58a9b01a0$exports).default,
+    "ro-RO": _babelRuntimeHelpersInteropRequireDefault($b4afde306c2e45ef13d84f99c1f9$exports).default,
+    "ru-RU": _babelRuntimeHelpersInteropRequireDefault($f70785a191c1047fe82970e3e4ca90a$exports).default,
+    "sk-SK": _babelRuntimeHelpersInteropRequireDefault($d9f1e67ea22a6278ecf4429d8d6404b7$exports).default,
+    "sl-SI": _babelRuntimeHelpersInteropRequireDefault($d935f82244fe405429542f38796$exports).default,
+    "sr-SP": _babelRuntimeHelpersInteropRequireDefault($f34be9f827d85a700494af98057c32$exports).default,
+    "sv-SE": _babelRuntimeHelpersInteropRequireDefault($d5bc44175c568de085b694f2193a7616$exports).default,
+    "tr-TR": _babelRuntimeHelpersInteropRequireDefault($eebf5c30d8cd80b9b3f852c78275c4f1$exports).default,
+    "uk-UA": _babelRuntimeHelpersInteropRequireDefault($cac4b10af9ebf64a6b9df2e9a4d$exports).default,
+    "zh-CN": _babelRuntimeHelpersInteropRequireDefault($b2d7ef1e8161e192c7a2a26b282f26e$exports).default,
+    "zh-TW": _babelRuntimeHelpersInteropRequireDefault($d8c66ddb465b487c64522ffc49e44c8$exports).default
+};
+function $b7614884795b0b78874e0b09da85cc36$var$RangeSlider(props, ref) {
+    var _props$minValue, _props$maxValue;
+    let { onChange , onChangeEnd , value , defaultValue , getValueLabel  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "onChange",
+        "onChangeEnd",
+        "value",
+        "defaultValue",
+        "getValueLabel"
+    ]);
+    let baseProps = _babelRuntimeHelpersExtends({
+    }, otherProps, {
+        value: value != null ? [
+            value.start,
+            value.end
+        ] : undefined,
+        defaultValue: defaultValue != null ? [
+            defaultValue.start,
+            defaultValue.end
+        ] : [
+            (_props$minValue = props.minValue) != null ? _props$minValue : 0,
+            (_props$maxValue = props.maxValue) != null ? _props$maxValue : 100
+        ],
+        onChange (v) {
+            onChange == null || onChange({
+                start: v[0],
+                end: v[1]
+            });
+        },
+        onChangeEnd (v) {
+            onChangeEnd == null || onChangeEnd({
+                start: v[0],
+                end: v[1]
+            });
+        },
+        getValueLabel: getValueLabel ? (_ref)=>{
+            let [start, end] = _ref;
+            return getValueLabel({
+                start,
+                end
+            });
+        } : undefined
+    });
+    let formatter = useMessageFormatter($b7614884795b0b78874e0b09da85cc36$var$intlMessages);
+    let { direction  } = useLocale();
+    return(/*#__PURE__*/ _react.createElement($e14249f20430d37bc9376d3f2ea9af72$export$SliderBase, _babelRuntimeHelpersExtends({
+    }, baseProps, {
+        classes: 'spectrum-Slider--range',
+        ref: ref
+    }), (_ref2)=>{
+        let { trackRef , inputRef , state  } = _ref2;
+        let cssDirection = direction === 'rtl' ? 'right' : 'left';
+        return(/*#__PURE__*/ _react.createElement(_react.Fragment, null, /*#__PURE__*/ _react.createElement("div", {
+            className: classNames($c8f0b01c76499f8ceef39abc1b587900$$interop$default, 'spectrum-Slider-track'),
+            style: {
+                width: state.getThumbPercent(0) * 100 + "%"
+            }
+        }), /*#__PURE__*/ _react.createElement($d5bef0bb79767419ec0237e591b28$export$SliderThumb, {
+            index: 0,
+            "aria-label": formatter('minimum'),
+            isDisabled: props.isDisabled,
+            trackRef: trackRef,
+            inputRef: inputRef,
+            state: state
+        }), /*#__PURE__*/ _react.createElement("div", {
+            className: classNames($c8f0b01c76499f8ceef39abc1b587900$$interop$default, 'spectrum-Slider-track'),
+            style: {
+                [cssDirection]: state.getThumbPercent(0) * 100 + "%",
+                width: Math.abs(state.getThumbPercent(0) - state.getThumbPercent(1)) * 100 + "%"
+            }
+        }), /*#__PURE__*/ _react.createElement($d5bef0bb79767419ec0237e591b28$export$SliderThumb, {
+            index: 1,
+            "aria-label": formatter('maximum'),
+            isDisabled: props.isDisabled,
+            trackRef: trackRef,
+            state: state
+        }), /*#__PURE__*/ _react.createElement("div", {
+            className: classNames($c8f0b01c76499f8ceef39abc1b587900$$interop$default, 'spectrum-Slider-track'),
+            style: {
+                width: (1 - state.getThumbPercent(1)) * 100 + "%"
+            }
+        })));
+    }));
+}
+/**
+ * RangeSliders allow users to quickly select a subset range. They should be used when the upper and lower bounds to the range are invariable.
+ */ const RangeSlider = /*#__PURE__*/ _react.forwardRef($b7614884795b0b78874e0b09da85cc36$var$RangeSlider);
+exports.RangeSlider = RangeSlider;

@@ -1,0 +1,69 @@
+var { useDOMRef , useSlotProps , useStyleProps  } = require("@react-spectrum/utils");
+var _react2 = require("react");
+var _react = $parcel$interopDefault(_react2);
+var { forwardRef  } = _react2;
+var { filterDOMProps , mergeProps  } = require("@react-aria/utils");
+var _babelRuntimeHelpersObjectWithoutPropertiesLoose = $parcel$interopDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+function $fe1955053990ab873941970c7463$var$Text(props, ref) {
+    props = useSlotProps(props, 'text');
+    let { children  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "children"
+    ]);
+    let { styleProps  } = useStyleProps(otherProps);
+    let domRef = useDOMRef(ref);
+    return(/*#__PURE__*/ _react.createElement("span", _babelRuntimeHelpersExtends({
+    }, filterDOMProps(otherProps), styleProps, {
+        ref: domRef
+    }), children));
+}
+/**
+ * Text represents text with no specific semantic meaning.
+ */ const Text1 = /*#__PURE__*/ forwardRef($fe1955053990ab873941970c7463$var$Text);
+exports.Text = Text1;
+const $a76c0421a0242146b7d397a8ac50$var$slotDOMProps = new Set([
+    'aria-current'
+]);
+function $a76c0421a0242146b7d397a8ac50$var$Heading(props, ref) {
+    let slotProps = useSlotProps({
+    }, 'heading');
+    props = mergeProps(slotProps, props);
+    let domProps = mergeProps(filterDOMProps(props), filterDOMProps(slotProps, {
+        propNames: $a76c0421a0242146b7d397a8ac50$var$slotDOMProps
+    }));
+    let { children , level =3  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "children",
+        "level"
+    ]);
+    let { styleProps  } = useStyleProps(otherProps);
+    let domRef = useDOMRef(ref);
+    let HeadingTag = "h" + level;
+    return(/*#__PURE__*/ _react.createElement(HeadingTag, _babelRuntimeHelpersExtends({
+    }, domProps, styleProps, {
+        ref: domRef
+    }), children));
+}
+/**
+ * Heading is used to create various levels of typographic hierarchies.
+ */ const Heading = /*#__PURE__*/ forwardRef($a76c0421a0242146b7d397a8ac50$var$Heading);
+exports.Heading = Heading;
+function $f53f3a6b6cb51dbfd2b9e4c867c$var$Keyboard(props, ref) {
+    props = useSlotProps(props, 'keyboard');
+    let { children  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "children"
+    ]);
+    let { styleProps  } = useStyleProps(otherProps);
+    let domRef = useDOMRef(ref);
+    return(/*#__PURE__*/ _react.createElement("kbd", _babelRuntimeHelpersExtends({
+    }, filterDOMProps(otherProps), styleProps, {
+        dir: "ltr",
+        ref: domRef
+    }), children));
+}
+/**
+ * Keyboard represents text that specifies a keyboard command.
+ */ const Keyboard = /*#__PURE__*/ forwardRef($f53f3a6b6cb51dbfd2b9e4c867c$var$Keyboard);
+exports.Keyboard = Keyboard;

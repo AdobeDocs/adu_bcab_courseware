@@ -1,0 +1,52 @@
+var { useMeter  } = require("@react-aria/meter");
+var _react = $parcel$interopDefault(require("react"));
+var { ProgressBarBase  } = require("@react-spectrum/progress");
+var { classNames  } = require("@react-spectrum/utils");
+var _babelRuntimeHelpersObjectWithoutPropertiesLoose = $parcel$interopDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+require("./main.css");
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/barloader/vars.css
+var $b76be3b356c6ec92c2715ea3e4dc0e69$exports = {
+};
+$b76be3b356c6ec92c2715ea3e4dc0e69$exports = {
+    "spectrum-BarLoader": "_spectrum-BarLoader_c74d2",
+    "spectrum-BarLoader--indeterminate": "_spectrum-BarLoader--indeterminate_c74d2",
+    "spectrum-BarLoader--sideLabel": "_spectrum-BarLoader--sideLabel_c74d2",
+    "spectrum-BarLoader-track": "_spectrum-BarLoader-track_c74d2",
+    "spectrum-BarLoader-fill": "_spectrum-BarLoader-fill_c74d2",
+    "spectrum-BarLoader-label": "_spectrum-BarLoader-label_c74d2",
+    "spectrum-BarLoader-percentage": "_spectrum-BarLoader-percentage_c74d2",
+    "spectrum-BarLoader--small": "_spectrum-BarLoader--small_c74d2",
+    "indeterminate-loop-ltr": "_indeterminate-loop-ltr_c74d2",
+    "indeterminate-loop-rtl": "_indeterminate-loop-rtl_c74d2",
+    "spectrum-BarLoader--overBackground": "_spectrum-BarLoader--overBackground_c74d2",
+    "is-positive": "_is-positive_c74d2",
+    "is-warning": "_is-warning_c74d2",
+    "is-critical": "_is-critical_c74d2"
+};
+var $b76be3b356c6ec92c2715ea3e4dc0e69$$interop$default = $parcel$interopDefault($b76be3b356c6ec92c2715ea3e4dc0e69$exports);
+function $eeef15d2d894316d5d31205c88ac$var$Meter(props, ref) {
+    let { variant  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "variant"
+    ]);
+    const { meterProps , labelProps  } = useMeter(props);
+    return(/*#__PURE__*/ _react.createElement(ProgressBarBase, _babelRuntimeHelpersExtends({
+    }, otherProps, {
+        ref: ref,
+        barProps: meterProps,
+        labelProps: labelProps,
+        barClassName: classNames($b76be3b356c6ec92c2715ea3e4dc0e69$$interop$default, {
+            'is-positive': variant === 'positive',
+            'is-warning': variant === 'warning',
+            'is-critical': variant === 'critical'
+        })
+    })));
+}
+/**
+ * Meters are visual representations of a quantity or an achievement.
+ * Their progress is determined by user actions, rather than system actions.
+ */ let Meter = /*#__PURE__*/ _react.forwardRef($eeef15d2d894316d5d31205c88ac$var$Meter);
+exports.Meter = Meter;

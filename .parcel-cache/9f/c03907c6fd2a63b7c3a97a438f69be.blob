@@ -1,0 +1,43 @@
+var { useProviderProps  } = require("@react-spectrum/provider");
+var _react = $parcel$interopDefault(require("react"));
+var { filterDOMProps  } = require("@react-aria/utils");
+var { classNames , useDOMRef , useSlotProps , useStyleProps  } = require("@react-spectrum/utils");
+var _babelRuntimeHelpersObjectWithoutPropertiesLoose = $parcel$interopDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+// incomplete component for show right now
+function $cdebc9a3e4a86d825a45e81735fc19$var$Image(props, ref) {
+    props = useSlotProps(props, 'image');
+    let _useProviderProps = useProviderProps(props), { objectFit , src , alt  } = _useProviderProps, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(_useProviderProps, [
+        "objectFit",
+        "src",
+        "alt"
+    ]);
+    let { styleProps  } = useStyleProps(otherProps);
+    let domRef = useDOMRef(ref);
+    if (alt == null) console.warn("The `alt` prop was not provided to an image. Add `alt` text for screen readers, or set `alt=\"\"` prop to indicate that the image is decorative or redundant with displayed text and should not be annouced by screen readers.");
+    return(/*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, filterDOMProps(props), styleProps, {
+        className: classNames({
+        }, styleProps.className),
+        style: _babelRuntimeHelpersExtends({
+        }, styleProps.style, {
+            overflow: 'hidden'
+        }),
+        ref: domRef
+    }), /*#__PURE__*/ _react.createElement("img", {
+        src: src,
+        alt: alt,
+        style: {
+            objectFit,
+            height: '100%',
+            width: '100%'
+        }
+    })));
+}
+/**
+ * Image is used to insert and display an image within a component.
+ */ const Image1 = /*#__PURE__*/ _react.forwardRef($cdebc9a3e4a86d825a45e81735fc19$var$Image);
+exports.Image = Image1;

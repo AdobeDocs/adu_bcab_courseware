@@ -1,0 +1,197 @@
+var _react2 = require("react");
+var _react = $parcel$interopDefault(_react2);
+var { useContext , useEffect , useRef  } = _react2;
+var { ModalProvider , useModalProvider  } = require("@react-aria/overlays");
+var { I18nProvider , useLocale  } = require("@react-aria/i18n");
+var { filterDOMProps  } = require("@react-aria/utils");
+var _clsx = $parcel$interopDefault(require("clsx"));
+var { BreakpointProvider , shouldKeepSpectrumClassNames , useDOMRef , useMatchedBreakpoints , useStyleProps , useMediaQuery  } = require("@react-spectrum/utils");
+var _babelRuntimeHelpersObjectWithoutPropertiesLoose = $parcel$interopDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+require("./main.css");
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/page/vars.css
+var $bdf53da28d3991a48a6a4f1a69cf6748$exports = {
+};
+$bdf53da28d3991a48a6a4f1a69cf6748$exports = {
+    "spectrum": "_spectrum_d43d2"
+};
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/typography/index.css
+var $a4b6d91f224137a9e1821db979545594$exports = {
+};
+$a4b6d91f224137a9e1821db979545594$exports = {
+    "spectrum": "_spectrum_60105",
+    "spectrum-Body": "_spectrum-Body_60105",
+    "spectrum-Body--italic": "_spectrum-Body--italic_60105"
+};
+function $ae471163e3fb08c2a281b1d3e1120f94$export$useColorScheme(theme, defaultColorScheme) {
+    let matchesDark = useMediaQuery('(prefers-color-scheme: dark)');
+    let matchesLight = useMediaQuery('(prefers-color-scheme: light)'); // importance OS > default > omitted
+    if (theme.dark && matchesDark) return 'dark';
+    if (theme.light && matchesLight) return 'light';
+    if (theme.dark && defaultColorScheme === 'dark') return 'dark';
+    if (theme.light && defaultColorScheme === 'light') return 'light';
+    if (!theme.dark) return 'light';
+    if (!theme.light) return 'dark';
+    return 'light';
+}
+function $ae471163e3fb08c2a281b1d3e1120f94$export$useScale(theme) {
+    let matchesFine = useMediaQuery('(any-pointer: fine)');
+    if (matchesFine && theme.medium) return 'medium';
+    if (theme.large) return 'large';
+    return 'medium';
+}
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/provider/package.json
+var $cb3a8279d5bbe24ad5b01eee2a870ec3$exports = {
+};
+$cb3a8279d5bbe24ad5b01eee2a870ec3$exports = JSON.parse("{\"name\":\"@react-spectrum/provider\",\"version\":\"3.2.0\",\"description\":\"Spectrum UI components in React\",\"license\":\"Apache-2.0\",\"main\":\"dist/main.js\",\"module\":\"dist/module.js\",\"types\":\"dist/types.d.ts\",\"source\":\"src/index.ts\",\"files\":[\"dist\",\"src\"],\"sideEffects\":[\"*.css\"],\"targets\":{\"main\":{\"includeNodeModules\":[\"@adobe/spectrum-css-temp\"]},\"module\":{\"includeNodeModules\":[\"@adobe/spectrum-css-temp\"]}},\"repository\":{\"type\":\"git\",\"url\":\"https://github.com/adobe/react-spectrum\"},\"dependencies\":{\"@babel/runtime\":\"^7.6.2\",\"@react-aria/i18n\":\"^3.3.1\",\"@react-aria/overlays\":\"^3.7.0\",\"@react-aria/utils\":\"^3.8.1\",\"@react-spectrum/utils\":\"^3.6.0\",\"@react-types/provider\":\"^3.3.0\",\"@react-types/shared\":\"^3.7.0\",\"clsx\":\"^1.1.1\"},\"devDependencies\":{\"@adobe/spectrum-css-temp\":\"3.0.0-alpha.1\"},\"peerDependencies\":{\"react\":\"^16.8.0 || ^17.0.0-rc.1\"},\"publishConfig\":{\"access\":\"public\"}}");
+const $f150a45acb1414cf0ebc786fd600e35$var$Context = /*#__PURE__*/ _react.createContext(null);
+$f150a45acb1414cf0ebc786fd600e35$var$Context.displayName = 'ProviderContext';
+const $f150a45acb1414cf0ebc786fd600e35$var$DEFAULT_BREAKPOINTS = {
+    S: 640,
+    M: 768,
+    L: 1024,
+    XL: 1280,
+    XXL: 1536
+};
+function $f150a45acb1414cf0ebc786fd600e35$var$Provider(props, ref) {
+    let prevContext = useProvider();
+    let prevColorScheme = prevContext && prevContext.colorScheme;
+    let prevBreakpoints = prevContext && prevContext.breakpoints;
+    let { theme =prevContext && prevContext.theme , defaultColorScheme  } = props; // Hooks must always be called.
+    let autoColorScheme = $ae471163e3fb08c2a281b1d3e1120f94$export$useColorScheme(theme, defaultColorScheme);
+    let autoScale = $ae471163e3fb08c2a281b1d3e1120f94$export$useScale(theme);
+    let { locale: prevLocale  } = useLocale(); // if the new theme doesn't support the prevColorScheme, we must resort to the auto
+    let usePrevColorScheme = !!theme[prevColorScheme]; // importance of color scheme props > parent > auto:(OS > default > omitted)
+    let { colorScheme =usePrevColorScheme ? prevColorScheme : autoColorScheme , scale =prevContext ? prevContext.scale : autoScale , locale =prevContext ? prevLocale : null , breakpoints =prevContext ? prevBreakpoints : $f150a45acb1414cf0ebc786fd600e35$var$DEFAULT_BREAKPOINTS , children , isQuiet , isEmphasized , isDisabled , isRequired , isReadOnly , validationState  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "colorScheme",
+        "scale",
+        "locale",
+        "breakpoints",
+        "children",
+        "isQuiet",
+        "isEmphasized",
+        "isDisabled",
+        "isRequired",
+        "isReadOnly",
+        "validationState"
+    ]); // select only the props with values so undefined props don't overwrite prevContext values
+    let currentProps = {
+        version: $cb3a8279d5bbe24ad5b01eee2a870ec3$exports.version,
+        theme,
+        breakpoints,
+        colorScheme,
+        scale,
+        isQuiet,
+        isEmphasized,
+        isDisabled,
+        isRequired,
+        isReadOnly,
+        validationState
+    };
+    let matchedBreakpoints = useMatchedBreakpoints(breakpoints);
+    let filteredProps = {
+    };
+    Object.entries(currentProps).forEach((_ref)=>{
+        let [key, value] = _ref;
+        return value !== undefined && (filteredProps[key] = value);
+    }); // Merge options with parent provider
+    let context = Object.assign({
+    }, prevContext, filteredProps); // Only wrap in a DOM node if the theme, colorScheme, or scale changed
+    let contents = children;
+    let domProps = filterDOMProps(otherProps);
+    let { styleProps  } = useStyleProps(otherProps, undefined, {
+        matchedBreakpoints
+    });
+    if (!prevContext || props.locale || theme !== prevContext.theme || colorScheme !== prevContext.colorScheme || scale !== prevContext.scale || Object.keys(domProps).length > 0 || otherProps.UNSAFE_className || Object.keys(styleProps.style).length > 0) contents = /*#__PURE__*/ _react.createElement($f150a45acb1414cf0ebc786fd600e35$var$ProviderWrapper, _babelRuntimeHelpersExtends({
+    }, props, {
+        UNSAFE_style: _babelRuntimeHelpersExtends({
+            isolation: !prevContext ? 'isolate' : undefined
+        }, styleProps.style),
+        ref: ref
+    }), contents);
+    return(/*#__PURE__*/ _react.createElement($f150a45acb1414cf0ebc786fd600e35$var$Context.Provider, {
+        value: context
+    }, /*#__PURE__*/ _react.createElement(I18nProvider, {
+        locale: locale
+    }, /*#__PURE__*/ _react.createElement(BreakpointProvider, {
+        matchedBreakpoints: matchedBreakpoints
+    }, /*#__PURE__*/ _react.createElement(ModalProvider, null, contents)))));
+}
+/**
+ * Provider is the container for all React Spectrum applications.
+ * It defines the theme, locale, and other application level settings,
+ * and can also be used to provide common properties to a group of components.
+ */ let Provider = /*#__PURE__*/ _react.forwardRef($f150a45acb1414cf0ebc786fd600e35$var$Provider);
+exports.Provider = Provider;
+var $bdf53da28d3991a48a6a4f1a69cf6748$$interop$default = $parcel$interopDefault($bdf53da28d3991a48a6a4f1a69cf6748$exports);
+var $a4b6d91f224137a9e1821db979545594$$interop$default = $parcel$interopDefault($a4b6d91f224137a9e1821db979545594$exports);
+const $f150a45acb1414cf0ebc786fd600e35$var$ProviderWrapper = /*#__PURE__*/ _react.forwardRef(function ProviderWrapper(props, ref) {
+    var _ref2, _props$colorScheme;
+    let { children  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "children"
+    ]);
+    let { locale , direction  } = useLocale();
+    let { theme , colorScheme , scale  } = useProvider();
+    let { modalProviderProps  } = useModalProvider();
+    let { styleProps  } = useStyleProps(otherProps);
+    let domRef = useDOMRef(ref);
+    let themeKey = Object.keys(theme[colorScheme])[0];
+    let scaleKey = Object.keys(theme[scale])[0];
+    let className = _clsx(styleProps.className, $bdf53da28d3991a48a6a4f1a69cf6748$$interop$default['spectrum'], $a4b6d91f224137a9e1821db979545594$$interop$default['spectrum'], theme[colorScheme][themeKey], theme[scale][scaleKey], theme.global ? Object.values(theme.global) : null, {
+        'react-spectrum-provider': shouldKeepSpectrumClassNames,
+        spectrum: shouldKeepSpectrumClassNames,
+        [themeKey]: shouldKeepSpectrumClassNames,
+        [scaleKey]: shouldKeepSpectrumClassNames
+    });
+    let style = _babelRuntimeHelpersExtends({
+    }, styleProps.style, {
+        // This ensures that browser native UI like scrollbars are rendered in the right color scheme.
+        // See https://web.dev/color-scheme/.
+        colorScheme: (_ref2 = (_props$colorScheme = props.colorScheme) != null ? _props$colorScheme : colorScheme) != null ? _ref2 : Object.keys(theme).filter((k)=>k === 'light' || k === 'dark'
+        ).join(' ')
+    });
+    let hasWarned = useRef(false);
+    useEffect(()=>{
+        if (direction && domRef.current) {
+            let closestDir = domRef.current.parentElement.closest('[dir]');
+            let dir = closestDir && closestDir.getAttribute('dir');
+            if (dir && dir !== direction && !hasWarned.current) {
+                console.warn("Language directions cannot be nested. " + direction + " inside " + dir + ".");
+                hasWarned.current = true;
+            }
+        }
+    }, [
+        direction,
+        domRef,
+        hasWarned
+    ]);
+    return(/*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, filterDOMProps(otherProps), styleProps, modalProviderProps, {
+        className: className,
+        style: style,
+        lang: locale,
+        dir: direction,
+        ref: domRef
+    }), children));
+});
+function useProvider() {
+    return useContext($f150a45acb1414cf0ebc786fd600e35$var$Context);
+}
+exports.useProvider = useProvider;
+function useProviderProps(props) {
+    let context = useProvider();
+    if (!context) return props;
+    return Object.assign({
+    }, {
+        isQuiet: context.isQuiet,
+        isEmphasized: context.isEmphasized,
+        isDisabled: context.isDisabled,
+        isRequired: context.isRequired,
+        isReadOnly: context.isReadOnly,
+        validationState: context.validationState
+    }, props);
+}
+exports.useProviderProps = useProviderProps;

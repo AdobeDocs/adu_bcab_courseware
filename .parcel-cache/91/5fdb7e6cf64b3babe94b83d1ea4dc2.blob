@@ -1,0 +1,61 @@
+var { useProviderProps  } = require("@react-spectrum/provider");
+var _react2 = require("react");
+var _react = $parcel$interopDefault(_react2);
+var { forwardRef  } = _react2;
+var { filterDOMProps  } = require("@react-aria/utils");
+var { classNames , useDOMRef , useStyleProps  } = require("@react-spectrum/utils");
+var _babelRuntimeHelpersObjectWithoutPropertiesLoose = $parcel$interopDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+require("./main.css");
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/statuslight/vars.css
+var $e5d7a37f7bdf1f624f38f79b87678a42$exports = {
+};
+$e5d7a37f7bdf1f624f38f79b87678a42$exports = {
+    "spectrum-StatusLight": "_spectrum-StatusLight_71d0f",
+    "spectrum-StatusLight--neutral": "_spectrum-StatusLight--neutral_71d0f",
+    "is-disabled": "_is-disabled_71d0f",
+    "spectrum-StatusLight--negative": "_spectrum-StatusLight--negative_71d0f",
+    "spectrum-StatusLight--notice": "_spectrum-StatusLight--notice_71d0f",
+    "spectrum-StatusLight--positive": "_spectrum-StatusLight--positive_71d0f",
+    "spectrum-StatusLight--info": "_spectrum-StatusLight--info_71d0f",
+    "spectrum-StatusLight--active": "_spectrum-StatusLight--active_71d0f",
+    "spectrum-StatusLight--celery": "_spectrum-StatusLight--celery_71d0f",
+    "spectrum-StatusLight--yellow": "_spectrum-StatusLight--yellow_71d0f",
+    "spectrum-StatusLight--fuchsia": "_spectrum-StatusLight--fuchsia_71d0f",
+    "spectrum-StatusLight--indigo": "_spectrum-StatusLight--indigo_71d0f",
+    "spectrum-StatusLight--seafoam": "_spectrum-StatusLight--seafoam_71d0f",
+    "spectrum-StatusLight--chartreuse": "_spectrum-StatusLight--chartreuse_71d0f",
+    "spectrum-StatusLight--magenta": "_spectrum-StatusLight--magenta_71d0f",
+    "spectrum-StatusLight--purple": "_spectrum-StatusLight--purple_71d0f"
+};
+var $e5d7a37f7bdf1f624f38f79b87678a42$$interop$default = $parcel$interopDefault($e5d7a37f7bdf1f624f38f79b87678a42$exports);
+function $e73b264a0f1df629ff3e0b79dc4e357a$var$StatusLight(props, ref) {
+    let _useProviderProps = useProviderProps(props), { variant , children , isDisabled , role  } = _useProviderProps, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(_useProviderProps, [
+        "variant",
+        "children",
+        "isDisabled",
+        "role"
+    ]);
+    let domRef = useDOMRef(ref);
+    let { styleProps  } = useStyleProps(otherProps);
+    if (!children && !props['aria-label']) console.warn('If no children are provided, an aria-label must be specified');
+    if (!role && (props['aria-label'] || props['aria-labelledby'])) console.warn('A labelled StatusLight must have a role.');
+    return(/*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, filterDOMProps(otherProps, {
+        labelable: !!role
+    }), styleProps, {
+        role: role,
+        className: classNames($e5d7a37f7bdf1f624f38f79b87678a42$$interop$default, 'spectrum-StatusLight', "spectrum-StatusLight--" + variant, {
+            'is-disabled': isDisabled
+        }, styleProps.className),
+        ref: domRef
+    }), children));
+}
+/**
+ * Status lights are used to color code categories and labels commonly found in data visualization.
+ * When status lights have a semantic meaning, they should use semantic variant colors.
+ */ let StatusLight = /*#__PURE__*/ forwardRef($e73b264a0f1df629ff3e0b79dc4e357a$var$StatusLight);
+exports.StatusLight = StatusLight;

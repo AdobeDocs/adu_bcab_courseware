@@ -1,0 +1,94 @@
+var _react2 = require("react");
+var _react = $parcel$interopDefault(_react2);
+var { useContext  } = _react2;
+var { Provider , useProviderProps  } = require("@react-spectrum/provider");
+var { filterDOMProps  } = require("@react-aria/utils");
+var { classNames , useDOMRef , useStyleProps  } = require("@react-spectrum/utils");
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+var _babelRuntimeHelpersObjectWithoutPropertiesLoose = $parcel$interopDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
+require("./main.css");
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/fieldlabel/vars.css
+var $a0bedb1888ff92cb3407d1a60d76e$exports = {
+};
+$a0bedb1888ff92cb3407d1a60d76e$exports = {
+    "spectrum-FieldLabel": "_spectrum-FieldLabel_36b9b",
+    "spectrum-FieldLabel--positionSide": "_spectrum-FieldLabel--positionSide_36b9b",
+    "spectrum-FieldLabel-requiredIcon": "_spectrum-FieldLabel-requiredIcon_36b9b",
+    "spectrum-FieldLabel--alignEnd": "_spectrum-FieldLabel--alignEnd_36b9b",
+    "spectrum-Field": "_spectrum-Field_36b9b",
+    "spectrum-Field--positionTop": "_spectrum-Field--positionTop_36b9b",
+    "spectrum-Field-field": "_spectrum-Field-field_36b9b",
+    "spectrum-Field-field--multiline": "_spectrum-Field-field--multiline_36b9b",
+    "spectrum-Field--positionSide": "_spectrum-Field--positionSide_36b9b",
+    "spectrum-Form": "_spectrum-Form_36b9b",
+    "spectrum-Form--positionSide": "_spectrum-Form--positionSide_36b9b",
+    "spectrum-Form--positionTop": "_spectrum-Form--positionTop_36b9b",
+    "spectrum-Form-itemLabel": "_spectrum-Form-itemLabel_36b9b",
+    "is-disabled": "_is-disabled_36b9b"
+};
+let $a04c1031b5e1cab168e087a6837ba8be$var$FormContext = /*#__PURE__*/ _react.createContext({
+});
+function useFormProps(props) {
+    let ctx = useContext($a04c1031b5e1cab168e087a6837ba8be$var$FormContext);
+    return _babelRuntimeHelpersExtends({
+    }, ctx, props);
+}
+exports.useFormProps = useFormProps;
+const $a04c1031b5e1cab168e087a6837ba8be$var$formPropNames = new Set([
+    'action',
+    'autoComplete',
+    'encType',
+    'method',
+    'target',
+    'onSubmit'
+]);
+var $a0bedb1888ff92cb3407d1a60d76e$$interop$default = $parcel$interopDefault($a0bedb1888ff92cb3407d1a60d76e$exports);
+function $a04c1031b5e1cab168e087a6837ba8be$var$Form(props, ref) {
+    props = useProviderProps(props);
+    let { children , labelPosition ='top' , labelAlign ='start' , isRequired , necessityIndicator , isQuiet , isEmphasized , isDisabled , isReadOnly , validationState  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "children",
+        "labelPosition",
+        "labelAlign",
+        "isRequired",
+        "necessityIndicator",
+        "isQuiet",
+        "isEmphasized",
+        "isDisabled",
+        "isReadOnly",
+        "validationState"
+    ]);
+    let { styleProps  } = useStyleProps(otherProps);
+    let domRef = useDOMRef(ref);
+    let ctx = {
+        labelPosition,
+        labelAlign,
+        necessityIndicator
+    };
+    return(/*#__PURE__*/ _react.createElement("form", _babelRuntimeHelpersExtends({
+    }, filterDOMProps(otherProps, {
+        labelable: true,
+        propNames: $a04c1031b5e1cab168e087a6837ba8be$var$formPropNames
+    }), styleProps, {
+        ref: domRef,
+        className: classNames($a0bedb1888ff92cb3407d1a60d76e$$interop$default, 'spectrum-Form', {
+            'spectrum-Form--positionSide': labelPosition === 'side',
+            'spectrum-Form--positionTop': labelPosition === 'top'
+        }, styleProps.className)
+    }), /*#__PURE__*/ _react.createElement($a04c1031b5e1cab168e087a6837ba8be$var$FormContext.Provider, {
+        value: ctx
+    }, /*#__PURE__*/ _react.createElement(Provider, {
+        isQuiet: isQuiet,
+        isEmphasized: isEmphasized,
+        isDisabled: isDisabled,
+        isReadOnly: isReadOnly,
+        isRequired: isRequired,
+        validationState: validationState
+    }, children))));
+}
+/**
+ * Forms allow users to enter data that can be submitted while providing alignment and styling for form fields.
+ */ const Form = /*#__PURE__*/ _react.forwardRef($a04c1031b5e1cab168e087a6837ba8be$var$Form);
+exports.Form = Form;

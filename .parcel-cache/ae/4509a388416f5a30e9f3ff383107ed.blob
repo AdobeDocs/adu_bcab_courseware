@@ -1,0 +1,15 @@
+"use strict";
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+exports.__esModule = true;
+exports.default = offsetParent;
+var _ownerDocument = _interopRequireDefault(require("../ownerDocument"));
+var _style = _interopRequireDefault(require("../style"));
+function nodeName(node) {
+    return node.nodeName && node.nodeName.toLowerCase();
+}
+function offsetParent(node) {
+    var doc = _ownerDocument.default(node), offsetParent1 = node && node.offsetParent;
+    while(offsetParent1 && nodeName(node) !== 'html' && _style.default(offsetParent1, 'position') === 'static')offsetParent1 = offsetParent1.offsetParent;
+    return offsetParent1 || doc.documentElement;
+}
+module.exports = exports["default"];

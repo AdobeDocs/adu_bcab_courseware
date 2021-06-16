@@ -1,0 +1,197 @@
+var { useProgressBar  } = require("@react-aria/progress");
+var _react = $parcel$interopDefault(require("react"));
+var { clamp  } = require("@react-aria/utils");
+var { classNames , useDOMRef , useStyleProps  } = require("@react-spectrum/utils");
+var _babelRuntimeHelpersObjectWithoutPropertiesLoose = $parcel$interopDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+require("./main.css");
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/barloader/vars.css
+var $b76be3b356c6ec92c2715ea3e4dc0e69$exports = {
+};
+$b76be3b356c6ec92c2715ea3e4dc0e69$exports = {
+    "spectrum-BarLoader": "_spectrum-BarLoader_c74d2",
+    "spectrum-BarLoader--indeterminate": "_spectrum-BarLoader--indeterminate_c74d2",
+    "spectrum-BarLoader--sideLabel": "_spectrum-BarLoader--sideLabel_c74d2",
+    "spectrum-BarLoader-track": "_spectrum-BarLoader-track_c74d2",
+    "spectrum-BarLoader-fill": "_spectrum-BarLoader-fill_c74d2",
+    "spectrum-BarLoader-label": "_spectrum-BarLoader-label_c74d2",
+    "spectrum-BarLoader-percentage": "_spectrum-BarLoader-percentage_c74d2",
+    "spectrum-BarLoader--small": "_spectrum-BarLoader--small_c74d2",
+    "indeterminate-loop-ltr": "_indeterminate-loop-ltr_c74d2",
+    "indeterminate-loop-rtl": "_indeterminate-loop-rtl_c74d2",
+    "spectrum-BarLoader--overBackground": "_spectrum-BarLoader--overBackground_c74d2",
+    "is-positive": "_is-positive_c74d2",
+    "is-warning": "_is-warning_c74d2",
+    "is-critical": "_is-critical_c74d2"
+};
+var $b76be3b356c6ec92c2715ea3e4dc0e69$$interop$default = $parcel$interopDefault($b76be3b356c6ec92c2715ea3e4dc0e69$exports);
+// Base ProgressBar component shared with Meter.
+function $b0d2f47ae3a8238ab2360be8fc837fc$var$ProgressBarBase(props, ref) {
+    let { value =0 , minValue =0 , maxValue =100 , size ='L' , label , barClassName , showValueLabel =!!label , labelPosition ='top' , isIndeterminate =false , barProps , labelProps , 'aria-label': ariaLabel , 'aria-labelledby': ariaLabelledby  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "value",
+        "minValue",
+        "maxValue",
+        "size",
+        "label",
+        "barClassName",
+        "showValueLabel",
+        "labelPosition",
+        "isIndeterminate",
+        "barProps",
+        "labelProps",
+        "aria-label",
+        "aria-labelledby"
+    ]);
+    let domRef = useDOMRef(ref);
+    let { styleProps  } = useStyleProps(otherProps);
+    value = clamp(value, minValue, maxValue);
+    let barStyle = {
+    };
+    if (!isIndeterminate) {
+        let percentage = (value - minValue) / (maxValue - minValue);
+        barStyle.width = Math.round(percentage * 100) + "%";
+    } // Ideally this should be in useProgressBar, but children
+    // are not supported in ProgressCircle which shares that hook...
+    if (!label && !ariaLabel && !ariaLabelledby) console.warn('If you do not provide a visible label via children, you must specify an aria-label or aria-labelledby attribute for accessibility');
+     // use inline style for fit-content because cssnano is too smart for us and will strip out the -moz prefix in css files
+    return(/*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, barProps, {
+        ref: domRef,
+        className: classNames($b76be3b356c6ec92c2715ea3e4dc0e69$$interop$default, 'spectrum-BarLoader', {
+            'spectrum-BarLoader--small': size === 'S',
+            'spectrum-BarLoader--large': size === 'L',
+            'spectrum-BarLoader--indeterminate': isIndeterminate,
+            'spectrum-BarLoader--sideLabel': labelPosition === 'side'
+        }, barClassName, styleProps.className),
+        style: _babelRuntimeHelpersExtends({
+            minWidth: '-moz-fit-content'
+        }, styleProps.style)
+    }), label && /*#__PURE__*/ _react.createElement("span", _babelRuntimeHelpersExtends({
+    }, labelProps, {
+        className: classNames($b76be3b356c6ec92c2715ea3e4dc0e69$$interop$default, 'spectrum-BarLoader-label')
+    }), label), showValueLabel && /*#__PURE__*/ _react.createElement("div", {
+        className: classNames($b76be3b356c6ec92c2715ea3e4dc0e69$$interop$default, 'spectrum-BarLoader-percentage')
+    }, barProps['aria-valuetext']), /*#__PURE__*/ _react.createElement("div", {
+        className: classNames($b76be3b356c6ec92c2715ea3e4dc0e69$$interop$default, 'spectrum-BarLoader-track')
+    }, /*#__PURE__*/ _react.createElement("div", {
+        className: classNames($b76be3b356c6ec92c2715ea3e4dc0e69$$interop$default, 'spectrum-BarLoader-fill'),
+        style: barStyle
+    }))));
+}
+let ProgressBarBase = /*#__PURE__*/ _react.forwardRef($b0d2f47ae3a8238ab2360be8fc837fc$var$ProgressBarBase);
+exports.ProgressBarBase = ProgressBarBase;
+function $e05519d83e80e24bd20eae11a34f5$var$ProgressBar(props, ref) {
+    let { variant  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "variant"
+    ]);
+    const { progressBarProps , labelProps  } = useProgressBar(props);
+    return(/*#__PURE__*/ _react.createElement(ProgressBarBase, _babelRuntimeHelpersExtends({
+    }, otherProps, {
+        ref: ref,
+        barProps: progressBarProps,
+        labelProps: labelProps,
+        barClassName: classNames($b76be3b356c6ec92c2715ea3e4dc0e69$$interop$default, {
+            'spectrum-BarLoader--overBackground': variant === 'overBackground'
+        })
+    })));
+}
+/**
+ * ProgressBars show the progression of a system operation: downloading, uploading, processing, etc., in a visual way.
+ * They can represent either determinate or indeterminate progress.
+ */ let ProgressBar = /*#__PURE__*/ _react.forwardRef($e05519d83e80e24bd20eae11a34f5$var$ProgressBar);
+exports.ProgressBar = ProgressBar;
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/circleloader/vars.css
+var $ce5c1c4924ad667e9635506d931397c8$exports = {
+};
+$ce5c1c4924ad667e9635506d931397c8$exports = {
+    "spectrum-CircleLoader--indeterminate-fill-submask-2": "_spectrum-CircleLoader--indeterminate-fill-submask-2_40b43",
+    "spectrum-fill-mask-2": "_spectrum-fill-mask-2_40b43",
+    "spectrum-CircleLoader": "_spectrum-CircleLoader_40b43",
+    "spectrum-CircleLoader-track": "_spectrum-CircleLoader-track_40b43",
+    "spectrum-CircleLoader-fills": "_spectrum-CircleLoader-fills_40b43",
+    "spectrum-CircleLoader-fill": "_spectrum-CircleLoader-fill_40b43",
+    "spectrum-CircleLoader-fillMask1": "_spectrum-CircleLoader-fillMask1_40b43",
+    "spectrum-CircleLoader-fillMask2": "_spectrum-CircleLoader-fillMask2_40b43",
+    "spectrum-CircleLoader-fillSubMask1": "_spectrum-CircleLoader-fillSubMask1_40b43",
+    "spectrum-CircleLoader-fillSubMask2": "_spectrum-CircleLoader-fillSubMask2_40b43",
+    "spectrum-CircleLoader--small": "_spectrum-CircleLoader--small_40b43",
+    "spectrum-CircleLoader--large": "_spectrum-CircleLoader--large_40b43",
+    "spectrum-CircleLoader--indeterminate": "_spectrum-CircleLoader--indeterminate_40b43",
+    "spectrum-fills-rotate": "_spectrum-fills-rotate_40b43",
+    "spectrum-fill-mask-1": "_spectrum-fill-mask-1_40b43",
+    "spectrum-CircleLoader--overBackground": "_spectrum-CircleLoader--overBackground_40b43"
+};
+var $ce5c1c4924ad667e9635506d931397c8$$interop$default = $parcel$interopDefault($ce5c1c4924ad667e9635506d931397c8$exports);
+function $afa84cf894ccc20de32ae773d8878b79$var$ProgressCircle(props, ref) {
+    let { value =0 , minValue =0 , maxValue =100 , size ='M' , variant , isIndeterminate =false , 'aria-label': ariaLabel , 'aria-labelledby': ariaLabelledby  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "value",
+        "minValue",
+        "maxValue",
+        "size",
+        "variant",
+        "isIndeterminate",
+        "aria-label",
+        "aria-labelledby"
+    ]);
+    let domRef = useDOMRef(ref);
+    let { styleProps  } = useStyleProps(otherProps);
+    value = clamp(value, minValue, maxValue);
+    let { progressBarProps  } = useProgressBar(_babelRuntimeHelpersExtends({
+    }, props, {
+        value
+    }));
+    let subMask1Style = {
+    };
+    let subMask2Style = {
+    };
+    if (!isIndeterminate) {
+        let percentage = (value - minValue) / (maxValue - minValue) * 100;
+        let angle;
+        if (percentage > 0 && percentage <= 50) {
+            angle = -180 + percentage / 50 * 180;
+            subMask1Style.transform = "rotate(" + angle + "deg)";
+            subMask2Style.transform = 'rotate(-180deg)';
+        } else if (percentage > 50) {
+            angle = -180 + (percentage - 50) / 50 * 180;
+            subMask1Style.transform = 'rotate(0deg)';
+            subMask2Style.transform = "rotate(" + angle + "deg)";
+        }
+    }
+    if (!ariaLabel && !ariaLabelledby) console.warn('ProgressCircle requires an aria-label or aria-labelledby attribute for accessibility');
+    return(/*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, styleProps, progressBarProps, {
+        ref: domRef,
+        className: classNames($ce5c1c4924ad667e9635506d931397c8$$interop$default, 'spectrum-CircleLoader', {
+            'spectrum-CircleLoader--indeterminate': isIndeterminate,
+            'spectrum-CircleLoader--small': size === 'S',
+            'spectrum-CircleLoader--large': size === 'L',
+            'spectrum-CircleLoader--overBackground': variant === 'overBackground'
+        }, styleProps.className)
+    }), /*#__PURE__*/ _react.createElement("div", {
+        className: classNames($ce5c1c4924ad667e9635506d931397c8$$interop$default, 'spectrum-CircleLoader-track')
+    }), /*#__PURE__*/ _react.createElement("div", {
+        className: classNames($ce5c1c4924ad667e9635506d931397c8$$interop$default, 'spectrum-CircleLoader-fills')
+    }, /*#__PURE__*/ _react.createElement("div", {
+        className: classNames($ce5c1c4924ad667e9635506d931397c8$$interop$default, 'spectrum-CircleLoader-fillMask1')
+    }, /*#__PURE__*/ _react.createElement("div", {
+        className: classNames($ce5c1c4924ad667e9635506d931397c8$$interop$default, 'spectrum-CircleLoader-fillSubMask1'),
+        style: subMask1Style
+    }, /*#__PURE__*/ _react.createElement("div", {
+        className: classNames($ce5c1c4924ad667e9635506d931397c8$$interop$default, 'spectrum-CircleLoader-fill')
+    }))), /*#__PURE__*/ _react.createElement("div", {
+        className: classNames($ce5c1c4924ad667e9635506d931397c8$$interop$default, 'spectrum-CircleLoader-fillMask2')
+    }, /*#__PURE__*/ _react.createElement("div", {
+        className: classNames($ce5c1c4924ad667e9635506d931397c8$$interop$default, 'spectrum-CircleLoader-fillSubMask2'),
+        style: subMask2Style
+    }, /*#__PURE__*/ _react.createElement("div", {
+        className: classNames($ce5c1c4924ad667e9635506d931397c8$$interop$default, 'spectrum-CircleLoader-fill')
+    }))))));
+}
+/**
+ * ProgressCircles show the progression of a system operation such as downloading, uploading, processing, etc. in a visual way.
+ * They can represent determinate or indeterminate progress.
+ */ let ProgressCircle = /*#__PURE__*/ _react.forwardRef($afa84cf894ccc20de32ae773d8878b79$var$ProgressCircle);
+exports.ProgressCircle = ProgressCircle;

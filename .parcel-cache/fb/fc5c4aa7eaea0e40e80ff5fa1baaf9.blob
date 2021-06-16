@@ -1,0 +1,146 @@
+var { useTooltipTriggerState  } = require("@react-stately/tooltip");
+var { useOverlayPosition  } = require("@react-aria/overlays");
+var { Overlay  } = require("@react-spectrum/overlays");
+var { FocusableProvider  } = require("@react-aria/focus");
+var { useTooltip , useTooltipTrigger  } = require("@react-aria/tooltip");
+var _spectrumIconsUiSuccessSmall = $parcel$interopDefault(require("@spectrum-icons/ui/SuccessSmall"));
+var _react2 = require("react");
+var _react = $parcel$interopDefault(_react2);
+var { useContext , useImperativeHandle , useRef  } = _react2;
+var { mergeProps  } = require("@react-aria/utils");
+var _spectrumIconsUiInfoSmall = $parcel$interopDefault(require("@spectrum-icons/ui/InfoSmall"));
+var { classNames , createDOMRef , useStyleProps  } = require("@react-spectrum/utils");
+var _spectrumIconsUiAlertSmall = $parcel$interopDefault(require("@spectrum-icons/ui/AlertSmall"));
+var _babelRuntimeHelpersObjectWithoutPropertiesLoose = $parcel$interopDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+require("./main.css");
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/tooltip/vars.css
+var $e02064c879d8df5d7c99552d96e8391$exports = {
+};
+$e02064c879d8df5d7c99552d96e8391$exports = {
+    "spectrum-Tooltip": "_spectrum-Tooltip_23042",
+    "is-open": "_is-open_23042",
+    "spectrum-Tooltip--bottom": "_spectrum-Tooltip--bottom_23042",
+    "spectrum-Tooltip--top": "_spectrum-Tooltip--top_23042",
+    "spectrum-Tooltip--right": "_spectrum-Tooltip--right_23042",
+    "spectrum-Tooltip--left": "_spectrum-Tooltip--left_23042",
+    "spectrum-Tooltip-tip": "_spectrum-Tooltip-tip_23042",
+    "spectrum-Tooltip-typeIcon": "_spectrum-Tooltip-typeIcon_23042",
+    "spectrum-Tooltip-label": "_spectrum-Tooltip-label_23042",
+    "u-tooltip-showOnHover": "_u-tooltip-showOnHover_23042",
+    "is-hovered": "_is-hovered_23042",
+    "is-focused": "_is-focused_23042",
+    "spectrum-Tooltip--negative": "_spectrum-Tooltip--negative_23042",
+    "spectrum-Tooltip--error": "_spectrum-Tooltip--error_23042",
+    "spectrum-Tooltip--info": "_spectrum-Tooltip--info_23042",
+    "spectrum-Tooltip--help": "_spectrum-Tooltip--help_23042",
+    "spectrum-Tooltip--positive": "_spectrum-Tooltip--positive_23042",
+    "spectrum-Tooltip--success": "_spectrum-Tooltip--success_23042"
+};
+const $a23748555680c48540a4239b15ea00bc$export$TooltipContext = /*#__PURE__*/ _react.createContext({
+});
+let $ff273912ab399ba4f2bd386cbddf33$var$iconMap = {
+    info: _spectrumIconsUiInfoSmall,
+    positive: _spectrumIconsUiSuccessSmall,
+    negative: _spectrumIconsUiAlertSmall
+};
+var $e02064c879d8df5d7c99552d96e8391$$interop$default = $parcel$interopDefault($e02064c879d8df5d7c99552d96e8391$exports);
+function $ff273912ab399ba4f2bd386cbddf33$var$Tooltip(props, ref) {
+    let _useContext = useContext($a23748555680c48540a4239b15ea00bc$export$TooltipContext), { ref: overlayRef , arrowProps , state  } = _useContext, tooltipProviderProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(_useContext, [
+        "ref",
+        "arrowProps",
+        "state"
+    ]);
+    let defaultRef = useRef();
+    overlayRef = overlayRef || defaultRef;
+    props = mergeProps(props, tooltipProviderProps);
+    let { variant ='neutral' , placement ='top' , isOpen , showIcon  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "variant",
+        "placement",
+        "isOpen",
+        "showIcon"
+    ]);
+    let { styleProps  } = useStyleProps(otherProps);
+    let { tooltipProps  } = useTooltip(props, state); // Sync ref with overlayRef from context.
+    useImperativeHandle(ref, ()=>createDOMRef(overlayRef)
+    );
+    let Icon = $ff273912ab399ba4f2bd386cbddf33$var$iconMap[variant];
+    return(/*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, styleProps, tooltipProps, {
+        className: classNames($e02064c879d8df5d7c99552d96e8391$$interop$default, 'spectrum-Tooltip', "spectrum-Tooltip--" + variant, "spectrum-Tooltip--" + placement, {
+            'is-open': isOpen
+        }, styleProps.className),
+        ref: overlayRef
+    }), showIcon && variant !== 'neutral' && /*#__PURE__*/ _react.createElement(Icon, {
+        UNSAFE_className: classNames($e02064c879d8df5d7c99552d96e8391$$interop$default, 'spectrum-Tooltip-typeIcon'),
+        "aria-hidden": true
+    }), props.children && /*#__PURE__*/ _react.createElement("span", {
+        className: classNames($e02064c879d8df5d7c99552d96e8391$$interop$default, 'spectrum-Tooltip-label')
+    }, props.children), /*#__PURE__*/ _react.createElement("span", _babelRuntimeHelpersExtends({
+    }, arrowProps, {
+        className: classNames($e02064c879d8df5d7c99552d96e8391$$interop$default, 'spectrum-Tooltip-tip')
+    }))));
+}
+/**
+ * Display container for Tooltip content. Has a directional arrow dependent on its placement.
+ */ let Tooltip = /*#__PURE__*/ _react.forwardRef($ff273912ab399ba4f2bd386cbddf33$var$Tooltip);
+exports.Tooltip = Tooltip;
+const $b29140c6a34ca04560623b3e2e0d4c0b$var$DEFAULT_OFFSET = -1; // Offset needed to reach 4px/5px (med/large) distance between tooltip and trigger button
+const $b29140c6a34ca04560623b3e2e0d4c0b$var$DEFAULT_CROSS_OFFSET = 0;
+function $b29140c6a34ca04560623b3e2e0d4c0b$var$TooltipTrigger(props) {
+    let { children , crossOffset =$b29140c6a34ca04560623b3e2e0d4c0b$var$DEFAULT_CROSS_OFFSET , isDisabled , offset =$b29140c6a34ca04560623b3e2e0d4c0b$var$DEFAULT_OFFSET , trigger: triggerAction  } = props;
+    let [trigger, tooltip] = _react.Children.toArray(children);
+    let state = useTooltipTriggerState(props);
+    let tooltipTriggerRef = useRef();
+    let overlayRef = useRef();
+    let { triggerProps , tooltipProps  } = useTooltipTrigger({
+        isDisabled,
+        trigger: triggerAction
+    }, state, tooltipTriggerRef);
+    let { overlayProps , arrowProps , placement  } = useOverlayPosition({
+        placement: props.placement || 'top',
+        targetRef: tooltipTriggerRef,
+        overlayRef,
+        offset,
+        crossOffset,
+        isOpen: state.isOpen
+    });
+    return(/*#__PURE__*/ _react.createElement(FocusableProvider, _babelRuntimeHelpersExtends({
+    }, triggerProps, {
+        ref: tooltipTriggerRef
+    }), trigger, /*#__PURE__*/ _react.createElement($a23748555680c48540a4239b15ea00bc$export$TooltipContext.Provider, {
+        value: _babelRuntimeHelpersExtends({
+            state,
+            placement,
+            ref: overlayRef,
+            UNSAFE_style: overlayProps.style,
+            arrowProps
+        }, tooltipProps)
+    }, /*#__PURE__*/ _react.createElement(Overlay, {
+        isOpen: state.isOpen
+    }, tooltip))));
+} // Support TooltipTrigger inside components using CollectionBuilder.
+$b29140c6a34ca04560623b3e2e0d4c0b$var$TooltipTrigger.getCollectionNode = function*(props) {
+    // Replaced the use of React.Childern.toArray because it mutates the key prop.
+    let childArray = [];
+    _react.Children.forEach(props.children, (child)=>{
+        if (/*#__PURE__*/ _react.isValidElement(child)) childArray.push(child);
+    });
+    let [trigger, tooltip] = childArray;
+    yield {
+        element: trigger,
+        wrapper: (element)=>/*#__PURE__*/ _react.createElement($b29140c6a34ca04560623b3e2e0d4c0b$var$TooltipTrigger, _babelRuntimeHelpersExtends({
+                key: element.key
+            }, props), element, tooltip)
+    };
+};
+/**
+ * TooltipTrigger wraps around a trigger element and a Tooltip. It handles opening and closing
+ * the Tooltip when the user hovers over or focuses the trigger, and positioning the Tooltip
+ * relative to the trigger.
+ */ // We don't want getCollectionNode to show up in the type definition
+let TooltipTrigger = $b29140c6a34ca04560623b3e2e0d4c0b$var$TooltipTrigger;
+exports.TooltipTrigger = TooltipTrigger;

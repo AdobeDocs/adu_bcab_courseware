@@ -1,0 +1,74 @@
+var _react2 = require("react");
+var _react = $parcel$interopDefault(_react2);
+var { forwardRef  } = _react2;
+var { filterDOMProps  } = require("@react-aria/utils");
+var { ClearSlots , useDOMRef , useSlotProps , useStyleProps , viewStyleProps  } = require("@react-spectrum/utils");
+var _babelRuntimeHelpersObjectWithoutPropertiesLoose = $parcel$interopDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+function $cb4e2cb36ae5e3ab01f62ab7d1672c67$var$View(props, ref) {
+    props = useSlotProps(props);
+    let { elementType: ElementType = 'div' , children  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "elementType",
+        "children"
+    ]);
+    let { styleProps  } = useStyleProps(props, viewStyleProps);
+    let domRef = useDOMRef(ref);
+    return(/*#__PURE__*/ _react.createElement(ElementType, _babelRuntimeHelpersExtends({
+    }, filterDOMProps(otherProps), styleProps, {
+        ref: domRef
+    }), /*#__PURE__*/ _react.createElement(ClearSlots, null, children)));
+}
+/**
+ * View is a general purpose container with no specific semantics that can be used for custom styling purposes.
+ * It supports Spectrum style props to ensure consistency with other Spectrum components.
+ */ const View = /*#__PURE__*/ forwardRef($cb4e2cb36ae5e3ab01f62ab7d1672c67$var$View);
+exports.View = View;
+function $b1630a1ad5492629b7ba4ec7eeabf6d2$var$Content(props, ref) {
+    props = useSlotProps(props, 'content');
+    let { children  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "children"
+    ]);
+    let { styleProps  } = useStyleProps(otherProps);
+    let domRef = useDOMRef(ref);
+    return(/*#__PURE__*/ _react.createElement("section", _babelRuntimeHelpersExtends({
+    }, filterDOMProps(otherProps), styleProps, {
+        ref: domRef
+    }), /*#__PURE__*/ _react.createElement(ClearSlots, null, children)));
+}
+/**
+ * Content represents the primary content within a Spectrum container.
+ */ const Content = /*#__PURE__*/ forwardRef($b1630a1ad5492629b7ba4ec7eeabf6d2$var$Content);
+exports.Content = Content;
+function $e94eeee6ece39151e8a4902927dc1d5c$var$Footer(props, ref) {
+    props = useSlotProps(props, 'footer');
+    let { children  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "children"
+    ]);
+    let { styleProps  } = useStyleProps(otherProps);
+    let domRef = useDOMRef(ref);
+    return(/*#__PURE__*/ _react.createElement("footer", _babelRuntimeHelpersExtends({
+    }, filterDOMProps(otherProps), styleProps, {
+        ref: domRef
+    }), /*#__PURE__*/ _react.createElement(ClearSlots, null, children)));
+}
+/**
+ * Footer represents a footer within a Spectrum container.
+ */ const Footer = /*#__PURE__*/ forwardRef($e94eeee6ece39151e8a4902927dc1d5c$var$Footer);
+exports.Footer = Footer;
+function $fd6476b36977b4ef8b9643920fa5b3$var$Header(props, ref) {
+    props = useSlotProps(props, 'header');
+    let { children  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "children"
+    ]);
+    let { styleProps  } = useStyleProps(otherProps);
+    let domRef = useDOMRef(ref);
+    return(/*#__PURE__*/ _react.createElement("header", _babelRuntimeHelpersExtends({
+    }, filterDOMProps(otherProps), styleProps, {
+        ref: domRef
+    }), /*#__PURE__*/ _react.createElement(ClearSlots, null, children)));
+}
+const Header = /*#__PURE__*/ forwardRef($fd6476b36977b4ef8b9643920fa5b3$var$Header);
+exports.Header = Header;

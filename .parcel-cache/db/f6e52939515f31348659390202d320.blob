@@ -1,0 +1,444 @@
+var { useListState  } = require("@react-stately/list");
+var { useProvider  } = require("@react-spectrum/provider");
+var { ProgressCircle  } = require("@react-spectrum/progress");
+var { ListLayout  } = require("@react-stately/layout");
+var { useSeparator  } = require("@react-aria/separator");
+var { useLocale , useCollator , useMessageFormatter  } = require("@react-aria/i18n");
+var { layoutInfoToStyle , useVirtualizerItem , Virtualizer , VirtualizerItem  } = require("@react-aria/virtualizer");
+var { useOption , useListBoxSection , useListBox  } = require("@react-aria/listbox");
+var { Text: Text1  } = require("@react-spectrum/text");
+var { mergeProps  } = require("@react-aria/utils");
+var { isFocusVisible , useHover  } = require("@react-aria/interactions");
+var { Grid  } = require("@react-spectrum/layout");
+var { FocusRing  } = require("@react-aria/focus");
+var _spectrumIconsUiCheckmarkMedium = $parcel$interopDefault(require("@spectrum-icons/ui/CheckmarkMedium"));
+var _react2 = require("react");
+var _react = $parcel$interopDefault(_react2);
+var { useContext , useRef , Fragment , useMemo  } = _react2;
+var { classNames , useStyleProps , SlotProvider , useDOMRef  } = require("@react-spectrum/utils");
+var _babelRuntimeHelpersInteropRequireDefault = $parcel$interopDefault(require("@babel/runtime/helpers/interopRequireDefault"));
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+var { Item , Section  } = require("@react-stately/collections");
+exports.Section = Section;
+exports.Item = Item;
+require("./main.css");
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+const $ec3a4d143e5d0ec6923c3de55c68def5$export$ListBoxContext = /*#__PURE__*/ _react.createContext(null);
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/ar-AE.json
+var $a7c4ca3666c7dbafec57ede67bb06cfc$exports = {
+};
+$a7c4ca3666c7dbafec57ede67bb06cfc$exports = JSON.parse("{\"loading\":\"جار التحميل...\",\"loadingMore\":\"جار تحميل المزيد...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/bg-BG.json
+var $fc29aff964e054928b9d09c07c5855ec$exports = {
+};
+$fc29aff964e054928b9d09c07c5855ec$exports = JSON.parse("{\"loading\":\"Зареждане...\",\"loadingMore\":\"Зареждане на още...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/cs-CZ.json
+var $e8f80ec05c2d18b034fe363acd721b9c$exports = {
+};
+$e8f80ec05c2d18b034fe363acd721b9c$exports = JSON.parse("{\"loading\":\"Načítání...\",\"loadingMore\":\"Načítání dalších...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/da-DK.json
+var $def518aaf3069293db83c5702421e10$exports = {
+};
+$def518aaf3069293db83c5702421e10$exports = JSON.parse("{\"loading\":\"Indlæser ...\",\"loadingMore\":\"Indlæser flere ...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/de-DE.json
+var $fe8f21e9e2c1a93c8cb941d0e421f4$exports = {
+};
+$fe8f21e9e2c1a93c8cb941d0e421f4$exports = JSON.parse("{\"loading\":\"Laden...\",\"loadingMore\":\"Mehr laden ...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/el-GR.json
+var $f3bd974b7decc2c925cac883747f7d9$exports = {
+};
+$f3bd974b7decc2c925cac883747f7d9$exports = JSON.parse("{\"loading\":\"Φόρτωση...\",\"loadingMore\":\"Φόρτωση περισσότερων...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/en-US.json
+var $f9615e340042c491f70273dc5d7d799f$exports = {
+};
+$f9615e340042c491f70273dc5d7d799f$exports = JSON.parse("{\"loading\":\"Loading…\",\"loadingMore\":\"Loading more…\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/es-ES.json
+var $dc72df31f5907f7b99a7f310bcdcf$exports = {
+};
+$dc72df31f5907f7b99a7f310bcdcf$exports = JSON.parse("{\"loading\":\"Cargando…\",\"loadingMore\":\"Cargando más…\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/et-EE.json
+var $b516a2000bc36b2cf35d235bb86b464c$exports = {
+};
+$b516a2000bc36b2cf35d235bb86b464c$exports = JSON.parse("{\"loading\":\"Laadimine...\",\"loadingMore\":\"Laadi rohkem...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/fi-FI.json
+var $b51125fbfd29f483ce27c8021bdf3$exports = {
+};
+$b51125fbfd29f483ce27c8021bdf3$exports = JSON.parse("{\"loading\":\"Ladataan…\",\"loadingMore\":\"Ladataan lisää…\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/fr-FR.json
+var $a35909637983cfccb5a6ca29e543d51a$exports = {
+};
+$a35909637983cfccb5a6ca29e543d51a$exports = JSON.parse("{\"loading\":\"Chargement...\",\"loadingMore\":\"Chargement supplémentaire...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/he-IL.json
+var $d003d8383fd1b2ee26ce0b4fbf0b8133$exports = {
+};
+$d003d8383fd1b2ee26ce0b4fbf0b8133$exports = JSON.parse("{\"loading\":\"טוען...\",\"loadingMore\":\"טוען עוד...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/hr-HR.json
+var $c871121a5b6db7b7f821a8361c2d007f$exports = {
+};
+$c871121a5b6db7b7f821a8361c2d007f$exports = JSON.parse("{\"loading\":\"Učitavam...\",\"loadingMore\":\"Učitavam još...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/hu-HU.json
+var $a877bb1784d41b572a96c0af3d3d2f$exports = {
+};
+$a877bb1784d41b572a96c0af3d3d2f$exports = JSON.parse("{\"loading\":\"Betöltés folyamatban…\",\"loadingMore\":\"Továbbiak betöltése folyamatban…\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/it-IT.json
+var $ff93b4800765048fc92cd81c35dec2ad$exports = {
+};
+$ff93b4800765048fc92cd81c35dec2ad$exports = JSON.parse("{\"loading\":\"Caricamento...\",\"loadingMore\":\"Caricamento altri...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/ja-JP.json
+var $aaf8e27c61fee0596f953bc229926428$exports = {
+};
+$aaf8e27c61fee0596f953bc229926428$exports = JSON.parse("{\"loading\":\"読み込み中...\",\"loadingMore\":\"さらに読み込み中...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/ko-KR.json
+var $c04871f59f03b8f04e12b0b549762$exports = {
+};
+$c04871f59f03b8f04e12b0b549762$exports = JSON.parse("{\"loading\":\"로드 중\",\"loadingMore\":\"추가 로드 중\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/lt-LT.json
+var $c0902e55ab240816e3e9e570f310f3f6$exports = {
+};
+$c0902e55ab240816e3e9e570f310f3f6$exports = JSON.parse("{\"loading\":\"Įkeliama...\",\"loadingMore\":\"Įkeliama daugiau...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/lv-LV.json
+var $c94f13261126323f9a55896b45d1$exports = {
+};
+$c94f13261126323f9a55896b45d1$exports = JSON.parse("{\"loading\":\"Notiek ielāde...\",\"loadingMore\":\"Tiek ielādēts vēl...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/nb-NO.json
+var $a7a01f4af867fa5385f47454ed$exports = {
+};
+$a7a01f4af867fa5385f47454ed$exports = JSON.parse("{\"loading\":\"Laster inn ...\",\"loadingMore\":\"Laster inn flere ...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/nl-NL.json
+var $f9a9a64a1e6b3f695e43f8fa88af5ba$exports = {
+};
+$f9a9a64a1e6b3f695e43f8fa88af5ba$exports = JSON.parse("{\"loading\":\"Laden...\",\"loadingMore\":\"Meer laden...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/pl-PL.json
+var $da4c8d5861f8a2ff809b204e1c393$exports = {
+};
+$da4c8d5861f8a2ff809b204e1c393$exports = JSON.parse("{\"loading\":\"Ładowanie...\",\"loadingMore\":\"Wczytywanie większej liczby...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/pt-BR.json
+var $f4848a8cc2acccccaa002fbc64a9cd$exports = {
+};
+$f4848a8cc2acccccaa002fbc64a9cd$exports = JSON.parse("{\"loading\":\"Carregando...\",\"loadingMore\":\"Carregando mais...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/pt-PT.json
+var $fce7e6aee16a5254c3470cbbe8a1908$exports = {
+};
+$fce7e6aee16a5254c3470cbbe8a1908$exports = JSON.parse("{\"loading\":\"A carregar...\",\"loadingMore\":\"A carregar mais...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/ro-RO.json
+var $ce3520b62d16a1ae19db2856f7fc586$exports = {
+};
+$ce3520b62d16a1ae19db2856f7fc586$exports = JSON.parse("{\"loading\":\"Se încarcă...\",\"loadingMore\":\"Se încarcă mai multe...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/ru-RU.json
+var $ce9b8395744654f83babf$exports = {
+};
+$ce9b8395744654f83babf$exports = JSON.parse("{\"loading\":\"Загрузка...\",\"loadingMore\":\"Дополнительная загрузка...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/sk-SK.json
+var $d588e26b86ad9e592a1a9ce2c82be2$exports = {
+};
+$d588e26b86ad9e592a1a9ce2c82be2$exports = JSON.parse("{\"loading\":\"Načítava sa...\",\"loadingMore\":\"Načítava sa viac...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/sl-SI.json
+var $ba47e84ff8c2147622e9c711878dc539$exports = {
+};
+$ba47e84ff8c2147622e9c711878dc539$exports = JSON.parse("{\"loading\":\"Nalaganje...\",\"loadingMore\":\"Nalaganje več vsebine...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/sr-SP.json
+var $fb1103a7932b7b0e12cee2d0697$exports = {
+};
+$fb1103a7932b7b0e12cee2d0697$exports = JSON.parse("{\"loading\":\"Učitavam...\",\"loadingMore\":\"Učitavam još...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/sv-SE.json
+var $c36c7a891141f341531e519174d4$exports = {
+};
+$c36c7a891141f341531e519174d4$exports = JSON.parse("{\"loading\":\"Läser in...\",\"loadingMore\":\"Läser in mer...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/tr-TR.json
+var $aed39575b05ecc1e3ec3670fdd466610$exports = {
+};
+$aed39575b05ecc1e3ec3670fdd466610$exports = JSON.parse("{\"loading\":\"Yükleniyor...\",\"loadingMore\":\"Daha fazla yükleniyor...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/uk-UA.json
+var $d40ebb7fe334b314e29e5a504af63b9d$exports = {
+};
+$d40ebb7fe334b314e29e5a504af63b9d$exports = JSON.parse("{\"loading\":\"Завантаження…\",\"loadingMore\":\"Завантаження інших об’єктів...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/zh-CN.json
+var $ea552550f7ca6a4e44acf8ac252496c$exports = {
+};
+$ea552550f7ca6a4e44acf8ac252496c$exports = JSON.parse("{\"loading\":\"正在加载...\",\"loadingMore\":\"正在加载更多...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/listbox/intl/zh-TW.json
+var $e288f80d4cdaa8e2ea356e0b162cde52$exports = {
+};
+$e288f80d4cdaa8e2ea356e0b162cde52$exports = JSON.parse("{\"loading\":\"正在載入\",\"loadingMore\":\"正在載入更多…\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/menu/vars.css
+var $bfbcd6bc836614813c70085787fd$exports = {
+};
+$bfbcd6bc836614813c70085787fd$exports = {
+    "spectrum-Menu-popover": "_spectrum-Menu-popover_7c360",
+    "spectrum-Menu": "_spectrum-Menu_7c360",
+    "spectrum-Menu-sectionHeading": "_spectrum-Menu-sectionHeading_7c360",
+    "spectrum-Menu-checkmark": "_spectrum-Menu-checkmark_7c360",
+    "spectrum-Menu-item": "_spectrum-Menu-item_7c360",
+    "is-selected": "_is-selected_7c360",
+    "spectrum-Icon": "_spectrum-Icon_7c360",
+    "spectrum-Menu-itemLabel": "_spectrum-Menu-itemLabel_7c360",
+    "spectrum-Menu-itemIcon": "_spectrum-Menu-itemIcon_7c360",
+    "spectrum-Menu-itemLabel--wrapping": "_spectrum-Menu-itemLabel--wrapping_7c360",
+    "spectrum-Menu-divider": "_spectrum-Menu-divider_7c360",
+    "spectrum-Menu-itemGrid": "_spectrum-Menu-itemGrid_7c360",
+    "is-selectable": "_is-selectable_7c360",
+    "spectrum-Menu-end": "_spectrum-Menu-end_7c360",
+    "spectrum-Menu-icon": "_spectrum-Menu-icon_7c360",
+    "spectrum-Menu-description": "_spectrum-Menu-description_7c360",
+    "spectrum-Menu-keyboard": "_spectrum-Menu-keyboard_7c360",
+    "focus-ring": "_focus-ring_7c360",
+    "is-focused": "_is-focused_7c360",
+    "is-hovered": "_is-hovered_7c360",
+    "is-highlighted": "_is-highlighted_7c360",
+    "is-open": "_is-open_7c360",
+    "is-active": "_is-active_7c360",
+    "is-disabled": "_is-disabled_7c360"
+};
+var $bfbcd6bc836614813c70085787fd$$interop$default = $parcel$interopDefault($bfbcd6bc836614813c70085787fd$exports);
+/** @private */ function $f7ecb6637be10ee8759d744db61d91b$export$ListBoxOption(props) {
+    let { item , shouldSelectOnPressUp , shouldFocusOnHover , shouldUseVirtualFocus  } = props;
+    let { rendered , key  } = item;
+    let state = useContext($ec3a4d143e5d0ec6923c3de55c68def5$export$ListBoxContext);
+    let isSelected = state.selectionManager.isSelected(key);
+    let isDisabled = state.disabledKeys.has(key);
+    let isFocused = state.selectionManager.focusedKey === key;
+    let ref = useRef();
+    let { optionProps , labelProps , descriptionProps  } = useOption({
+        isSelected,
+        isDisabled,
+        'aria-label': item['aria-label'],
+        key,
+        shouldSelectOnPressUp,
+        shouldFocusOnHover,
+        isVirtualized: true,
+        shouldUseVirtualFocus
+    }, state, ref);
+    let { hoverProps , isHovered  } = useHover(_babelRuntimeHelpersExtends({
+    }, props, {
+        isDisabled
+    }));
+    let contents = typeof rendered === 'string' ? /*#__PURE__*/ _react.createElement(Text1, null, rendered) : rendered;
+    let isKeyboardModality = isFocusVisible();
+    return(/*#__PURE__*/ _react.createElement(FocusRing, {
+        focusRingClass: classNames($bfbcd6bc836614813c70085787fd$$interop$default, 'focus-ring')
+    }, /*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, mergeProps(optionProps, shouldFocusOnHover ? {
+    } : hoverProps), {
+        ref: ref,
+        className: classNames($bfbcd6bc836614813c70085787fd$$interop$default, 'spectrum-Menu-item', {
+            // If using virtual focus, apply focused styles to the item when the user is interacting with keyboard modality
+            'is-focused': shouldUseVirtualFocus && isFocused && isKeyboardModality,
+            'is-disabled': isDisabled,
+            'is-selected': isSelected,
+            'is-selectable': state.selectionManager.selectionMode !== 'none',
+            // When shouldFocusOnHover is false, apply hover styles both when hovered with the mouse.
+            // Otherwise, apply hover styles when focused using non-keyboard modality.
+            'is-hovered': isHovered && !shouldFocusOnHover || isFocused && !isKeyboardModality
+        })
+    }), /*#__PURE__*/ _react.createElement(Grid, {
+        UNSAFE_className: classNames($bfbcd6bc836614813c70085787fd$$interop$default, 'spectrum-Menu-itemGrid')
+    }, /*#__PURE__*/ _react.createElement(SlotProvider, {
+        slots: {
+            text: _babelRuntimeHelpersExtends({
+                UNSAFE_className: $bfbcd6bc836614813c70085787fd$$interop$default['spectrum-Menu-itemLabel']
+            }, labelProps),
+            icon: {
+                size: 'S',
+                UNSAFE_className: $bfbcd6bc836614813c70085787fd$$interop$default['spectrum-Menu-icon']
+            },
+            description: _babelRuntimeHelpersExtends({
+                UNSAFE_className: $bfbcd6bc836614813c70085787fd$$interop$default['spectrum-Menu-description']
+            }, descriptionProps)
+        }
+    }, contents, isSelected && /*#__PURE__*/ _react.createElement(_spectrumIconsUiCheckmarkMedium, {
+        slot: "checkmark",
+        UNSAFE_className: classNames($bfbcd6bc836614813c70085787fd$$interop$default, 'spectrum-Menu-checkmark')
+    }))))));
+}
+/** @private */ function $d46d1c2ed33b171440f8507f$export$ListBoxSection(props) {
+    let { children , reusableView , header  } = props;
+    let item = reusableView.content;
+    let { headingProps , groupProps  } = useListBoxSection({
+        heading: item.rendered,
+        'aria-label': item['aria-label']
+    });
+    let { separatorProps  } = useSeparator({
+        elementType: 'li'
+    });
+    let headerRef = useRef();
+    useVirtualizerItem({
+        reusableView: header,
+        ref: headerRef
+    });
+    let { direction  } = useLocale();
+    let state = useContext($ec3a4d143e5d0ec6923c3de55c68def5$export$ListBoxContext);
+    return(/*#__PURE__*/ _react.createElement(Fragment, null, /*#__PURE__*/ _react.createElement("div", {
+        role: "presentation",
+        ref: headerRef,
+        style: layoutInfoToStyle(header.layoutInfo, direction)
+    }, item.key !== state.collection.getFirstKey() && /*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, separatorProps, {
+        className: classNames($bfbcd6bc836614813c70085787fd$$interop$default, 'spectrum-Menu-divider')
+    })), item.rendered && /*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, headingProps, {
+        className: classNames($bfbcd6bc836614813c70085787fd$$interop$default, 'spectrum-Menu-sectionHeading')
+    }), item.rendered)), /*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, groupProps, {
+        style: layoutInfoToStyle(reusableView.layoutInfo, direction),
+        className: classNames($bfbcd6bc836614813c70085787fd$$interop$default, 'spectrum-Menu')
+    }), children)));
+}
+// @ts-ignore
+const $eea4395fe687d66cd6f9a8dc8982e743$var$intlMessages = {
+    "ar-AE": _babelRuntimeHelpersInteropRequireDefault($a7c4ca3666c7dbafec57ede67bb06cfc$exports).default,
+    "bg-BG": _babelRuntimeHelpersInteropRequireDefault($fc29aff964e054928b9d09c07c5855ec$exports).default,
+    "cs-CZ": _babelRuntimeHelpersInteropRequireDefault($e8f80ec05c2d18b034fe363acd721b9c$exports).default,
+    "da-DK": _babelRuntimeHelpersInteropRequireDefault($def518aaf3069293db83c5702421e10$exports).default,
+    "de-DE": _babelRuntimeHelpersInteropRequireDefault($fe8f21e9e2c1a93c8cb941d0e421f4$exports).default,
+    "el-GR": _babelRuntimeHelpersInteropRequireDefault($f3bd974b7decc2c925cac883747f7d9$exports).default,
+    "en-US": _babelRuntimeHelpersInteropRequireDefault($f9615e340042c491f70273dc5d7d799f$exports).default,
+    "es-ES": _babelRuntimeHelpersInteropRequireDefault($dc72df31f5907f7b99a7f310bcdcf$exports).default,
+    "et-EE": _babelRuntimeHelpersInteropRequireDefault($b516a2000bc36b2cf35d235bb86b464c$exports).default,
+    "fi-FI": _babelRuntimeHelpersInteropRequireDefault($b51125fbfd29f483ce27c8021bdf3$exports).default,
+    "fr-FR": _babelRuntimeHelpersInteropRequireDefault($a35909637983cfccb5a6ca29e543d51a$exports).default,
+    "he-IL": _babelRuntimeHelpersInteropRequireDefault($d003d8383fd1b2ee26ce0b4fbf0b8133$exports).default,
+    "hr-HR": _babelRuntimeHelpersInteropRequireDefault($c871121a5b6db7b7f821a8361c2d007f$exports).default,
+    "hu-HU": _babelRuntimeHelpersInteropRequireDefault($a877bb1784d41b572a96c0af3d3d2f$exports).default,
+    "it-IT": _babelRuntimeHelpersInteropRequireDefault($ff93b4800765048fc92cd81c35dec2ad$exports).default,
+    "ja-JP": _babelRuntimeHelpersInteropRequireDefault($aaf8e27c61fee0596f953bc229926428$exports).default,
+    "ko-KR": _babelRuntimeHelpersInteropRequireDefault($c04871f59f03b8f04e12b0b549762$exports).default,
+    "lt-LT": _babelRuntimeHelpersInteropRequireDefault($c0902e55ab240816e3e9e570f310f3f6$exports).default,
+    "lv-LV": _babelRuntimeHelpersInteropRequireDefault($c94f13261126323f9a55896b45d1$exports).default,
+    "nb-NO": _babelRuntimeHelpersInteropRequireDefault($a7a01f4af867fa5385f47454ed$exports).default,
+    "nl-NL": _babelRuntimeHelpersInteropRequireDefault($f9a9a64a1e6b3f695e43f8fa88af5ba$exports).default,
+    "pl-PL": _babelRuntimeHelpersInteropRequireDefault($da4c8d5861f8a2ff809b204e1c393$exports).default,
+    "pt-BR": _babelRuntimeHelpersInteropRequireDefault($f4848a8cc2acccccaa002fbc64a9cd$exports).default,
+    "pt-PT": _babelRuntimeHelpersInteropRequireDefault($fce7e6aee16a5254c3470cbbe8a1908$exports).default,
+    "ro-RO": _babelRuntimeHelpersInteropRequireDefault($ce3520b62d16a1ae19db2856f7fc586$exports).default,
+    "ru-RU": _babelRuntimeHelpersInteropRequireDefault($ce9b8395744654f83babf$exports).default,
+    "sk-SK": _babelRuntimeHelpersInteropRequireDefault($d588e26b86ad9e592a1a9ce2c82be2$exports).default,
+    "sl-SI": _babelRuntimeHelpersInteropRequireDefault($ba47e84ff8c2147622e9c711878dc539$exports).default,
+    "sr-SP": _babelRuntimeHelpersInteropRequireDefault($fb1103a7932b7b0e12cee2d0697$exports).default,
+    "sv-SE": _babelRuntimeHelpersInteropRequireDefault($c36c7a891141f341531e519174d4$exports).default,
+    "tr-TR": _babelRuntimeHelpersInteropRequireDefault($aed39575b05ecc1e3ec3670fdd466610$exports).default,
+    "uk-UA": _babelRuntimeHelpersInteropRequireDefault($d40ebb7fe334b314e29e5a504af63b9d$exports).default,
+    "zh-CN": _babelRuntimeHelpersInteropRequireDefault($ea552550f7ca6a4e44acf8ac252496c$exports).default,
+    "zh-TW": _babelRuntimeHelpersInteropRequireDefault($e288f80d4cdaa8e2ea356e0b162cde52$exports).default
+};
+/** @private */ function useListBoxLayout(state) {
+    let { scale  } = useProvider();
+    let collator = useCollator({
+        usage: 'search',
+        sensitivity: 'base'
+    });
+    let layout = useMemo(()=>new ListLayout({
+            estimatedRowHeight: scale === 'large' ? 48 : 32,
+            estimatedHeadingHeight: scale === 'large' ? 33 : 26,
+            padding: scale === 'large' ? 5 : 4,
+            // TODO: get from DNA
+            loaderHeight: 40,
+            placeholderHeight: scale === 'large' ? 48 : 32,
+            collator
+        })
+    , [
+        collator,
+        scale
+    ]);
+    layout.collection = state.collection;
+    layout.disabledKeys = state.disabledKeys;
+    return layout;
+}
+/** @private */ exports.useListBoxLayout = useListBoxLayout;
+function $eea4395fe687d66cd6f9a8dc8982e743$var$ListBoxBase(props, ref) {
+    let { layout , state , shouldSelectOnPressUp , focusOnPointerEnter , shouldUseVirtualFocus , domProps ={
+    } , transitionDuration =0 , onScroll  } = props;
+    let { listBoxProps  } = useListBox(_babelRuntimeHelpersExtends({
+    }, props, domProps, {
+        keyboardDelegate: layout,
+        isVirtualized: true
+    }), state, ref);
+    let { styleProps  } = useStyleProps(props);
+    let formatMessage = useMessageFormatter($eea4395fe687d66cd6f9a8dc8982e743$var$intlMessages); // Sync loading state into the layout.
+    layout.isLoading = props.isLoading; // This overrides collection view's renderWrapper to support heirarchy of items in sections.
+    // The header is extracted from the children so it can receive ARIA labeling properties.
+    let renderWrapper = (parent, reusableView, children, renderChildren)=>{
+        if (reusableView.viewType === 'section') return(/*#__PURE__*/ _react.createElement($d46d1c2ed33b171440f8507f$export$ListBoxSection, {
+            key: reusableView.key,
+            reusableView: reusableView,
+            header: children.find((c)=>c.viewType === 'header'
+            )
+        }, renderChildren(children.filter((c)=>c.viewType === 'item'
+        ))));
+        return(/*#__PURE__*/ _react.createElement(VirtualizerItem, {
+            key: reusableView.key,
+            reusableView: reusableView,
+            parent: parent
+        }));
+    };
+    return(/*#__PURE__*/ _react.createElement($ec3a4d143e5d0ec6923c3de55c68def5$export$ListBoxContext.Provider, {
+        value: state
+    }, /*#__PURE__*/ _react.createElement(Virtualizer, _babelRuntimeHelpersExtends({
+    }, styleProps, mergeProps(listBoxProps, domProps), {
+        ref: ref,
+        focusedKey: state.selectionManager.focusedKey,
+        sizeToFit: "height",
+        scrollDirection: "vertical",
+        className: classNames($bfbcd6bc836614813c70085787fd$$interop$default, 'spectrum-Menu', styleProps.className),
+        layout: layout,
+        collection: state.collection,
+        renderWrapper: renderWrapper,
+        transitionDuration: transitionDuration,
+        isLoading: props.isLoading,
+        onLoadMore: props.onLoadMore,
+        shouldUseVirtualFocus: shouldUseVirtualFocus,
+        onScroll: onScroll
+    }), (type, item)=>{
+        if (type === 'item') return(/*#__PURE__*/ _react.createElement($f7ecb6637be10ee8759d744db61d91b$export$ListBoxOption, {
+            item: item,
+            shouldSelectOnPressUp: shouldSelectOnPressUp,
+            shouldFocusOnHover: focusOnPointerEnter,
+            shouldUseVirtualFocus: shouldUseVirtualFocus
+        }));
+        else if (type === 'loader') return(/*#__PURE__*/ // aria-selected isn't needed here since this option is not selectable.
+        // eslint-disable-next-line jsx-a11y/role-has-required-aria-props
+        _react.createElement("div", {
+            role: "option",
+            style: {
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%'
+            }
+        }, /*#__PURE__*/ _react.createElement(ProgressCircle, {
+            isIndeterminate: true,
+            size: "S",
+            "aria-label": state.collection.size > 0 ? formatMessage('loadingMore') : formatMessage('loading'),
+            UNSAFE_className: classNames($bfbcd6bc836614813c70085787fd$$interop$default, 'spectrum-Dropdown-progressCircle')
+        })));
+        else if (type === 'placeholder') {
+            let emptyState = props.renderEmptyState ? props.renderEmptyState() : null;
+            if (emptyState == null) return null;
+            return(/*#__PURE__*/ _react.createElement("div", {
+                // aria-selected isn't needed here since this option is not selectable.
+                // eslint-disable-next-line jsx-a11y/role-has-required-aria-props
+                role: "option"
+            }, emptyState));
+        }
+    })));
+} // forwardRef doesn't support generic parameters, so cast the result to the correct type
+// https://stackoverflow.com/questions/58469229/react-with-typescript-generics-while-using-react-forwardref
+const ListBoxBase = /*#__PURE__*/ _react.forwardRef($eea4395fe687d66cd6f9a8dc8982e743$var$ListBoxBase);
+exports.ListBoxBase = ListBoxBase;
+function $d7bed7a2c355f41f894fc99183feda6e$var$ListBox(props, ref) {
+    let state = useListState(props);
+    let layout = useListBoxLayout(state);
+    let domRef = useDOMRef(ref);
+    return(/*#__PURE__*/ _react.createElement(ListBoxBase, _babelRuntimeHelpersExtends({
+    }, props, {
+        ref: domRef,
+        state: state,
+        layout: layout
+    })));
+} // forwardRef doesn't support generic parameters, so cast the result to the correct type
+// https://stackoverflow.com/questions/58469229/react-with-typescript-generics-while-using-react-forwardref
+/**
+ * A list of options that can allow selection of one or more.
+ */ const ListBox = /*#__PURE__*/ _react.forwardRef($d7bed7a2c355f41f894fc99183feda6e$var$ListBox);
+exports.ListBox = ListBox;

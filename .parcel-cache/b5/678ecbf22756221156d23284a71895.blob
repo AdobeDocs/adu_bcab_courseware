@@ -1,0 +1,205 @@
+var { useLocale  } = require("@react-aria/i18n");
+var { mergeProps , useLabels , useId  } = require("@react-aria/utils");
+var { useLayoutEffect , useState , useMemo  } = require("react");
+var { getFocusableTreeWalker  } = require("@react-aria/focus");
+var { useSelectableItem , useSelectableCollection  } = require("@react-aria/selection");
+var { usePress  } = require("@react-aria/interactions");
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+/*
+ * Copyright 2020 Adobe. All rights reserved.
+ * This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */ const $c685c043bb86d16b2fcf2a65974f3$export$tabsIds = new WeakMap();
+function $c685c043bb86d16b2fcf2a65974f3$export$generateId(state, key, role) {
+    if (typeof key === 'string') key = key.replace(/\s+/g, '');
+    let baseId = $c685c043bb86d16b2fcf2a65974f3$export$tabsIds.get(state);
+    return baseId + "-" + role + "-" + key;
+}
+/**
+ * Provides the behavior and accessibility implementation for a tab.
+ * When selected, the associated tab panel is shown.
+ */ function useTab(props, state, ref) {
+    let { key , isDisabled: propsDisabled  } = props;
+    let { selectionManager: manager , selectedKey  } = state;
+    let isSelected = key === selectedKey;
+    let { itemProps  } = useSelectableItem({
+        selectionManager: manager,
+        key,
+        ref
+    });
+    let isDisabled = propsDisabled || state.disabledKeys.has(key);
+    let { pressProps  } = usePress(_babelRuntimeHelpersExtends({
+    }, itemProps, {
+        isDisabled
+    }));
+    let tabId = $c685c043bb86d16b2fcf2a65974f3$export$generateId(state, key, 'tab');
+    let tabPanelId = $c685c043bb86d16b2fcf2a65974f3$export$generateId(state, key, 'tabpanel');
+    let { tabIndex  } = pressProps;
+    return {
+        tabProps: _babelRuntimeHelpersExtends({
+        }, pressProps, {
+            id: tabId,
+            'aria-selected': isSelected,
+            'aria-disabled': isDisabled || undefined,
+            'aria-controls': isSelected ? tabPanelId : undefined,
+            tabIndex: isDisabled ? undefined : tabIndex,
+            role: 'tab'
+        })
+    };
+}
+exports.useTab = useTab;
+/**
+ * Provides the behavior and accessibility implementation for a tab panel. A tab panel is a container for
+ * the contents of a tab, and is shown when the tab is selected.
+ */ function useTabPanel(props, state, ref) {
+    let [tabIndex, setTabIndex] = useState(0); // The tabpanel should have tabIndex=0 when there are no tabbable elements within it.
+    // Otherwise, tabbing from the focused tab should go directly to the first tabbable element
+    // within the tabpanel.
+    useLayoutEffect(()=>{
+        if (ref != null && ref.current) {
+            let update = ()=>{
+                // Detect if there are any tabbable elements and update the tabIndex accordingly.
+                let walker = getFocusableTreeWalker(ref.current, {
+                    tabbable: true
+                });
+                setTabIndex(walker.nextNode() ? undefined : 0);
+            };
+            update(); // Update when new elements are inserted, or the tabIndex/disabled attribute updates.
+            let observer = new MutationObserver(update);
+            observer.observe(ref.current, {
+                subtree: true,
+                childList: true,
+                attributes: true,
+                attributeFilter: [
+                    'tabIndex',
+                    'disabled'
+                ]
+            });
+            return ()=>{
+                observer.disconnect();
+            };
+        }
+    }, [
+        ref
+    ]);
+    const id = $c685c043bb86d16b2fcf2a65974f3$export$generateId(state, state == null ? void 0 : state.selectedKey, 'tabpanel');
+    const tabPanelProps = useLabels(_babelRuntimeHelpersExtends({
+    }, props, {
+        id,
+        'aria-labelledby': $c685c043bb86d16b2fcf2a65974f3$export$generateId(state, state == null ? void 0 : state.selectedKey, 'tab')
+    }));
+    return {
+        tabPanelProps: mergeProps(tabPanelProps, {
+            tabIndex,
+            role: 'tabpanel',
+            'aria-describedby': props['aria-describedby'],
+            'aria-details': props['aria-details']
+        })
+    };
+}
+exports.useTabPanel = useTabPanel;
+class $c98ba41732a4afea84f1af0a5428958$export$TabsKeyboardDelegate {
+    constructor(collection, direction, orientation, disabledKeys){
+        if (disabledKeys === void 0) disabledKeys = new Set();
+        this.collection = void 0;
+        this.flipDirection = void 0;
+        this.disabledKeys = void 0;
+        this.orientation = void 0;
+        this.collection = collection;
+        this.flipDirection = direction === 'rtl' && orientation === 'horizontal';
+        this.orientation = orientation;
+        this.disabledKeys = disabledKeys;
+    }
+    getKeyLeftOf(key) {
+        if (this.flipDirection) return this.getNextKey(key);
+        else {
+            if (this.orientation === 'horizontal') return this.getPreviousKey(key);
+            return null;
+        }
+    }
+    getKeyRightOf(key) {
+        if (this.flipDirection) return this.getPreviousKey(key);
+        else {
+            if (this.orientation === 'horizontal') return this.getNextKey(key);
+            return null;
+        }
+    }
+    getKeyAbove(key) {
+        if (this.orientation === 'vertical') return this.getPreviousKey(key);
+        return null;
+    }
+    getKeyBelow(key) {
+        if (this.orientation === 'vertical') return this.getNextKey(key);
+        return null;
+    }
+    getFirstKey() {
+        let key = this.collection.getFirstKey();
+        if (this.disabledKeys.has(key)) key = this.getNextKey(key);
+        return key;
+    }
+    getLastKey() {
+        let key = this.collection.getLastKey();
+        if (this.disabledKeys.has(key)) key = this.getPreviousKey(key);
+        return key;
+    }
+    getNextKey(key) {
+        do {
+            key = this.collection.getKeyAfter(key);
+            if (key == null) key = this.collection.getFirstKey();
+        }while (this.disabledKeys.has(key))
+        return key;
+    }
+    getPreviousKey(key) {
+        do {
+            key = this.collection.getKeyBefore(key);
+            if (key == null) key = this.collection.getLastKey();
+        }while (this.disabledKeys.has(key))
+        return key;
+    }
+}
+/**
+ * Provides the behavior and accessibility implementation for a tab list.
+ * Tabs organize content into multiple sections and allow users to navigate between them.
+ */ function useTabList(props, state, ref) {
+    let { orientation: orientation1 = 'horizontal' , keyboardActivation ='automatic'  } = props;
+    let { collection: collection1 , selectionManager: manager , disabledKeys: disabledKeys1  } = state;
+    let { direction: direction1  } = useLocale();
+    let delegate = useMemo(()=>new $c98ba41732a4afea84f1af0a5428958$export$TabsKeyboardDelegate(collection1, direction1, orientation1, disabledKeys1)
+    , [
+        collection1,
+        disabledKeys1,
+        orientation1,
+        direction1
+    ]);
+    let { collectionProps  } = useSelectableCollection({
+        ref,
+        selectionManager: manager,
+        keyboardDelegate: delegate,
+        selectOnFocus: keyboardActivation === 'automatic',
+        disallowEmptySelection: true
+    }); // Compute base id for all tabs
+    let tabsId = useId();
+    $c685c043bb86d16b2fcf2a65974f3$export$tabsIds.set(state, tabsId);
+    let tabListLabelProps = useLabels(_babelRuntimeHelpersExtends({
+    }, props, {
+        id: tabsId
+    }));
+    return {
+        tabListProps: _babelRuntimeHelpersExtends({
+        }, mergeProps(collectionProps, tabListLabelProps), {
+            role: 'tablist',
+            'aria-orientation': orientation1,
+            tabIndex: undefined
+        })
+    };
+}
+exports.useTabList = useTabList;

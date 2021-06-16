@@ -1,0 +1,431 @@
+var _helpers = require("@swc/helpers");
+"use strict";
+var regeneratorRuntime = require("regenerator-runtime");
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.CreateView = void 0;
+var _react = _interopRequireWildcard(require("react"));
+require("@spectrum-css/typography");
+var _reactSpectrum = require("@adobe/react-spectrum");
+var _Masonry = require("./Masonry");
+var _useDebounce = require("use-debounce");
+var _utils = _interopRequireDefault(require("../utils"));
+var _config = _interopRequireDefault(require("../config"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop1) {
+        return nodeInterop1 ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") return {
+        default: obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj.default = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
+var selectedAssets = new Set();
+var CreateView = (function(param) {
+    var ims = param.ims;
+    // Brief fields
+    var ref = _helpers.slicedToArray(_react.useState(''), 2), briefDate = ref[0], setBriefDate = ref[1];
+    var ref1 = _helpers.slicedToArray(_react.useState(''), 2), copyDate = ref1[0], setCopyDate = ref1[1];
+    var ref2 = _helpers.slicedToArray(_react.useState(''), 2), releasePrintDate = ref2[0], setReleasePrintDate = ref2[1];
+    var ref3 = _helpers.slicedToArray(_react.useState(''), 2), requestType = ref3[0], setRequestType = ref3[1];
+    var ref4 = _helpers.slicedToArray(_react.useState(''), 2), campaign = ref4[0], setCampaign = ref4[1];
+    var ref5 = _helpers.slicedToArray(_react.useState(''), 2), deliverables = ref5[0], setDeliverables = ref5[1];
+    var ref6 = _helpers.slicedToArray(_react.useState(''), 2), description = ref6[0], setDescription = ref6[1];
+    var ref7 = _helpers.slicedToArray(_react.useState(''), 2), searchTerm = ref7[0], setSearchTerm = ref7[1]; // Asset handling
+    var ref8 = _helpers.slicedToArray(_react.useState(false), 2), isLoadingAssets = ref8[0], setIsLoadingAssets = ref8[1];
+    var ref9 = _helpers.slicedToArray(_react.useState([]), 2), suggestedAssets = ref9[0], setSuggestedAssets = ref9[1]; // Action state
+    var ref10 = _helpers.slicedToArray(_react.useState(-1), 2), briefId = ref10[0], setBriefId = ref10[1];
+    var ref11 = _helpers.slicedToArray(_react.useState(false), 2), isSubmitting = ref11[0], setIsSubmitting = ref11[1];
+    var ref12 = _helpers.slicedToArray(_react.useState(false), 2), isDialogOpen = ref12[0], setDialogIsOpen = ref12[1]; // Stock Search
+    var ref13 = _helpers.slicedToArray(_useDebounce.useDebounce(searchTerm, 500), 1), keyword = ref13[0];
+    var reset = function() {
+        setBriefDate('');
+        setCopyDate('');
+        setReleasePrintDate('');
+        setRequestType('');
+        setCampaign('');
+        setDeliverables('');
+        setDescription('');
+        setSearchTerm('');
+    };
+    var isValidForm = function() {
+        return briefDate && copyDate && releasePrintDate && requestType && campaign && deliverables && description;
+    };
+    _react.useEffect(function() {
+        if (keyword) _helpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            var res;
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        setIsLoadingAssets(true);
+                        selectedAssets.clear();
+                        _ctx.next = 4;
+                        return _utils.default(ims, _config.default['stock-search'], {
+                        }, {
+                            keyword: keyword
+                        });
+                    case 4:
+                        res = _ctx.sent;
+                        if (res.error) alert(res.error.message);
+                        else setSuggestedAssets(res.files);
+                        console.log(res);
+                        setIsLoadingAssets(false);
+                    case 8:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+        else setSuggestedAssets([]);
+    }, [
+        keyword
+    ]);
+    return(/*#__PURE__*/ React.createElement(_reactSpectrum.View, {
+        elementType: "main",
+        minHeight: "100vh",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 87
+        },
+        __self: this
+    }, /*#__PURE__*/ React.createElement(_reactSpectrum.Flex, {
+        alignItems: "center",
+        justifyContent: "center",
+        direction: "column",
+        marginY: "size-400",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 88
+        },
+        __self: this
+    }, /*#__PURE__*/ React.createElement("h2", {
+        className: "spectrum-Heading spectrum-Heading--sizeL spectrum-Heading--serif",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 89
+        },
+        __self: this
+    }, "New brief"), /*#__PURE__*/ React.createElement("p", {
+        className: "spectrum-Body spectrum-Body--sizeL",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 90
+        },
+        __self: this
+    }, "Create a new brief by filling out the form then press submit"), /*#__PURE__*/ React.createElement(_reactSpectrum.Form, {
+        isRequired: true,
+        isDisabled: isSubmitting,
+        width: "size-6000",
+        marginY: "size-200",
+        onSubmit: _helpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
+            var id, res;
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        e.preventDefault();
+                        setIsSubmitting(true);
+                        _ctx.next = 4;
+                        return _utils.default(ims, _config.default['brief-save'], {
+                        }, {
+                            briefDate: briefDate,
+                            copyDate: copyDate,
+                            releasePrintDate: releasePrintDate,
+                            requestType: requestType,
+                            campaign: campaign,
+                            deliverables: deliverables,
+                            description: description,
+                            // Filter out selected assets
+                            selectedAssets: suggestedAssets.filter(function(param1) {
+                                id = param1.id;
+                                return selectedAssets.has(id);
+                            })
+                        });
+                    case 4:
+                        res = _ctx.sent;
+                        if (res.error) alert(res.error.message);
+                        else {
+                            setBriefId(res.id);
+                            setDialogIsOpen(true);
+                            reset();
+                        }
+                        console.log(res);
+                        setIsSubmitting(false);
+                    case 8:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        })),
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 94
+        },
+        __self: this
+    }, /*#__PURE__*/ React.createElement(_reactSpectrum.TextField, {
+        value: briefDate,
+        onChange: setBriefDate,
+        label: "Brief date",
+        placeholder: "Brief date",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 122
+        },
+        __self: this
+    }), /*#__PURE__*/ React.createElement(_reactSpectrum.TextField, {
+        value: copyDate,
+        onChange: setCopyDate,
+        label: "Copy date",
+        placeholder: "Copy date",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 123
+        },
+        __self: this
+    }), /*#__PURE__*/ React.createElement(_reactSpectrum.TextField, {
+        value: releasePrintDate,
+        onChange: setReleasePrintDate,
+        label: "Release print date",
+        placeholder: "Release print date",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 124
+        },
+        __self: this
+    }), /*#__PURE__*/ React.createElement(_reactSpectrum.TextField, {
+        value: requestType,
+        onChange: setRequestType,
+        label: "Request type",
+        placeholder: "Request type",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 125
+        },
+        __self: this
+    }), /*#__PURE__*/ React.createElement(_reactSpectrum.TextField, {
+        value: campaign,
+        onChange: setCampaign,
+        label: "Campaign",
+        placeholder: "Campaign",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 126
+        },
+        __self: this
+    }), /*#__PURE__*/ React.createElement(_reactSpectrum.TextField, {
+        value: deliverables,
+        onChange: setDeliverables,
+        label: "Deliverables",
+        placeholder: "Deliverables",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 127
+        },
+        __self: this
+    }), /*#__PURE__*/ React.createElement(_reactSpectrum.TextArea, {
+        value: description,
+        onChange: setDescription,
+        label: "Description",
+        placeholder: "Description",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 128
+        },
+        __self: this
+    }), /*#__PURE__*/ React.createElement(_reactSpectrum.TextField, {
+        isRequired: false,
+        value: searchTerm,
+        onChange: setSearchTerm,
+        label: "Search Assets",
+        placeholder: "Search Assets",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 129
+        },
+        __self: this
+    }), suggestedAssets.length > 0 ? /*#__PURE__*/ React.createElement(_Masonry.Masonry, {
+        breakpointCols: 2,
+        style: {
+            opacity: isLoadingAssets ? 0.2 : 1
+        },
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 131
+        },
+        __self: this
+    }, suggestedAssets.slice(0, 10).map((function(file, index) {
+        /*#__PURE__*/ return React.createElement(_reactSpectrum.Well, {
+            key: index,
+            __source: {
+                fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+                lineNumber: 134
+            },
+            __self: this
+        }, /*#__PURE__*/ React.createElement(_reactSpectrum.Flex, {
+            direction: "column",
+            gap: "size-100",
+            __source: {
+                fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+                lineNumber: 135
+            },
+            __self: this
+        }, /*#__PURE__*/ React.createElement("img", {
+            alt: file.title,
+            src: file.thumbnail_url,
+            __source: {
+                fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+                lineNumber: 136
+            },
+            __self: this
+        }), /*#__PURE__*/ React.createElement("p", {
+            className: "spectrum-Body spectrum-Body--sizeS",
+            __source: {
+                fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+                lineNumber: 137
+            },
+            __self: this
+        }, file.title), /*#__PURE__*/ React.createElement(_reactSpectrum.Checkbox, {
+            isRequired: false,
+            isDisabled: isSubmitting,
+            isEmphasized: true,
+            onChange: function() {
+                // Toggle selected asset
+                selectedAssets[selectedAssets.has(file.id) ? 'delete' : 'add'](file.id);
+            },
+            __source: {
+                fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+                lineNumber: 138
+            },
+            __self: this
+        }, "Select")));
+    }).bind(this))) : /*#__PURE__*/ React.createElement("p", {
+        className: "spectrum-Body spectrum-Body--sizeS",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 146
+        },
+        __self: this
+    }, /*#__PURE__*/ React.createElement("em", {
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 147
+        },
+        __self: this
+    }, isLoadingAssets ? /*#__PURE__*/ React.createElement(_reactSpectrum.Flex, {
+        alignItems: "center",
+        gap: "size-100",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 148
+        },
+        __self: this
+    }, /*#__PURE__*/ React.createElement(_reactSpectrum.ProgressCircle, {
+        size: "S",
+        "aria-label": "Submitting\u2026",
+        isIndeterminate: true,
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 149
+        },
+        __self: this
+    }), /*#__PURE__*/ React.createElement(_reactSpectrum.View, {
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 150
+        },
+        __self: this
+    }, "Loading suggested assets\u2026")) : 'Please enter terms to search for assets')), /*#__PURE__*/ React.createElement(_reactSpectrum.Flex, {
+        width: "100%",
+        justifyContent: "end",
+        alignItems: "center",
+        marginTop: "size-400",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 155
+        },
+        __self: this
+    }, isSubmitting && /*#__PURE__*/ React.createElement(_reactSpectrum.ProgressCircle, {
+        size: "S",
+        "aria-label": "Submitting\u2026",
+        isIndeterminate: true,
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 156
+        },
+        __self: this
+    }), /*#__PURE__*/ React.createElement(_reactSpectrum.ButtonGroup, {
+        marginStart: "size-200",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 157
+        },
+        __self: this
+    }, /*#__PURE__*/ React.createElement(_reactSpectrum.Button, {
+        type: "reset",
+        onPress: reset,
+        variant: "secondary",
+        isDisabled: isSubmitting,
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 158
+        },
+        __self: this
+    }, "Reset"), /*#__PURE__*/ React.createElement(_reactSpectrum.Button, {
+        type: "submit",
+        variant: "cta",
+        isDisabled: isSubmitting || !isValidForm(),
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 161
+        },
+        __self: this
+    }, "Submit"))))), /*#__PURE__*/ React.createElement(_reactSpectrum.DialogContainer, {
+        onDismiss: function() {
+            return setDialogIsOpen(false);
+        },
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 169
+        },
+        __self: this
+    }, isDialogOpen && /*#__PURE__*/ React.createElement(_reactSpectrum.AlertDialog, {
+        title: "New brief created",
+        variant: "information",
+        primaryActionLabel: "Close",
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 170
+        },
+        __self: this
+    }, "A new brief was created successfully with id ", /*#__PURE__*/ React.createElement("strong", {
+        __source: {
+            fileName: "C:\\temp\\training\\cicd_training\\adu_bcab_courseware\\web-src\\src\\components\\CreateView.js",
+            lineNumber: 171
+        },
+        __self: this
+    }, briefId)))));
+}).bind(undefined);
+exports.CreateView = CreateView;

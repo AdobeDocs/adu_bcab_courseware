@@ -1,0 +1,19 @@
+/* eslint-disable no-new -- required for testing */ var global = require('../internals/global');
+var fails = require('../internals/fails');
+var checkCorrectnessOfIteration = require('../internals/check-correctness-of-iteration');
+var NATIVE_ARRAY_BUFFER_VIEWS = require('../internals/array-buffer-view-core').NATIVE_ARRAY_BUFFER_VIEWS;
+var ArrayBuffer1 = global.ArrayBuffer;
+var Int8Array1 = global.Int8Array;
+module.exports = !NATIVE_ARRAY_BUFFER_VIEWS || !fails(function() {
+    Int8Array1(1);
+}) || !fails(function() {
+    new Int8Array1(-1);
+}) || !checkCorrectnessOfIteration(function(iterable) {
+    new Int8Array1();
+    new Int8Array1(null);
+    new Int8Array1(1.5);
+    new Int8Array1(iterable);
+}, true) || fails(function() {
+    // Safari (11+) bug - a reason why even Safari 13 should load a typed array polyfill
+    return new Int8Array1(new ArrayBuffer1(2), 1, undefined).length !== 1;
+});

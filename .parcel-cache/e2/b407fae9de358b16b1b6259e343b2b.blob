@@ -1,0 +1,431 @@
+var { useActionGroup , useActionGroupItem  } = require("@react-aria/actiongroup");
+var { Tooltip , TooltipTrigger  } = require("@react-spectrum/tooltip");
+var { Text: Text1  } = require("@react-spectrum/text");
+var _react2 = require("react");
+var _react = $parcel$interopDefault(_react2);
+var { forwardRef , useCallback , useMemo , useRef , useState  } = _react2;
+var { Provider , useProviderProps  } = require("@react-spectrum/provider");
+var { PressResponder , useHover  } = require("@react-aria/interactions");
+var _spectrumIconsWorkflowMore = $parcel$interopDefault(require("@spectrum-icons/workflow/More"));
+var { useListState  } = require("@react-stately/list");
+var { Item: _Item , Menu , MenuTrigger  } = require("@react-spectrum/menu");
+var { filterDOMProps , mergeProps , useId , useLayoutEffect , useResizeObserver  } = require("@react-aria/utils");
+var { classNames , SlotProvider , useDOMRef , useStyleProps , useValueEffect  } = require("@react-spectrum/utils");
+var _spectrumIconsUiChevronDownMedium = $parcel$interopDefault(require("@spectrum-icons/ui/ChevronDownMedium"));
+var { ActionButton  } = require("@react-spectrum/button");
+var _babelRuntimeHelpersObjectWithoutPropertiesLoose = $parcel$interopDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+var { Item  } = require("@react-stately/collections");
+exports.Item = Item;
+require("./main.css");
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/button/vars.css
+var $a9040831959d0ed42473e9713dd4b23$exports = {
+};
+$a9040831959d0ed42473e9713dd4b23$exports = {
+    "spectrum-Button": "_spectrum-Button_7a745",
+    "spectrum-ActionButton": "_spectrum-ActionButton_7a745",
+    "spectrum-LogicButton": "_spectrum-LogicButton_7a745",
+    "spectrum-FieldButton": "_spectrum-FieldButton_7a745",
+    "spectrum-ClearButton": "_spectrum-ClearButton_7a745",
+    "focus-ring": "_focus-ring_7a745",
+    "spectrum-Icon": "_spectrum-Icon_7a745",
+    "spectrum-ActionButton--emphasized": "_spectrum-ActionButton--emphasized_7a745",
+    "spectrum-ActionButton--staticColor": "_spectrum-ActionButton--staticColor_7a745",
+    "is-hovered": "_is-hovered_7a745",
+    "spectrum-Button-label": "_spectrum-Button-label_7a745",
+    "spectrum-ActionButton-label": "_spectrum-ActionButton-label_7a745",
+    "spectrum-ActionButton-hold": "_spectrum-ActionButton-hold_7a745",
+    "spectrum-ActionButton--quiet": "_spectrum-ActionButton--quiet_7a745",
+    "is-disabled": "_is-disabled_7a745",
+    "is-open": "_is-open_7a745",
+    "spectrum-FieldButton--quiet": "_spectrum-FieldButton--quiet_7a745",
+    "spectrum-ClearButton--overBackground": "_spectrum-ClearButton--overBackground_7a745",
+    "spectrum-ClearButton--small": "_spectrum-ClearButton--small_7a745",
+    "is-focused": "_is-focused_7a745",
+    "is-active": "_is-active_7a745",
+    "spectrum-Button--cta": "_spectrum-Button--cta_7a745",
+    "spectrum-Button--primary": "_spectrum-Button--primary_7a745",
+    "spectrum-Button--secondary": "_spectrum-Button--secondary_7a745",
+    "spectrum-Button--warning": "_spectrum-Button--warning_7a745",
+    "spectrum-Button--overBackground": "_spectrum-Button--overBackground_7a745",
+    "spectrum-Button--quiet": "_spectrum-Button--quiet_7a745",
+    "is-selected": "_is-selected_7a745",
+    "spectrum-ActionButton--staticWhite": "_spectrum-ActionButton--staticWhite_7a745",
+    "spectrum-ActionButton--staticBlack": "_spectrum-ActionButton--staticBlack_7a745",
+    "spectrum-LogicButton--and": "_spectrum-LogicButton--and_7a745",
+    "spectrum-LogicButton--or": "_spectrum-LogicButton--or_7a745",
+    "is-placeholder": "_is-placeholder_7a745",
+    "spectrum-FieldButton--invalid": "_spectrum-FieldButton--invalid_7a745"
+};
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/actiongroup/vars.css
+var $fca4dfdd23dc1cdb3a256953c$exports = {
+};
+$fca4dfdd23dc1cdb3a256953c$exports = {
+    "flex-container": "_flex-container_97f54",
+    "flex-gap": "_flex-gap_97f54",
+    "spectrum-ActionGroup": "_spectrum-ActionGroup_97f54",
+    "spectrum-ActionGroup-item": "_spectrum-ActionGroup-item_97f54",
+    "spectrum-ActionGroup--vertical": "_spectrum-ActionGroup--vertical_97f54",
+    "spectrum-ActionGroup--quiet": "_spectrum-ActionGroup--quiet_97f54",
+    "spectrum-ActionGroup--justified": "_spectrum-ActionGroup--justified_97f54",
+    "spectrum-ActionGroup--compact": "_spectrum-ActionGroup--compact_97f54",
+    "is-selected": "_is-selected_97f54",
+    "is-hovered": "_is-hovered_97f54",
+    "spectrum-ActionGroup--overflowCollapse": "_spectrum-ActionGroup--overflowCollapse_97f54",
+    "spectrum-ActionGroup-menu": "_spectrum-ActionGroup-menu_97f54",
+    "spectrum-ActionGroup-menu-chevron": "_spectrum-ActionGroup-menu-chevron_97f54",
+    "spectrum-ActionGroup-menu-contents": "_spectrum-ActionGroup-menu-contents_97f54",
+    "spectrum-ActionGroup-item--iconOnly": "_spectrum-ActionGroup-item--iconOnly_97f54"
+};
+var $fca4dfdd23dc1cdb3a256953c$$interop$default = $parcel$interopDefault($fca4dfdd23dc1cdb3a256953c$exports);
+function $d1ce1419524cab384aad70acd928619$var$ActionGroup(props, ref) {
+    props = useProviderProps(props);
+    let { isEmphasized , density , isJustified , isDisabled , orientation ='horizontal' , isQuiet , staticColor , overflowMode ='wrap' , onAction , buttonLabelBehavior , summaryIcon  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "isEmphasized",
+        "density",
+        "isJustified",
+        "isDisabled",
+        "orientation",
+        "isQuiet",
+        "staticColor",
+        "overflowMode",
+        "onAction",
+        "buttonLabelBehavior",
+        "summaryIcon"
+    ]);
+    let domRef = useDOMRef(ref);
+    let wrapperRef = useRef(null);
+    let state = useListState(_babelRuntimeHelpersExtends({
+    }, props, {
+        suppressTextValueWarning: true
+    }));
+    let { actionGroupProps  } = useActionGroup(props, state, domRef);
+    let isVertical = orientation === 'vertical';
+    let providerProps = {
+        isEmphasized,
+        isDisabled,
+        isQuiet
+    };
+    let { styleProps  } = useStyleProps(props); // Only hide button text if every item contains more than just plain text (we assume an icon).
+    let isIconCollapsible = useMemo(()=>[
+            ...state.collection
+        ].every((item)=>typeof item.rendered !== 'string'
+        )
+    , [
+        state.collection
+    ]);
+    let [{ visibleItems , hideButtonText , isMeasuring  }, setVisibleItems] = useValueEffect({
+        visibleItems: state.collection.size,
+        hideButtonText: buttonLabelBehavior === 'hide' && isIconCollapsible,
+        isMeasuring: false
+    });
+    let selectionMode = state.selectionManager.selectionMode;
+    let updateOverflow = useCallback(()=>{
+        if (overflowMode === 'wrap') return;
+        if (orientation === 'vertical' && selectionMode !== 'none') // Collapsing vertical action groups with selection is currently unsupported by Spectrum.
+        return;
+        let computeVisibleItems = (visibleItems1)=>{
+            let listItems = Array.from(domRef.current.children);
+            let containerSize = orientation === 'horizontal' ? wrapperRef.current.offsetWidth : wrapperRef.current.offsetHeight;
+            let isShowingMenu = visibleItems1 < state.collection.size;
+            let calculatedSize = 0;
+            let newVisibleItems = 0;
+            if (isShowingMenu) calculatedSize += orientation === 'horizontal' ? $d1ce1419524cab384aad70acd928619$var$outerWidth(listItems.pop(), false, true) : $d1ce1419524cab384aad70acd928619$var$outerHeight(listItems.pop(), false, true);
+            for (let [i, item] of listItems.entries()){
+                calculatedSize += orientation === 'horizontal' ? $d1ce1419524cab384aad70acd928619$var$outerWidth(item, i === 0, i === listItems.length - 1) : $d1ce1419524cab384aad70acd928619$var$outerHeight(item, i === 0, i === listItems.length - 1);
+                if (calculatedSize <= containerSize) newVisibleItems++;
+                else break;
+            } // If selection is enabled, and not all of the items fit, collapse all of them into a dropdown
+            // immediately rather than having some visible and some not.
+            if (selectionMode !== 'none' && newVisibleItems < state.collection.size) return 0;
+            return newVisibleItems;
+        };
+        setVisibleItems(function*() {
+            let hideButtonText1 = buttonLabelBehavior === 'hide' && isIconCollapsible; // Update to show all items.
+            yield {
+                visibleItems: state.collection.size,
+                hideButtonText: hideButtonText1,
+                isMeasuring: true
+            }; // Measure, and update to show the items that fit.
+            let newVisibleItems = computeVisibleItems(state.collection.size);
+            let isMeasuring1 = newVisibleItems < state.collection.size && newVisibleItems > 0; // If not all of the buttons fit, and buttonLabelBehavior is 'collapse', then first try hiding
+            // the button text and only showing icons. Only if that still doesn't fit collapse into a menu.
+            if (newVisibleItems < state.collection.size && buttonLabelBehavior === 'collapse' && isIconCollapsible) {
+                yield {
+                    visibleItems: state.collection.size,
+                    hideButtonText: true,
+                    isMeasuring: true
+                };
+                newVisibleItems = computeVisibleItems(state.collection.size);
+                isMeasuring1 = newVisibleItems < state.collection.size && newVisibleItems > 0;
+                hideButtonText1 = true;
+            }
+            yield {
+                visibleItems: newVisibleItems,
+                hideButtonText: hideButtonText1,
+                isMeasuring: isMeasuring1
+            }; // If the number of items is less than the number of children,
+            // then update again to ensure that the menu fits.
+            if (isMeasuring1) yield {
+                visibleItems: computeVisibleItems(newVisibleItems),
+                hideButtonText: hideButtonText1,
+                isMeasuring: false
+            };
+        });
+    }, [
+        domRef,
+        state.collection,
+        setVisibleItems,
+        overflowMode,
+        selectionMode,
+        buttonLabelBehavior,
+        isIconCollapsible,
+        orientation
+    ]); // Watch the parent element for size changes. Watching only the action group itself may not work
+    // in all scenarios because it may not shrink when available space is reduced.
+    let parentRef = useMemo(()=>({
+            get current () {
+                return wrapperRef.current.parentElement;
+            }
+        })
+    , [
+        wrapperRef
+    ]);
+    useResizeObserver({
+        ref: overflowMode !== 'wrap' ? parentRef : null,
+        onResize: updateOverflow
+    });
+    useLayoutEffect(updateOverflow, [
+        updateOverflow,
+        state.collection
+    ]);
+    let children = [
+        ...state.collection
+    ];
+    let menuItem = null;
+    let menuProps = {
+    }; // If there are no visible items, don't apply any props to the action group container
+    // and pass all aria labeling props through to the menu button.
+    if (overflowMode === 'collapse' && visibleItems === 0) {
+        menuProps = filterDOMProps(props, {
+            labelable: true
+        });
+        actionGroupProps = {
+        };
+    }
+    if (overflowMode === 'collapse' && visibleItems < state.collection.size) {
+        let menuChildren = children.slice(visibleItems);
+        children = children.slice(0, visibleItems);
+        menuItem = /*#__PURE__*/ _react.createElement($d1ce1419524cab384aad70acd928619$var$ActionGroupMenu, _babelRuntimeHelpersExtends({
+        }, menuProps, {
+            items: menuChildren,
+            onAction: onAction,
+            isDisabled: isDisabled,
+            isEmphasized: isEmphasized,
+            staticColor: staticColor,
+            state: state,
+            summaryIcon: summaryIcon,
+            hideButtonText: hideButtonText,
+            isOnlyItem: visibleItems === 0,
+            orientation: orientation
+        }));
+    }
+    let style = _babelRuntimeHelpersExtends({
+    }, styleProps.style, {
+        // While measuring, take up as much space as possible.
+        flexBasis: isMeasuring ? '100%' : undefined
+    });
+    return(/*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, styleProps, {
+        style: style,
+        className: classNames($fca4dfdd23dc1cdb3a256953c$$interop$default, 'flex-container', styleProps.className),
+        ref: wrapperRef
+    }), /*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, actionGroupProps, {
+        ref: domRef,
+        className: classNames($fca4dfdd23dc1cdb3a256953c$$interop$default, 'flex-gap', 'spectrum-ActionGroup', {
+            'spectrum-ActionGroup--quiet': isQuiet,
+            'spectrum-ActionGroup--vertical': isVertical,
+            'spectrum-ActionGroup--compact': density === 'compact',
+            'spectrum-ActionGroup--justified': isJustified && !isMeasuring,
+            'spectrum-ActionGroup--overflowCollapse': overflowMode === 'collapse'
+        }, otherProps.UNSAFE_className)
+    }), /*#__PURE__*/ _react.createElement(Provider, providerProps, children.map((item)=>/*#__PURE__*/ _react.createElement($d1ce1419524cab384aad70acd928619$var$ActionGroupItem, {
+            key: item.key,
+            onAction: onAction,
+            isDisabled: isDisabled,
+            isEmphasized: isEmphasized,
+            staticColor: staticColor,
+            item: item,
+            state: state,
+            hideButtonText: hideButtonText,
+            orientation: orientation
+        })
+    ), menuItem))));
+}
+/**
+ * An ActionGroup is a grouping of ActionButtons that are related to one another.
+ */ const ActionGroup = /*#__PURE__*/ forwardRef($d1ce1419524cab384aad70acd928619$var$ActionGroup);
+exports.ActionGroup = ActionGroup;
+var $a9040831959d0ed42473e9713dd4b23$$interop$default = $parcel$interopDefault($a9040831959d0ed42473e9713dd4b23$exports);
+function $d1ce1419524cab384aad70acd928619$var$ActionGroupItem(_ref) {
+    let { item , state , isDisabled , isEmphasized , staticColor , onAction , hideButtonText , orientation  } = _ref;
+    let ref = useRef();
+    let { buttonProps  } = useActionGroupItem({
+        key: item.key
+    }, state);
+    isDisabled = isDisabled || state.disabledKeys.has(item.key);
+    let isSelected = state.selectionManager.isSelected(item.key);
+    let { hoverProps , isHovered  } = useHover({
+        isDisabled
+    });
+    if (onAction && !isDisabled) buttonProps = mergeProps(buttonProps, {
+        onPress: ()=>onAction(item.key)
+    });
+     // If button text is hidden, we need to show it as a tooltip instead, so
+    // go find the text element in the DOM after rendering.
+    let textId = useId();
+    let [textContent, setTextContent] = useState('');
+    useLayoutEffect(()=>{
+        if (hideButtonText) {
+            var _document$getElementB;
+            setTextContent((_document$getElementB = document.getElementById(textId)) == null ? void 0 : _document$getElementB.textContent);
+        }
+    }, [
+        hideButtonText,
+        item.rendered,
+        textId
+    ]);
+    let button = /*#__PURE__*/ // Use a PressResponder to send DOM props through.
+    // ActionButton doesn't allow overriding the role by default.
+    _react.createElement(PressResponder, mergeProps(buttonProps, hoverProps), /*#__PURE__*/ _react.createElement(SlotProvider, {
+        slots: {
+            text: {
+                id: hideButtonText ? textId : null,
+                isHidden: hideButtonText
+            }
+        }
+    }, /*#__PURE__*/ _react.createElement(ActionButton, {
+        ref: ref,
+        UNSAFE_className: classNames($fca4dfdd23dc1cdb3a256953c$$interop$default, 'spectrum-ActionGroup-item', {
+            'is-selected': isSelected,
+            'is-hovered': isHovered,
+            'spectrum-ActionGroup-item--iconOnly': hideButtonText
+        }, classNames($a9040831959d0ed42473e9713dd4b23$$interop$default, {
+            'spectrum-ActionButton--emphasized': isEmphasized,
+            'is-selected': isSelected
+        })),
+        isDisabled: isDisabled,
+        staticColor: staticColor,
+        "aria-label": item['aria-label'],
+        "aria-labelledby": item['aria-label'] == null && hideButtonText ? textId : undefined
+    }, item.rendered)));
+    if (hideButtonText && textContent) button = /*#__PURE__*/ _react.createElement(TooltipTrigger, {
+        placement: orientation === 'vertical' ? 'end' : 'top'
+    }, button, /*#__PURE__*/ _react.createElement(Tooltip, null, textContent));
+    if (item.wrapper) button = item.wrapper(button);
+    return button;
+}
+function $d1ce1419524cab384aad70acd928619$var$ActionGroupMenu(_ref2) {
+    let { state , isDisabled , isEmphasized , staticColor , items , onAction , summaryIcon , hideButtonText , isOnlyItem , orientation  } = _ref2, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(_ref2, [
+        "state",
+        "isDisabled",
+        "isEmphasized",
+        "staticColor",
+        "items",
+        "onAction",
+        "summaryIcon",
+        "hideButtonText",
+        "isOnlyItem",
+        "orientation"
+    ]);
+    // Use the key of the first item within the menu as the key of the button.
+    // The key must actually exist in the collection for focus to work correctly.
+    let key = items[0].key;
+    let { buttonProps  } = useActionGroupItem({
+        key
+    }, state); // The menu button shouldn't act like an actual action group item.
+    delete buttonProps.onPress;
+    delete buttonProps.role;
+    let { hoverProps , isHovered  } = useHover({
+        isDisabled
+    }); // If no aria-label or aria-labelledby is given, provide a default one.
+    let ariaLabel = otherProps['aria-label'] || (otherProps['aria-labelledby'] ? null : '…');
+    let ariaLabelledby = otherProps['aria-labelledby'];
+    let textId = useId();
+    let id = useId(); // Summary icon only applies when selection is enabled.
+    if (state.selectionManager.selectionMode === 'none') summaryIcon = null;
+    let iconOnly = false; // If there is a selection, show the selected state on the menu button.
+    let isSelected = state.selectionManager.selectionMode !== 'none' && !state.selectionManager.isEmpty; // If single selection and empty selection is not allowed, swap the contents of the button to the selected item (like a Picker).
+    if (!summaryIcon && state.selectionManager.selectionMode === 'single' && state.selectionManager.disallowEmptySelection) {
+        let selectedItem = state.collection.getItem(state.selectionManager.firstSelectedKey);
+        if (selectedItem) {
+            var _ariaLabelledby;
+            summaryIcon = selectedItem.rendered;
+            if (typeof summaryIcon === 'string') summaryIcon = /*#__PURE__*/ _react.createElement(Text1, null, summaryIcon);
+            iconOnly = hideButtonText;
+            ariaLabelledby = ((_ariaLabelledby = ariaLabelledby) != null ? _ariaLabelledby : id) + " " + textId;
+        }
+    }
+    if (summaryIcon) // If there's a custom summary icon, also add a chevron.
+    summaryIcon = /*#__PURE__*/ _react.createElement(_react.Fragment, null, /*#__PURE__*/ _react.createElement(_spectrumIconsUiChevronDownMedium, {
+        UNSAFE_className: classNames($fca4dfdd23dc1cdb3a256953c$$interop$default, 'spectrum-ActionGroup-menu-chevron')
+    }), /*#__PURE__*/ _react.createElement("span", {
+        className: classNames($fca4dfdd23dc1cdb3a256953c$$interop$default, 'spectrum-ActionGroup-menu-contents', {
+            'spectrum-ActionGroup-item--iconOnly': iconOnly
+        })
+    }, summaryIcon));
+    return(/*#__PURE__*/ // Use a PressResponder to send DOM props through.
+    _react.createElement(MenuTrigger, {
+        align: isOnlyItem ? 'start' : 'end',
+        direction: orientation === 'vertical' ? 'end' : 'bottom'
+    }, /*#__PURE__*/ _react.createElement(SlotProvider, {
+        slots: {
+            text: {
+                id: hideButtonText ? textId : null,
+                isHidden: hideButtonText,
+                UNSAFE_className: classNames($fca4dfdd23dc1cdb3a256953c$$interop$default, 'spectrum-ActionGroup-menu-text')
+            }
+        }
+    }, /*#__PURE__*/ _react.createElement(PressResponder, mergeProps(buttonProps, hoverProps), /*#__PURE__*/ _react.createElement(ActionButton, _babelRuntimeHelpersExtends({
+    }, otherProps, {
+        id: id,
+        "aria-label": ariaLabel,
+        "aria-labelledby": ariaLabelledby,
+        UNSAFE_className: classNames($fca4dfdd23dc1cdb3a256953c$$interop$default, 'spectrum-ActionGroup-item', 'spectrum-ActionGroup-menu', {
+            'is-hovered': isHovered,
+            'is-selected': isSelected
+        }, classNames($a9040831959d0ed42473e9713dd4b23$$interop$default, {
+            'is-selected': isSelected,
+            'spectrum-ActionButton--emphasized': isEmphasized
+        })),
+        isDisabled: isDisabled,
+        staticColor: staticColor
+    }), summaryIcon || /*#__PURE__*/ _react.createElement(_spectrumIconsWorkflowMore, null)))), /*#__PURE__*/ _react.createElement(Menu, {
+        items: items,
+        selectionMode: state.selectionManager.selectionMode,
+        selectedKeys: state.selectionManager.selectedKeys,
+        disallowEmptySelection: state.selectionManager.disallowEmptySelection,
+        onSelectionChange: (keys)=>state.selectionManager.setSelectedKeys(keys)
+        ,
+        onAction: onAction
+    }, (node)=>/*#__PURE__*/ _react.createElement(_Item, {
+            textValue: node.textValue
+        }, node.rendered)
+    )));
+}
+function $d1ce1419524cab384aad70acd928619$var$outerWidth(element, ignoreLeftMargin, ignoreRightMargin) {
+    let style = window.getComputedStyle(element);
+    return element.offsetWidth + (ignoreLeftMargin ? 0 : $d1ce1419524cab384aad70acd928619$var$toNumber(style.marginLeft)) + (ignoreRightMargin ? 0 : $d1ce1419524cab384aad70acd928619$var$toNumber(style.marginRight));
+}
+function $d1ce1419524cab384aad70acd928619$var$outerHeight(element, ignoreTopMargin, ignoreBottomMargin) {
+    let style = window.getComputedStyle(element);
+    return element.offsetHeight + (ignoreTopMargin ? 0 : $d1ce1419524cab384aad70acd928619$var$toNumber(style.marginTop)) + (ignoreBottomMargin ? 0 : $d1ce1419524cab384aad70acd928619$var$toNumber(style.marginBottom));
+}
+function $d1ce1419524cab384aad70acd928619$var$toNumber(value) {
+    let parsed = parseInt(value, 10);
+    return isNaN(parsed) ? 0 : parsed;
+}

@@ -1,0 +1,450 @@
+var { useSelectState  } = require("@react-stately/select");
+var { useProvider , useProviderProps  } = require("@react-spectrum/provider");
+var { useMessageFormatter  } = require("@react-aria/i18n");
+var { useFormProps  } = require("@react-spectrum/form");
+var { Text: Text1  } = require("@react-spectrum/text");
+var _react2 = require("react");
+var _react = $parcel$interopDefault(_react2);
+var { useCallback , useRef , useState  } = _react2;
+var { ProgressCircle  } = require("@react-spectrum/progress");
+var { PressResponder , useHover  } = require("@react-aria/interactions");
+var { Popover , Tray  } = require("@react-spectrum/overlays");
+var { mergeProps , useLayoutEffect , useResizeObserver  } = require("@react-aria/utils");
+var { ListBoxBase , useListBoxLayout  } = require("@react-spectrum/listbox");
+var { Label  } = require("@react-spectrum/label");
+var { HiddenSelect , useSelect  } = require("@react-aria/select");
+var { FocusScope  } = require("@react-aria/focus");
+var { FieldButton  } = require("@react-spectrum/button");
+var { DismissButton , useOverlayPosition  } = require("@react-aria/overlays");
+var { classNames , dimensionValue , SlotProvider , useDOMRef , useIsMobileDevice , useStyleProps , useUnwrapDOMRef  } = require("@react-spectrum/utils");
+var _spectrumIconsUiChevronDownMedium = $parcel$interopDefault(require("@spectrum-icons/ui/ChevronDownMedium"));
+var _spectrumIconsUiAlertMedium = $parcel$interopDefault(require("@spectrum-icons/ui/AlertMedium"));
+var _babelRuntimeHelpersInteropRequireDefault = $parcel$interopDefault(require("@babel/runtime/helpers/interopRequireDefault"));
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+var { Item , Section  } = require("@react-stately/collections");
+exports.Section = Section;
+exports.Item = Item;
+require("./main.css");
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/fieldlabel/vars.css
+var $a0bedb1888ff92cb3407d1a60d76e$exports = {
+};
+$a0bedb1888ff92cb3407d1a60d76e$exports = {
+    "spectrum-FieldLabel": "_spectrum-FieldLabel_36b9b",
+    "spectrum-FieldLabel--positionSide": "_spectrum-FieldLabel--positionSide_36b9b",
+    "spectrum-FieldLabel-requiredIcon": "_spectrum-FieldLabel-requiredIcon_36b9b",
+    "spectrum-FieldLabel--alignEnd": "_spectrum-FieldLabel--alignEnd_36b9b",
+    "spectrum-Field": "_spectrum-Field_36b9b",
+    "spectrum-Field--positionTop": "_spectrum-Field--positionTop_36b9b",
+    "spectrum-Field-field": "_spectrum-Field-field_36b9b",
+    "spectrum-Field-field--multiline": "_spectrum-Field-field--multiline_36b9b",
+    "spectrum-Field--positionSide": "_spectrum-Field--positionSide_36b9b",
+    "spectrum-Form": "_spectrum-Form_36b9b",
+    "spectrum-Form--positionSide": "_spectrum-Form--positionSide_36b9b",
+    "spectrum-Form--positionTop": "_spectrum-Form--positionTop_36b9b",
+    "spectrum-Form-itemLabel": "_spectrum-Form-itemLabel_36b9b",
+    "is-disabled": "_is-disabled_36b9b"
+};
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/dropdown/vars.css
+var $ff28cc3f8ffd4fdf5aa9663ba31df99a$exports = {
+};
+$ff28cc3f8ffd4fdf5aa9663ba31df99a$exports = {
+    "spectrum-Dropdown": "_spectrum-Dropdown_06fc4",
+    "spectrum-Dropdown-chevron": "_spectrum-Dropdown-chevron_06fc4",
+    "spectrum-Dropdown-trigger": "_spectrum-Dropdown-trigger_06fc4",
+    "spectrum-Dropdown-label": "_spectrum-Dropdown-label_06fc4",
+    "is-placeholder": "_is-placeholder_06fc4",
+    "spectrum-Icon": "_spectrum-Icon_06fc4",
+    "spectrum-Dropdown-invalidIcon": "_spectrum-Dropdown-invalidIcon_06fc4",
+    "spectrum-Dropdown-progressCircle": "_spectrum-Dropdown-progressCircle_06fc4",
+    "spectrum-Dropdown--quiet": "_spectrum-Dropdown--quiet_06fc4",
+    "spectrum-Dropdown-popover--quiet": "_spectrum-Dropdown-popover--quiet_06fc4",
+    "spectrum-Field": "_spectrum-Field_06fc4",
+    "spectrum-Dropdown-fieldWrapper--quiet": "_spectrum-Dropdown-fieldWrapper--quiet_06fc4",
+    "spectrum-Dropdown-fieldWrapper--positionSide": "_spectrum-Dropdown-fieldWrapper--positionSide_06fc4",
+    "is-hovered": "_is-hovered_06fc4",
+    "is-selected": "_is-selected_06fc4",
+    "is-invalid": "_is-invalid_06fc4",
+    "is-disabled": "_is-disabled_06fc4",
+    "focus-ring": "_focus-ring_06fc4"
+};
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/ar-AE.json
+var $d19a4a4ecddce78a56644d64bee4bb6$exports = {
+};
+$d19a4a4ecddce78a56644d64bee4bb6$exports = JSON.parse("{\"loading\":\"جار التحميل...\",\"placeholder\":\"حدد خيارًا...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/bg-BG.json
+var $e24be3597e95f5f684df11ff83f$exports = {
+};
+$e24be3597e95f5f684df11ff83f$exports = JSON.parse("{\"loading\":\"Зареждане...\",\"placeholder\":\"Изберете опция\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/cs-CZ.json
+var $ce46f31e9c28cd082cef613d2caf39$exports = {
+};
+$ce46f31e9c28cd082cef613d2caf39$exports = JSON.parse("{\"loading\":\"Načítání...\",\"placeholder\":\"Vyberte vhodnou možnost...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/da-DK.json
+var $b28e8ad20c759e59ec4dabc69d28466$exports = {
+};
+$b28e8ad20c759e59ec4dabc69d28466$exports = JSON.parse("{\"loading\":\"Indlæser ...\",\"placeholder\":\"Vælg en mulighed ...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/de-DE.json
+var $ba583f48236bc33f4b5befa1b5c3a9$exports = {
+};
+$ba583f48236bc33f4b5befa1b5c3a9$exports = JSON.parse("{\"loading\":\"Laden...\",\"placeholder\":\"Option auswählen...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/el-GR.json
+var $ed2bc749505ce0b05f3f513eb6c027$exports = {
+};
+$ed2bc749505ce0b05f3f513eb6c027$exports = JSON.parse("{\"loading\":\"Φόρτωση...\",\"placeholder\":\"Επιλέξτε…\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/en-US.json
+var $bb1264344ffba09b5bf4074d1f1f9d1$exports = {
+};
+$bb1264344ffba09b5bf4074d1f1f9d1$exports = JSON.parse("{\"placeholder\":\"Select an option…\",\"loading\":\"Loading…\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/es-ES.json
+var $f4b5ee4327eabfd4b828abc1c7613942$exports = {
+};
+$f4b5ee4327eabfd4b828abc1c7613942$exports = JSON.parse("{\"loading\":\"Cargando…\",\"placeholder\":\"Seleccione una opción…\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/et-EE.json
+var $cf54a06a1d25ab5080b077b532728feb$exports = {
+};
+$cf54a06a1d25ab5080b077b532728feb$exports = JSON.parse("{\"loading\":\"Laadimine...\",\"placeholder\":\"Valige valikuline...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/fi-FI.json
+var $c8c8b5e706a11a864a6994b8143f$exports = {
+};
+$c8c8b5e706a11a864a6994b8143f$exports = JSON.parse("{\"loading\":\"Ladataan…\",\"placeholder\":\"Valitse vaihtoehto...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/fr-FR.json
+var $a66e736b20cf75a9a20cf165c48e$exports = {
+};
+$a66e736b20cf75a9a20cf165c48e$exports = JSON.parse("{\"loading\":\"Chargement...\",\"placeholder\":\"Sélectionnez une option...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/he-IL.json
+var $d69bf3be14bb64872ca0002d13f53919$exports = {
+};
+$d69bf3be14bb64872ca0002d13f53919$exports = JSON.parse("{\"loading\":\"טוען...\",\"placeholder\":\"בחר אפשרות...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/hr-HR.json
+var $fa1a4dd8fc34d3c06a44aa4d7c34$exports = {
+};
+$fa1a4dd8fc34d3c06a44aa4d7c34$exports = JSON.parse("{\"loading\":\"Učitavam...\",\"placeholder\":\"Odaberite opciju\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/hu-HU.json
+var $d9ee670a23fafa0ab7292078c954146b$exports = {
+};
+$d9ee670a23fafa0ab7292078c954146b$exports = JSON.parse("{\"loading\":\"Betöltés folyamatban…\",\"placeholder\":\"Válasszon egy opciót…\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/it-IT.json
+var $f1600a8f36cde6c0517193b58d053ed$exports = {
+};
+$f1600a8f36cde6c0517193b58d053ed$exports = JSON.parse("{\"loading\":\"Caricamento...\",\"placeholder\":\"Seleziona un’opzione...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/ja-JP.json
+var $b13e2e0914c4fd66ae373ad1cf7f3bf$exports = {
+};
+$b13e2e0914c4fd66ae373ad1cf7f3bf$exports = JSON.parse("{\"loading\":\"読み込み中...\",\"placeholder\":\"オプションを選択...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/ko-KR.json
+var $d8d113da2a7dc868cee2f435b63d3297$exports = {
+};
+$d8d113da2a7dc868cee2f435b63d3297$exports = JSON.parse("{\"loading\":\"로드 중\",\"placeholder\":\"선택 사항 선택\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/lt-LT.json
+var $ee6c2fbbe004227127f567a03f1a01f1$exports = {
+};
+$ee6c2fbbe004227127f567a03f1a01f1$exports = JSON.parse("{\"loading\":\"Įkeliama...\",\"placeholder\":\"Pasirinkite parinktį...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/lv-LV.json
+var $d6d33e14bd72f8bba05e3e961243$exports = {
+};
+$d6d33e14bd72f8bba05e3e961243$exports = JSON.parse("{\"loading\":\"Notiek ielāde...\",\"placeholder\":\"Atlasiet opciju...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/nb-NO.json
+var $d2d83b6708f9c1e431d00178d31a60f$exports = {
+};
+$d2d83b6708f9c1e431d00178d31a60f$exports = JSON.parse("{\"loading\":\"Laster inn ...\",\"placeholder\":\"Velg et alternativ...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/nl-NL.json
+var $f9465282eb478fd2bd11d32897b05$exports = {
+};
+$f9465282eb478fd2bd11d32897b05$exports = JSON.parse("{\"loading\":\"Laden...\",\"placeholder\":\"Optie selecteren...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/pl-PL.json
+var $c51802087875260e91cc82101878c14$exports = {
+};
+$c51802087875260e91cc82101878c14$exports = JSON.parse("{\"loading\":\"Ładowanie...\",\"placeholder\":\"Wybierz opcję...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/pt-BR.json
+var $cc70ce2b9be9d70389c58b22e804d0a8$exports = {
+};
+$cc70ce2b9be9d70389c58b22e804d0a8$exports = JSON.parse("{\"loading\":\"Carregando...\",\"placeholder\":\"Selecione uma opção...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/pt-PT.json
+var $f23f80ebe6d5d560e65ad3a7bc0a8d$exports = {
+};
+$f23f80ebe6d5d560e65ad3a7bc0a8d$exports = JSON.parse("{\"loading\":\"A carregar...\",\"placeholder\":\"Selecionar uma opção...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/ro-RO.json
+var $e3ab6a24c3af399d8a96c900290d9$exports = {
+};
+$e3ab6a24c3af399d8a96c900290d9$exports = JSON.parse("{\"loading\":\"Se încarcă...\",\"placeholder\":\"Selectați o opțiune\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/ru-RU.json
+var $eb9e68b44dfb5fc2b00ee39e37d8fbda$exports = {
+};
+$eb9e68b44dfb5fc2b00ee39e37d8fbda$exports = JSON.parse("{\"loading\":\"Загрузка...\",\"placeholder\":\"Выбрать параметр...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/sk-SK.json
+var $d6573640a469b66fcb19b878c7a34$exports = {
+};
+$d6573640a469b66fcb19b878c7a34$exports = JSON.parse("{\"loading\":\"Načítava sa...\",\"placeholder\":\"Vyberte možnosť...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/sl-SI.json
+var $b0c76fc1ca63a2e6c3be4e294ea959e9$exports = {
+};
+$b0c76fc1ca63a2e6c3be4e294ea959e9$exports = JSON.parse("{\"loading\":\"Nalaganje...\",\"placeholder\":\"Izberite možnost\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/sr-SP.json
+var $f77a6d9b0f30c0a8505b66ac5$exports = {
+};
+$f77a6d9b0f30c0a8505b66ac5$exports = JSON.parse("{\"loading\":\"Učitavam...\",\"placeholder\":\"Izaberite opciju\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/sv-SE.json
+var $aad7245fd57a2e632331f24f8922aa9d$exports = {
+};
+$aad7245fd57a2e632331f24f8922aa9d$exports = JSON.parse("{\"loading\":\"Läser in...\",\"placeholder\":\"Välj ett alternativ...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/tr-TR.json
+var $c682e84430c89038e947632c77f8c4b$exports = {
+};
+$c682e84430c89038e947632c77f8c4b$exports = JSON.parse("{\"loading\":\"Yükleniyor...\",\"placeholder\":\"Bir seçim yapın…\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/uk-UA.json
+var $d2b2d610401b4d207ea3fe4675906eb6$exports = {
+};
+$d2b2d610401b4d207ea3fe4675906eb6$exports = JSON.parse("{\"loading\":\"Завантаження…\",\"placeholder\":\"Виберіть опцію...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/zh-CN.json
+var $baadf47714021551afb5a83775fdb3a5$exports = {
+};
+$baadf47714021551afb5a83775fdb3a5$exports = JSON.parse("{\"loading\":\"正在加载...\",\"placeholder\":\"选择一个选项...\"}");
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/picker/intl/zh-TW.json
+var $b5138dbae2fedca8896d726bdd689373$exports = {
+};
+$b5138dbae2fedca8896d726bdd689373$exports = JSON.parse("{\"loading\":\"正在載入\",\"placeholder\":\"選取一個選項\"}");
+// @ts-ignore
+const $c320301e25b8b10590c0ecf8fe1539f$var$intlMessages = {
+    "ar-AE": _babelRuntimeHelpersInteropRequireDefault($d19a4a4ecddce78a56644d64bee4bb6$exports).default,
+    "bg-BG": _babelRuntimeHelpersInteropRequireDefault($e24be3597e95f5f684df11ff83f$exports).default,
+    "cs-CZ": _babelRuntimeHelpersInteropRequireDefault($ce46f31e9c28cd082cef613d2caf39$exports).default,
+    "da-DK": _babelRuntimeHelpersInteropRequireDefault($b28e8ad20c759e59ec4dabc69d28466$exports).default,
+    "de-DE": _babelRuntimeHelpersInteropRequireDefault($ba583f48236bc33f4b5befa1b5c3a9$exports).default,
+    "el-GR": _babelRuntimeHelpersInteropRequireDefault($ed2bc749505ce0b05f3f513eb6c027$exports).default,
+    "en-US": _babelRuntimeHelpersInteropRequireDefault($bb1264344ffba09b5bf4074d1f1f9d1$exports).default,
+    "es-ES": _babelRuntimeHelpersInteropRequireDefault($f4b5ee4327eabfd4b828abc1c7613942$exports).default,
+    "et-EE": _babelRuntimeHelpersInteropRequireDefault($cf54a06a1d25ab5080b077b532728feb$exports).default,
+    "fi-FI": _babelRuntimeHelpersInteropRequireDefault($c8c8b5e706a11a864a6994b8143f$exports).default,
+    "fr-FR": _babelRuntimeHelpersInteropRequireDefault($a66e736b20cf75a9a20cf165c48e$exports).default,
+    "he-IL": _babelRuntimeHelpersInteropRequireDefault($d69bf3be14bb64872ca0002d13f53919$exports).default,
+    "hr-HR": _babelRuntimeHelpersInteropRequireDefault($fa1a4dd8fc34d3c06a44aa4d7c34$exports).default,
+    "hu-HU": _babelRuntimeHelpersInteropRequireDefault($d9ee670a23fafa0ab7292078c954146b$exports).default,
+    "it-IT": _babelRuntimeHelpersInteropRequireDefault($f1600a8f36cde6c0517193b58d053ed$exports).default,
+    "ja-JP": _babelRuntimeHelpersInteropRequireDefault($b13e2e0914c4fd66ae373ad1cf7f3bf$exports).default,
+    "ko-KR": _babelRuntimeHelpersInteropRequireDefault($d8d113da2a7dc868cee2f435b63d3297$exports).default,
+    "lt-LT": _babelRuntimeHelpersInteropRequireDefault($ee6c2fbbe004227127f567a03f1a01f1$exports).default,
+    "lv-LV": _babelRuntimeHelpersInteropRequireDefault($d6d33e14bd72f8bba05e3e961243$exports).default,
+    "nb-NO": _babelRuntimeHelpersInteropRequireDefault($d2d83b6708f9c1e431d00178d31a60f$exports).default,
+    "nl-NL": _babelRuntimeHelpersInteropRequireDefault($f9465282eb478fd2bd11d32897b05$exports).default,
+    "pl-PL": _babelRuntimeHelpersInteropRequireDefault($c51802087875260e91cc82101878c14$exports).default,
+    "pt-BR": _babelRuntimeHelpersInteropRequireDefault($cc70ce2b9be9d70389c58b22e804d0a8$exports).default,
+    "pt-PT": _babelRuntimeHelpersInteropRequireDefault($f23f80ebe6d5d560e65ad3a7bc0a8d$exports).default,
+    "ro-RO": _babelRuntimeHelpersInteropRequireDefault($e3ab6a24c3af399d8a96c900290d9$exports).default,
+    "ru-RU": _babelRuntimeHelpersInteropRequireDefault($eb9e68b44dfb5fc2b00ee39e37d8fbda$exports).default,
+    "sk-SK": _babelRuntimeHelpersInteropRequireDefault($d6573640a469b66fcb19b878c7a34$exports).default,
+    "sl-SI": _babelRuntimeHelpersInteropRequireDefault($b0c76fc1ca63a2e6c3be4e294ea959e9$exports).default,
+    "sr-SP": _babelRuntimeHelpersInteropRequireDefault($f77a6d9b0f30c0a8505b66ac5$exports).default,
+    "sv-SE": _babelRuntimeHelpersInteropRequireDefault($aad7245fd57a2e632331f24f8922aa9d$exports).default,
+    "tr-TR": _babelRuntimeHelpersInteropRequireDefault($c682e84430c89038e947632c77f8c4b$exports).default,
+    "uk-UA": _babelRuntimeHelpersInteropRequireDefault($d2b2d610401b4d207ea3fe4675906eb6$exports).default,
+    "zh-CN": _babelRuntimeHelpersInteropRequireDefault($baadf47714021551afb5a83775fdb3a5$exports).default,
+    "zh-TW": _babelRuntimeHelpersInteropRequireDefault($b5138dbae2fedca8896d726bdd689373$exports).default
+};
+var $ff28cc3f8ffd4fdf5aa9663ba31df99a$$interop$default = $parcel$interopDefault($ff28cc3f8ffd4fdf5aa9663ba31df99a$exports);
+var $a0bedb1888ff92cb3407d1a60d76e$$interop$default = $parcel$interopDefault($a0bedb1888ff92cb3407d1a60d76e$exports);
+function $c320301e25b8b10590c0ecf8fe1539f$var$Picker(props, ref) {
+    props = useProviderProps(props);
+    props = useFormProps(props);
+    let formatMessage = useMessageFormatter($c320301e25b8b10590c0ecf8fe1539f$var$intlMessages);
+    let { isDisabled , direction ='bottom' , align ='start' , shouldFlip =true , placeholder =formatMessage('placeholder') , validationState , isQuiet , label , labelPosition ='top' , labelAlign , isRequired , necessityIndicator , menuWidth , name , autoFocus  } = props;
+    let { styleProps  } = useStyleProps(props);
+    let state = useSelectState(props);
+    let domRef = useDOMRef(ref);
+    let popoverRef = useRef();
+    let unwrappedPopoverRef = useUnwrapDOMRef(popoverRef);
+    let triggerRef = useRef();
+    let unwrappedTriggerRef = useUnwrapDOMRef(triggerRef);
+    let listboxRef = useRef(); // We create the listbox layout in Picker and pass it to ListBoxBase below
+    // so that the layout information can be cached even while the listbox is not mounted.
+    // We also use the layout as the keyboard delegate for type to select.
+    let layout = useListBoxLayout(state);
+    let { labelProps , triggerProps , valueProps , menuProps  } = useSelect(_babelRuntimeHelpersExtends({
+    }, props, {
+        keyboardDelegate: layout
+    }), state, unwrappedTriggerRef);
+    let isMobile = useIsMobileDevice();
+    let { overlayProps , placement , updatePosition  } = useOverlayPosition({
+        targetRef: unwrappedTriggerRef,
+        overlayRef: unwrappedPopoverRef,
+        scrollRef: listboxRef,
+        placement: direction + " " + align,
+        shouldFlip: shouldFlip,
+        isOpen: state.isOpen && !isMobile,
+        onClose: state.close
+    });
+    let { hoverProps , isHovered  } = useHover({
+        isDisabled
+    }); // Update position once the ListBox has rendered. This ensures that
+    // it flips properly when it doesn't fit in the available space.
+    // TODO: add ResizeObserver to useOverlayPosition so we don't need this.
+    useLayoutEffect(()=>{
+        if (state.isOpen) requestAnimationFrame(()=>{
+            updatePosition();
+        });
+    }, [
+        state.isOpen,
+        updatePosition
+    ]);
+    let isLoadingInitial = props.isLoading && state.collection.size === 0;
+    let isLoadingMore = props.isLoading && state.collection.size > 0; // On small screen devices, the listbox is rendered in a tray, otherwise a popover.
+    let listbox = /*#__PURE__*/ _react.createElement(FocusScope, {
+        restoreFocus: true
+    }, /*#__PURE__*/ _react.createElement(DismissButton, {
+        onDismiss: ()=>state.close()
+    }), /*#__PURE__*/ _react.createElement(ListBoxBase, {
+        ref: listboxRef,
+        domProps: menuProps,
+        disallowEmptySelection: true,
+        autoFocus: state.focusStrategy || true,
+        shouldSelectOnPressUp: true,
+        focusOnPointerEnter: true,
+        layout: layout,
+        state: state,
+        width: isMobile ? '100%' : undefined,
+        UNSAFE_style: {
+            maxHeight: 'inherit'
+        },
+        isLoading: isLoadingMore,
+        onLoadMore: props.onLoadMore
+    }), /*#__PURE__*/ _react.createElement(DismissButton, {
+        onDismiss: ()=>state.close()
+    })); // Measure the width of the button to inform the width of the menu (below).
+    let [buttonWidth, setButtonWidth] = useState(null);
+    let { scale  } = useProvider();
+    let onResize = useCallback(()=>{
+        if (!isMobile && unwrappedTriggerRef.current) {
+            let width = unwrappedTriggerRef.current.offsetWidth;
+            setButtonWidth(width);
+        }
+    }, [
+        unwrappedTriggerRef,
+        setButtonWidth,
+        isMobile
+    ]);
+    useResizeObserver({
+        ref: unwrappedTriggerRef,
+        onResize: onResize
+    });
+    useLayoutEffect(onResize, [
+        scale,
+        state.selectedKey,
+        onResize
+    ]);
+    let overlay;
+    if (isMobile) overlay = /*#__PURE__*/ _react.createElement(Tray, {
+        isOpen: state.isOpen,
+        onClose: state.close,
+        shouldCloseOnBlur: true
+    }, listbox);
+    else {
+        // If quiet, use the default width, otherwise match the width of the button. This can be overridden by the menuWidth prop.
+        // Always have a minimum width of the button width. When quiet, there is an extra offset to add.
+        // Not using style props for this because they don't support `calc`.
+        let width = isQuiet ? null : buttonWidth;
+        let style = _babelRuntimeHelpersExtends({
+        }, overlayProps.style, {
+            width: menuWidth ? dimensionValue(menuWidth) : width,
+            minWidth: isQuiet ? "calc(" + buttonWidth + "px + calc(2 * var(--spectrum-dropdown-quiet-offset)))" : buttonWidth
+        });
+        overlay = /*#__PURE__*/ _react.createElement(Popover, {
+            isOpen: state.isOpen,
+            UNSAFE_style: style,
+            UNSAFE_className: classNames($ff28cc3f8ffd4fdf5aa9663ba31df99a$$interop$default, 'spectrum-Dropdown-popover', {
+                'spectrum-Dropdown-popover--quiet': isQuiet
+            }),
+            ref: popoverRef,
+            placement: placement,
+            hideArrow: true,
+            shouldCloseOnBlur: true,
+            onClose: state.close
+        }, listbox);
+    }
+    let contents = state.selectedItem ? state.selectedItem.rendered : placeholder;
+    if (typeof contents === 'string') contents = /*#__PURE__*/ _react.createElement(Text1, null, contents);
+    let picker = /*#__PURE__*/ _react.createElement("div", {
+        className: classNames($ff28cc3f8ffd4fdf5aa9663ba31df99a$$interop$default, 'spectrum-Dropdown', {
+            'is-invalid': validationState === 'invalid',
+            'is-disabled': isDisabled,
+            'spectrum-Dropdown--quiet': isQuiet
+        })
+    }, /*#__PURE__*/ _react.createElement(HiddenSelect, {
+        isDisabled: isDisabled,
+        state: state,
+        triggerRef: unwrappedTriggerRef,
+        label: label,
+        name: name
+    }), /*#__PURE__*/ _react.createElement(PressResponder, mergeProps(hoverProps, triggerProps), /*#__PURE__*/ _react.createElement(FieldButton, {
+        ref: triggerRef,
+        isActive: state.isOpen,
+        isQuiet: isQuiet,
+        isDisabled: isDisabled,
+        validationState: validationState,
+        autoFocus: autoFocus,
+        UNSAFE_className: classNames($ff28cc3f8ffd4fdf5aa9663ba31df99a$$interop$default, 'spectrum-Dropdown-trigger', {
+            'is-hovered': isHovered
+        })
+    }, /*#__PURE__*/ _react.createElement(SlotProvider, {
+        slots: {
+            icon: {
+                UNSAFE_className: classNames($ff28cc3f8ffd4fdf5aa9663ba31df99a$$interop$default, 'spectrum-Icon'),
+                size: 'S'
+            },
+            text: _babelRuntimeHelpersExtends({
+            }, valueProps, {
+                UNSAFE_className: classNames($ff28cc3f8ffd4fdf5aa9663ba31df99a$$interop$default, 'spectrum-Dropdown-label', {
+                    'is-placeholder': !state.selectedItem
+                })
+            }),
+            description: {
+                isHidden: true
+            }
+        }
+    }, contents), isLoadingInitial && /*#__PURE__*/ _react.createElement(ProgressCircle, {
+        isIndeterminate: true,
+        size: "S",
+        "aria-label": formatMessage('loading'),
+        UNSAFE_className: classNames($ff28cc3f8ffd4fdf5aa9663ba31df99a$$interop$default, 'spectrum-Dropdown-progressCircle')
+    }), validationState === 'invalid' && !isLoadingInitial && /*#__PURE__*/ _react.createElement(_spectrumIconsUiAlertMedium, {
+        UNSAFE_className: classNames($ff28cc3f8ffd4fdf5aa9663ba31df99a$$interop$default, 'spectrum-Dropdown-invalidIcon')
+    }), /*#__PURE__*/ _react.createElement(_spectrumIconsUiChevronDownMedium, {
+        UNSAFE_className: classNames($ff28cc3f8ffd4fdf5aa9663ba31df99a$$interop$default, 'spectrum-Dropdown-chevron')
+    }))), state.collection.size === 0 ? null : overlay);
+    if (label) {
+        let labelWrapperClass = classNames($a0bedb1888ff92cb3407d1a60d76e$$interop$default, 'spectrum-Field', {
+            'spectrum-Field--positionTop': labelPosition === 'top',
+            'spectrum-Field--positionSide': labelPosition === 'side'
+        }, classNames($ff28cc3f8ffd4fdf5aa9663ba31df99a$$interop$default, 'spectrum-Field', {
+            'spectrum-Dropdown-fieldWrapper--quiet': isQuiet,
+            'spectrum-Dropdown-fieldWrapper--positionSide': labelPosition === 'side'
+        }), styleProps.className);
+        picker = /*#__PURE__*/ _react.cloneElement(picker, mergeProps(picker.props, {
+            className: classNames($a0bedb1888ff92cb3407d1a60d76e$$interop$default, 'spectrum-Field-field')
+        }));
+        return(/*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+        }, styleProps, {
+            ref: domRef,
+            className: labelWrapperClass
+        }), /*#__PURE__*/ _react.createElement(Label, _babelRuntimeHelpersExtends({
+        }, labelProps, {
+            labelPosition: labelPosition,
+            labelAlign: labelAlign,
+            isRequired: isRequired,
+            necessityIndicator: necessityIndicator,
+            includeNecessityIndicatorInAccessibilityName: true,
+            elementType: "span"
+        }), label), picker));
+    }
+    return(/*#__PURE__*/ _react.cloneElement(picker, mergeProps(picker.props, _babelRuntimeHelpersExtends({
+    }, styleProps, {
+        ref: domRef
+    }))));
+}
+/**
+ * Pickers allow users to choose a single option from a collapsible list of options when space is limited.
+ */ // forwardRef doesn't support generic parameters, so cast the result to the correct type
+// https://stackoverflow.com/questions/58469229/react-with-typescript-generics-while-using-react-forwardref
+const Picker = /*#__PURE__*/ _react.forwardRef($c320301e25b8b10590c0ecf8fe1539f$var$Picker);
+exports.Picker = Picker;

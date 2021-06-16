@@ -1,0 +1,269 @@
+var { useTreeState  } = require("@react-stately/tree");
+var { useSeparator  } = require("@react-aria/separator");
+var { Text: Text1  } = require("@react-spectrum/text");
+var { mergeProps , useSyncRef  } = require("@react-aria/utils");
+var { Grid  } = require("@react-spectrum/layout");
+var _spectrumIconsUiCheckmarkMedium = $parcel$interopDefault(require("@spectrum-icons/ui/CheckmarkMedium"));
+var { useMenuTriggerState  } = require("@react-stately/menu");
+var { useMenuTrigger , useMenuItem , useMenuSection , useMenu  } = require("@react-aria/menu");
+var { PressResponder , useHover  } = require("@react-aria/interactions");
+var { Popover , Tray  } = require("@react-spectrum/overlays");
+var _react2 = require("react");
+var _react = $parcel$interopDefault(_react2);
+var { useContext , forwardRef , Fragment , useRef  } = _react2;
+var { FocusScope , FocusRing  } = require("@react-aria/focus");
+var { DismissButton , useOverlayPosition  } = require("@react-aria/overlays");
+var { classNames , unwrapDOMRef , useDOMRef , useIsMobileDevice , useStyleProps , SlotProvider  } = require("@react-spectrum/utils");
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+var { Item , Section  } = require("@react-stately/collections");
+exports.Section = Section;
+exports.Item = Item;
+require("./main.css");
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+const $edd9ab002cde8b9b98bf7ac7e2372c8e$export$MenuContext = /*#__PURE__*/ _react.createContext({
+});
+function $edd9ab002cde8b9b98bf7ac7e2372c8e$export$useMenuContext() {
+    return useContext($edd9ab002cde8b9b98bf7ac7e2372c8e$export$MenuContext);
+}
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/menu/vars.css
+var $bfbcd6bc836614813c70085787fd$exports = {
+};
+$bfbcd6bc836614813c70085787fd$exports = {
+    "spectrum-Menu-popover": "_spectrum-Menu-popover_7c360",
+    "spectrum-Menu": "_spectrum-Menu_7c360",
+    "spectrum-Menu-sectionHeading": "_spectrum-Menu-sectionHeading_7c360",
+    "spectrum-Menu-checkmark": "_spectrum-Menu-checkmark_7c360",
+    "spectrum-Menu-item": "_spectrum-Menu-item_7c360",
+    "is-selected": "_is-selected_7c360",
+    "spectrum-Icon": "_spectrum-Icon_7c360",
+    "spectrum-Menu-itemLabel": "_spectrum-Menu-itemLabel_7c360",
+    "spectrum-Menu-itemIcon": "_spectrum-Menu-itemIcon_7c360",
+    "spectrum-Menu-itemLabel--wrapping": "_spectrum-Menu-itemLabel--wrapping_7c360",
+    "spectrum-Menu-divider": "_spectrum-Menu-divider_7c360",
+    "spectrum-Menu-itemGrid": "_spectrum-Menu-itemGrid_7c360",
+    "is-selectable": "_is-selectable_7c360",
+    "spectrum-Menu-end": "_spectrum-Menu-end_7c360",
+    "spectrum-Menu-icon": "_spectrum-Menu-icon_7c360",
+    "spectrum-Menu-description": "_spectrum-Menu-description_7c360",
+    "spectrum-Menu-keyboard": "_spectrum-Menu-keyboard_7c360",
+    "focus-ring": "_focus-ring_7c360",
+    "is-focused": "_is-focused_7c360",
+    "is-hovered": "_is-hovered_7c360",
+    "is-highlighted": "_is-highlighted_7c360",
+    "is-open": "_is-open_7c360",
+    "is-active": "_is-active_7c360",
+    "is-disabled": "_is-disabled_7c360"
+};
+var $bfbcd6bc836614813c70085787fd$$interop$default = $parcel$interopDefault($bfbcd6bc836614813c70085787fd$exports);
+function $c4892d994b65f49f4dea95880128b38$var$MenuTrigger(props, ref) {
+    let menuPopoverRef = useRef();
+    let triggerRef = useRef();
+    let domRef = useDOMRef(ref);
+    let menuTriggerRef = domRef || triggerRef;
+    let menuRef = useRef();
+    let { children , align ='start' , shouldFlip =true , direction ='bottom' , closeOnSelect  } = props;
+    let [menuTrigger, menu] = _react.Children.toArray(children);
+    let state = useMenuTriggerState(props);
+    let { menuTriggerProps , menuProps  } = useMenuTrigger({
+    }, state, menuTriggerRef);
+    let initialPlacement;
+    switch(direction){
+        case 'left':
+        case 'right':
+        case 'start':
+        case 'end':
+            initialPlacement = direction + " " + (align === 'end' ? 'bottom' : 'top');
+            break;
+        case 'bottom':
+        case 'top':
+        default:
+            initialPlacement = direction + " " + align;
+    }
+    let isMobile = useIsMobileDevice();
+    let { overlayProps: positionProps , placement  } = useOverlayPosition({
+        targetRef: menuTriggerRef,
+        overlayRef: unwrapDOMRef(menuPopoverRef),
+        scrollRef: menuRef,
+        placement: initialPlacement,
+        shouldFlip: shouldFlip,
+        isOpen: state.isOpen && !isMobile,
+        onClose: state.close
+    });
+    let menuContext = _babelRuntimeHelpersExtends({
+    }, menuProps, {
+        ref: menuRef,
+        onClose: state.close,
+        closeOnSelect,
+        autoFocus: state.focusStrategy || true,
+        UNSAFE_style: isMobile ? {
+            width: '100%',
+            maxHeight: 'inherit'
+        } : undefined,
+        UNSAFE_className: classNames($bfbcd6bc836614813c70085787fd$$interop$default, {
+            'spectrum-Menu-popover': !isMobile
+        })
+    });
+    let contents = /*#__PURE__*/ _react.createElement(FocusScope, {
+        restoreFocus: true
+    }, /*#__PURE__*/ _react.createElement(DismissButton, {
+        onDismiss: state.close
+    }), menu, /*#__PURE__*/ _react.createElement(DismissButton, {
+        onDismiss: state.close
+    })); // On small screen devices, the menu is rendered in a tray, otherwise a popover.
+    let overlay;
+    if (isMobile) overlay = /*#__PURE__*/ _react.createElement(Tray, {
+        isOpen: state.isOpen,
+        onClose: state.close,
+        shouldCloseOnBlur: true
+    }, contents);
+    else overlay = /*#__PURE__*/ _react.createElement(Popover, {
+        isOpen: state.isOpen,
+        UNSAFE_style: positionProps.style,
+        ref: menuPopoverRef,
+        placement: placement,
+        hideArrow: true,
+        onClose: state.close,
+        shouldCloseOnBlur: true
+    }, contents);
+    return(/*#__PURE__*/ _react.createElement(Fragment, null, /*#__PURE__*/ _react.createElement(PressResponder, _babelRuntimeHelpersExtends({
+    }, menuTriggerProps, {
+        ref: menuTriggerRef,
+        isPressed: state.isOpen
+    }), menuTrigger), /*#__PURE__*/ _react.createElement($edd9ab002cde8b9b98bf7ac7e2372c8e$export$MenuContext.Provider, {
+        value: menuContext
+    }, overlay)));
+}
+/**
+ * The MenuTrigger serves as a wrapper around a Menu and its associated trigger,
+ * linking the Menu's open state with the trigger's press state.
+ */ let MenuTrigger = /*#__PURE__*/ forwardRef($c4892d994b65f49f4dea95880128b38$var$MenuTrigger);
+exports.MenuTrigger = MenuTrigger;
+/** @private */ function $c7f2f7472da9591348da844617ffa5d9$export$MenuItem(props) {
+    let { item , state , isVirtualized , onAction  } = props;
+    let { onClose , closeOnSelect  } = $edd9ab002cde8b9b98bf7ac7e2372c8e$export$useMenuContext();
+    let { rendered , key  } = item;
+    let isSelected = state.selectionManager.isSelected(key);
+    let isDisabled = state.disabledKeys.has(key);
+    let ref = useRef();
+    let { menuItemProps , labelProps , descriptionProps , keyboardShortcutProps  } = useMenuItem({
+        isSelected,
+        isDisabled,
+        'aria-label': item['aria-label'],
+        key,
+        onClose,
+        closeOnSelect,
+        isVirtualized,
+        onAction
+    }, state, ref);
+    let { hoverProps , isHovered  } = useHover({
+        isDisabled
+    });
+    let contents = typeof rendered === 'string' ? /*#__PURE__*/ _react.createElement(Text1, null, rendered) : rendered;
+    return(/*#__PURE__*/ _react.createElement(FocusRing, {
+        focusRingClass: classNames($bfbcd6bc836614813c70085787fd$$interop$default, 'focus-ring')
+    }, /*#__PURE__*/ _react.createElement("li", _babelRuntimeHelpersExtends({
+    }, mergeProps(menuItemProps, hoverProps), {
+        ref: ref,
+        className: classNames($bfbcd6bc836614813c70085787fd$$interop$default, 'spectrum-Menu-item', {
+            'is-disabled': isDisabled,
+            'is-selected': isSelected,
+            'is-selectable': state.selectionManager.selectionMode !== 'none',
+            'is-hovered': isHovered
+        })
+    }), /*#__PURE__*/ _react.createElement(Grid, {
+        UNSAFE_className: classNames($bfbcd6bc836614813c70085787fd$$interop$default, 'spectrum-Menu-itemGrid')
+    }, /*#__PURE__*/ _react.createElement(SlotProvider, {
+        slots: {
+            text: _babelRuntimeHelpersExtends({
+                UNSAFE_className: $bfbcd6bc836614813c70085787fd$$interop$default['spectrum-Menu-itemLabel']
+            }, labelProps),
+            end: _babelRuntimeHelpersExtends({
+                UNSAFE_className: $bfbcd6bc836614813c70085787fd$$interop$default['spectrum-Menu-end']
+            }, descriptionProps),
+            icon: {
+                UNSAFE_className: $bfbcd6bc836614813c70085787fd$$interop$default['spectrum-Menu-icon'],
+                size: 'S'
+            },
+            description: _babelRuntimeHelpersExtends({
+                UNSAFE_className: $bfbcd6bc836614813c70085787fd$$interop$default['spectrum-Menu-description']
+            }, descriptionProps),
+            keyboard: _babelRuntimeHelpersExtends({
+                UNSAFE_className: $bfbcd6bc836614813c70085787fd$$interop$default['spectrum-Menu-keyboard']
+            }, keyboardShortcutProps)
+        }
+    }, contents, isSelected && /*#__PURE__*/ _react.createElement(_spectrumIconsUiCheckmarkMedium, {
+        slot: "checkmark",
+        UNSAFE_className: classNames($bfbcd6bc836614813c70085787fd$$interop$default, 'spectrum-Menu-checkmark')
+    }))))));
+}
+/** @private */ function $c0ff64d7a4e982f233f34aa6c4a1bc$export$MenuSection(props) {
+    let { item , state , onAction  } = props;
+    let { itemProps , headingProps , groupProps  } = useMenuSection({
+        heading: item.rendered,
+        'aria-label': item['aria-label']
+    });
+    let { separatorProps  } = useSeparator({
+        elementType: 'li'
+    });
+    return(/*#__PURE__*/ _react.createElement(Fragment, null, item.key !== state.collection.getFirstKey() && /*#__PURE__*/ _react.createElement("li", _babelRuntimeHelpersExtends({
+    }, separatorProps, {
+        className: classNames($bfbcd6bc836614813c70085787fd$$interop$default, 'spectrum-Menu-divider')
+    })), /*#__PURE__*/ _react.createElement("li", itemProps, item.rendered && /*#__PURE__*/ _react.createElement("span", _babelRuntimeHelpersExtends({
+    }, headingProps, {
+        className: classNames($bfbcd6bc836614813c70085787fd$$interop$default, 'spectrum-Menu-sectionHeading')
+    }), item.rendered), /*#__PURE__*/ _react.createElement("ul", _babelRuntimeHelpersExtends({
+    }, groupProps, {
+        className: classNames($bfbcd6bc836614813c70085787fd$$interop$default, 'spectrum-Menu')
+    }), [
+        ...item.childNodes
+    ].map((node)=>{
+        let item1 = /*#__PURE__*/ _react.createElement($c7f2f7472da9591348da844617ffa5d9$export$MenuItem, {
+            key: node.key,
+            item: node,
+            state: state,
+            onAction: onAction
+        });
+        if (node.wrapper) item1 = node.wrapper(item1);
+        return item1;
+    })))));
+}
+function $be3a5c916828e33faf8ffa30483fbe6$var$Menu(props, ref) {
+    let contextProps = useContext($edd9ab002cde8b9b98bf7ac7e2372c8e$export$MenuContext);
+    let completeProps = _babelRuntimeHelpersExtends({
+    }, mergeProps(contextProps, props));
+    let domRef = useDOMRef(ref);
+    let state = useTreeState(completeProps);
+    let { menuProps  } = useMenu(completeProps, state, domRef);
+    let { styleProps  } = useStyleProps(completeProps);
+    useSyncRef(contextProps, domRef);
+    return(/*#__PURE__*/ _react.createElement("ul", _babelRuntimeHelpersExtends({
+    }, menuProps, styleProps, {
+        ref: domRef,
+        className: classNames($bfbcd6bc836614813c70085787fd$$interop$default, 'spectrum-Menu', styleProps.className)
+    }), [
+        ...state.collection
+    ].map((item)=>{
+        if (item.type === 'section') return(/*#__PURE__*/ _react.createElement($c0ff64d7a4e982f233f34aa6c4a1bc$export$MenuSection, {
+            key: item.key,
+            item: item,
+            state: state,
+            onAction: completeProps.onAction
+        }));
+        let menuItem = /*#__PURE__*/ _react.createElement($c7f2f7472da9591348da844617ffa5d9$export$MenuItem, {
+            key: item.key,
+            item: item,
+            state: state,
+            onAction: completeProps.onAction
+        });
+        if (item.wrapper) menuItem = item.wrapper(menuItem);
+        return menuItem;
+    })));
+}
+/**
+ * Menus display a list of actions or options that a user can choose.
+ */ // forwardRef doesn't support generic parameters, so cast the result to the correct type
+// https://stackoverflow.com/questions/58469229/react-with-typescript-generics-while-using-react-forwardref
+const Menu = /*#__PURE__*/ _react.forwardRef($be3a5c916828e33faf8ffa30483fbe6$var$Menu);
+exports.Menu = Menu;

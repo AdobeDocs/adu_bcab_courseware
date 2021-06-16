@@ -1,0 +1,424 @@
+var { useLocale  } = require("@react-aria/i18n");
+var { flushSync  } = require("react-dom");
+var _react2 = require("react");
+var _react = $parcel$interopDefault(_react2);
+var { useCallback , useEffect , useRef , useState  } = _react2;
+var { useVirtualizerState , Rect , Size  } = require("@react-stately/virtualizer");
+var { focusWithoutScrolling , mergeProps , useLayoutEffect , useResizeObserver  } = require("@react-aria/utils");
+var _babelRuntimeHelpersObjectWithoutPropertiesLoose = $parcel$interopDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+/*
+ * Copyright 2020 Adobe. All rights reserved.
+ * This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */ let $d649e158743d5440c2ce6b2da8a4e6c$var$cachedRTLResult = null; // Original licensing for the following methods can be found in the
+// NOTICE file in the root directory of this source tree.
+// See https://github.com/bvaughn/react-window/blob/master/src/createGridComponent.js
+// According to the spec, scrollLeft should be negative for RTL aligned elements.
+// Chrome does not seem to adhere; its scrollLeft values are positive (measured relative to the left).
+// Safari's elastic bounce makes detecting this even more complicated wrt potential false positives.
+// The safest way to check this is to intentionally set a negative offset,
+// and then verify that the subsequent "scroll" event matches the negative offset.
+// If it does not match, then we can assume a non-standard RTL scroll implementation.
+function getRTLOffsetType(recalculate) {
+    if (recalculate === void 0) recalculate = false;
+    if ($d649e158743d5440c2ce6b2da8a4e6c$var$cachedRTLResult === null || recalculate) {
+        const outerDiv = document.createElement('div');
+        const outerStyle = outerDiv.style;
+        outerStyle.width = '50px';
+        outerStyle.height = '50px';
+        outerStyle.overflow = 'scroll';
+        outerStyle.direction = 'rtl';
+        const innerDiv = document.createElement('div');
+        const innerStyle = innerDiv.style;
+        innerStyle.width = '100px';
+        innerStyle.height = '100px';
+        outerDiv.appendChild(innerDiv);
+        document.body.appendChild(outerDiv);
+        if (outerDiv.scrollLeft > 0) $d649e158743d5440c2ce6b2da8a4e6c$var$cachedRTLResult = 'positive-descending';
+        else {
+            outerDiv.scrollLeft = 1;
+            if (outerDiv.scrollLeft === 0) $d649e158743d5440c2ce6b2da8a4e6c$var$cachedRTLResult = 'negative';
+            else $d649e158743d5440c2ce6b2da8a4e6c$var$cachedRTLResult = 'positive-ascending';
+        }
+        document.body.removeChild(outerDiv);
+        return $d649e158743d5440c2ce6b2da8a4e6c$var$cachedRTLResult;
+    }
+    return $d649e158743d5440c2ce6b2da8a4e6c$var$cachedRTLResult;
+}
+exports.getRTLOffsetType = getRTLOffsetType;
+function getScrollLeft(node, direction) {
+    let { scrollLeft  } = node; // scrollLeft in rtl locales differs across browsers, so normalize.
+    // See comment by getRTLOffsetType below for details.
+    if (direction === 'rtl') {
+        let { scrollWidth , clientWidth  } = node;
+        switch(getRTLOffsetType()){
+            case 'negative':
+                scrollLeft = -scrollLeft;
+                break;
+            case 'positive-descending':
+                scrollLeft = scrollWidth - clientWidth - scrollLeft;
+                break;
+        }
+    }
+    return scrollLeft;
+}
+exports.getScrollLeft = getScrollLeft;
+function setScrollLeft(node, direction, scrollLeft) {
+    if (direction === 'rtl') switch(getRTLOffsetType()){
+        case 'negative':
+            scrollLeft = -scrollLeft;
+            break;
+        case 'positive-ascending':
+            break;
+        default:
+            {
+                const { clientWidth , scrollWidth  } = node;
+                scrollLeft = scrollWidth - clientWidth - scrollLeft;
+                break;
+            }
+    }
+    node.scrollLeft = scrollLeft;
+}
+exports.setScrollLeft = setScrollLeft;
+function $a90951c3d36a11fc98c5f85adae5ad$var$ScrollView(props, ref) {
+    let { contentSize , onVisibleRectChange , children , innerStyle , sizeToFit , onScrollStart , onScrollEnd , scrollDirection ='both'  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "contentSize",
+        "onVisibleRectChange",
+        "children",
+        "innerStyle",
+        "sizeToFit",
+        "onScrollStart",
+        "onScrollEnd",
+        "scrollDirection"
+    ]);
+    let defaultRef = useRef();
+    ref = ref || defaultRef;
+    let state = useRef({
+        scrollTop: 0,
+        scrollLeft: 0,
+        scrollEndTime: 0,
+        scrollTimeout: null,
+        width: 0,
+        height: 0,
+        isScrolling: false
+    }).current;
+    let { direction  } = useLocale();
+    let [isScrolling, setScrolling] = useState(false);
+    let onScroll = useCallback((e)=>{
+        if (e.target !== e.currentTarget) return;
+        if (props.onScroll) props.onScroll(e);
+        flushSync(()=>{
+            let scrollTop = e.currentTarget.scrollTop;
+            let scrollLeft = getScrollLeft(e.currentTarget, direction); // Prevent rubber band scrolling from shaking when scrolling out of bounds
+            state.scrollTop = Math.max(0, Math.min(scrollTop, contentSize.height - state.height));
+            state.scrollLeft = Math.max(0, Math.min(scrollLeft, contentSize.width - state.width));
+            onVisibleRectChange(new Rect(state.scrollLeft, state.scrollTop, state.width, state.height));
+            if (!state.isScrolling) {
+                state.isScrolling = true;
+                setScrolling(true);
+                if (onScrollStart) onScrollStart();
+            } // So we don't constantly call clearTimeout and setTimeout,
+            // keep track of the current timeout time and only reschedule
+            // the timer when it is getting close.
+            let now = Date.now();
+            if (state.scrollEndTime <= now + 50) {
+                state.scrollEndTime = now + 300;
+                clearTimeout(state.scrollTimeout);
+                state.scrollTimeout = setTimeout(()=>{
+                    state.isScrolling = false;
+                    setScrolling(false);
+                    state.scrollTimeout = null;
+                    if (onScrollEnd) onScrollEnd();
+                }, 300);
+            }
+        });
+    }, [
+        props,
+        direction,
+        state,
+        contentSize,
+        onVisibleRectChange,
+        onScrollStart,
+        onScrollEnd
+    ]); // eslint-disable-next-line arrow-body-style
+    useEffect(()=>{
+        return ()=>{
+            clearTimeout(state.scrollTimeout);
+        };
+    }, []);
+    let updateSize = useCallback(()=>{
+        let dom = ref.current;
+        if (!dom) return;
+        let w = dom.clientWidth;
+        let h = dom.clientHeight;
+        if (sizeToFit && contentSize.width > 0 && contentSize.height > 0) {
+            if (sizeToFit === 'width') w = Math.min(w, contentSize.width);
+            else if (sizeToFit === 'height') h = Math.min(h, contentSize.height);
+        }
+        if (state.width !== w || state.height !== h) {
+            state.width = w;
+            state.height = h;
+            onVisibleRectChange(new Rect(state.scrollLeft, state.scrollTop, w, h));
+        }
+    }, [
+        onVisibleRectChange,
+        ref,
+        state,
+        sizeToFit,
+        contentSize
+    ]);
+    useLayoutEffect(()=>{
+        updateSize();
+    }, [
+        updateSize
+    ]);
+    useResizeObserver({
+        ref,
+        onResize: updateSize
+    });
+    let style = _babelRuntimeHelpersExtends({
+        // Reset padding so that relative positioning works correctly. Padding will be done in JS layout.
+        padding: 0
+    }, otherProps.style);
+    if (scrollDirection === 'horizontal') {
+        style.overflowX = 'auto';
+        style.overflowY = 'hidden';
+    } else if (scrollDirection === 'vertical') {
+        style.overflowY = 'auto';
+        style.overflowX = 'hidden';
+    } else style.overflow = 'auto';
+    return(/*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, otherProps, {
+        style: style,
+        ref: ref,
+        onScroll: onScroll
+    }), /*#__PURE__*/ _react.createElement("div", {
+        role: "presentation",
+        style: _babelRuntimeHelpersExtends({
+            width: contentSize.width,
+            height: contentSize.height,
+            pointerEvents: isScrolling ? 'none' : 'auto',
+            position: 'relative'
+        }, innerStyle)
+    }, children)));
+}
+const ScrollView = /*#__PURE__*/ _react.forwardRef($a90951c3d36a11fc98c5f85adae5ad$var$ScrollView);
+exports.ScrollView = ScrollView;
+function useVirtualizerItem(options) {
+    let { reusableView: { layoutInfo , virtualizer  } , ref  } = options;
+    let updateSize = useCallback(()=>{
+        let size = $f82ecd66628117a18b18263690e81$var$getSize(ref.current);
+        virtualizer.updateItemSize(layoutInfo.key, size);
+    }, [
+        virtualizer,
+        layoutInfo.key,
+        ref
+    ]);
+    useLayoutEffect(()=>{
+        if (layoutInfo.estimatedSize) updateSize();
+    });
+    return {
+        updateSize
+    };
+}
+exports.useVirtualizerItem = useVirtualizerItem;
+function $f82ecd66628117a18b18263690e81$var$getSize(node) {
+    // Reset height before measuring so we get the intrinsic size
+    let height = node.style.height;
+    node.style.height = '';
+    let size = new Size(node.scrollWidth, node.scrollHeight);
+    node.style.height = height;
+    return size;
+}
+function VirtualizerItem(props) {
+    let { className , reusableView , parent  } = props;
+    let { direction  } = useLocale();
+    let ref = useRef();
+    useVirtualizerItem({
+        reusableView,
+        ref
+    });
+    return(/*#__PURE__*/ _react.createElement("div", {
+        role: "presentation",
+        ref: ref,
+        className: className,
+        style: layoutInfoToStyle(reusableView.layoutInfo, direction, parent && parent.layoutInfo)
+    }, reusableView.rendered));
+}
+exports.VirtualizerItem = VirtualizerItem;
+let $bf262162425aa7028ff507f81a78147$var$cache = new WeakMap();
+function layoutInfoToStyle(layoutInfo, dir, parent) {
+    let xProperty = dir === 'rtl' ? 'right' : 'left';
+    let cached = $bf262162425aa7028ff507f81a78147$var$cache.get(layoutInfo);
+    if (cached && cached[xProperty] != null) {
+        if (!parent) return cached;
+         // Invalidate if the parent position changed.
+        let top = layoutInfo.rect.y - parent.rect.y;
+        let x = layoutInfo.rect.x - parent.rect.x;
+        if (cached.top === top && cached[xProperty] === x) return cached;
+    }
+    let style = {
+        position: layoutInfo.isSticky ? 'sticky' : 'absolute',
+        overflow: 'hidden',
+        top: layoutInfo.rect.y - (parent ? parent.rect.y : 0),
+        [xProperty]: layoutInfo.rect.x - (parent ? parent.rect.x : 0),
+        transition: 'all',
+        WebkitTransition: 'all',
+        WebkitTransitionDuration: 'inherit',
+        transitionDuration: 'inherit',
+        width: layoutInfo.rect.width,
+        height: layoutInfo.rect.height,
+        opacity: layoutInfo.opacity,
+        zIndex: layoutInfo.zIndex,
+        transform: layoutInfo.transform,
+        contain: 'size layout style paint'
+    };
+    $bf262162425aa7028ff507f81a78147$var$cache.set(layoutInfo, style);
+    return style;
+}
+exports.layoutInfoToStyle = layoutInfoToStyle;
+function $c6087bb500e3bca67ce9dc45886$var$Virtualizer(props, ref) {
+    let { children: renderView , renderWrapper , layout , collection , sizeToFit , scrollDirection , transitionDuration , isLoading , onLoadMore  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "children",
+        "renderWrapper",
+        "layout",
+        "collection",
+        "sizeToFit",
+        "scrollDirection",
+        "transitionDuration",
+        "isLoading",
+        "onLoadMore",
+        "focusedKey",
+        "shouldUseVirtualFocus"
+    ]);
+    let fallbackRef = useRef();
+    ref = ref || fallbackRef;
+    let state = useVirtualizerState({
+        transitionDuration,
+        layout,
+        collection,
+        renderView,
+        renderWrapper: renderWrapper || $c6087bb500e3bca67ce9dc45886$var$defaultRenderWrapper,
+        onVisibleRectChange (rect) {
+            ref.current.scrollLeft = rect.x;
+            ref.current.scrollTop = rect.y;
+        }
+    });
+    let { virtualizerProps  } = useVirtualizer(props, state, ref); // Handle scrolling, and call onLoadMore when nearing the bottom.
+    let onVisibleRectChange = useCallback((rect)=>{
+        state.setVisibleRect(rect);
+        if (!isLoading && onLoadMore) {
+            let scrollOffset = state.virtualizer.contentSize.height - rect.height * 2;
+            if (rect.y > scrollOffset) onLoadMore();
+        }
+    }, [
+        isLoading,
+        onLoadMore,
+        state
+    ]);
+    useLayoutEffect(()=>{
+        if (!isLoading && onLoadMore && !state.isAnimating) {
+            if (state.contentSize.height <= state.virtualizer.visibleRect.height) onLoadMore();
+        }
+    }, [
+        state.contentSize,
+        state.isAnimating,
+        state.virtualizer,
+        onLoadMore,
+        isLoading
+    ]);
+    return(/*#__PURE__*/ _react.createElement(ScrollView, _babelRuntimeHelpersExtends({
+    }, mergeProps(otherProps, virtualizerProps), {
+        ref: ref,
+        innerStyle: state.isAnimating ? {
+            transition: "none " + state.virtualizer.transitionDuration + "ms"
+        } : undefined,
+        contentSize: state.contentSize,
+        onVisibleRectChange: onVisibleRectChange,
+        onScrollStart: state.startScrolling,
+        onScrollEnd: state.endScrolling,
+        sizeToFit: sizeToFit,
+        scrollDirection: scrollDirection
+    }), state.visibleViews));
+}
+function useVirtualizer(props, state, ref) {
+    let { focusedKey , scrollToItem , shouldUseVirtualFocus  } = props;
+    let { virtualizer  } = state; // Scroll to the focusedKey when it changes. Actually focusing the focusedKey
+    // is up to the implementation using Virtualizer since we don't have refs
+    // to all of the item DOM nodes.
+    let lastFocusedKey = useRef(null);
+    useEffect(()=>{
+        if (virtualizer.visibleRect.height === 0) return;
+        if (focusedKey !== lastFocusedKey.current) {
+            if (scrollToItem) scrollToItem(focusedKey);
+            else virtualizer.scrollToItem(focusedKey, {
+                duration: 0
+            });
+        }
+        lastFocusedKey.current = focusedKey;
+    }, [
+        focusedKey,
+        virtualizer.visibleRect.height,
+        virtualizer,
+        lastFocusedKey,
+        scrollToItem
+    ]);
+    let isFocusWithin = useRef(false);
+    let onFocus = useCallback((e)=>{
+        // If the focused item is scrolled out of view and is not in the DOM, the collection
+        // will have tabIndex={0}. When tabbing in from outside, scroll the focused item into view.
+        // We only want to do this if the collection itself is receiving focus, not a child
+        // element, and we aren't moving focus to the collection from within (see below).
+        if (e.target === ref.current && !isFocusWithin.current) virtualizer.scrollToItem(focusedKey, {
+            duration: 0
+        });
+        isFocusWithin.current = e.target !== ref.current;
+    }, [
+        ref,
+        virtualizer,
+        focusedKey
+    ]);
+    let onBlur = useCallback((e)=>{
+        isFocusWithin.current = ref.current.contains(e.relatedTarget);
+    }, [
+        ref
+    ]); // When the focused item is scrolled out of view and is removed from the DOM,
+    // move focus to the collection view as a whole if focus was within before.
+    let focusedView = virtualizer.getView(focusedKey);
+    useEffect(()=>{
+        if (focusedKey && !focusedView && isFocusWithin.current && document.activeElement !== ref.current) focusWithoutScrolling(ref.current);
+    }); // Set tabIndex to -1 if the focused view is in the DOM, otherwise 0 so that the collection
+    // itself is tabbable. When the collection receives focus, we scroll the focused item back into
+    // view, which will allow it to be properly focused. If using virtual focus, don't set a
+    // tabIndex at all so that VoiceOver on iOS 14 doesn't try to move real DOM focus to the element anyway.
+    let tabIndex;
+    if (!shouldUseVirtualFocus) tabIndex = focusedView ? -1 : 0;
+    return {
+        virtualizerProps: {
+            tabIndex,
+            onFocus,
+            onBlur
+        }
+    };
+} // forwardRef doesn't support generic parameters, so cast the result to the correct type
+// https://stackoverflow.com/questions/58469229/react-with-typescript-generics-while-using-react-forwardref
+exports.useVirtualizer = useVirtualizer;
+const Virtualizer = /*#__PURE__*/ _react.forwardRef($c6087bb500e3bca67ce9dc45886$var$Virtualizer);
+exports.Virtualizer = Virtualizer;
+function $c6087bb500e3bca67ce9dc45886$var$defaultRenderWrapper(parent, reusableView) {
+    return(/*#__PURE__*/ _react.createElement(VirtualizerItem, {
+        key: reusableView.key,
+        reusableView: reusableView,
+        parent: parent
+    }));
+}

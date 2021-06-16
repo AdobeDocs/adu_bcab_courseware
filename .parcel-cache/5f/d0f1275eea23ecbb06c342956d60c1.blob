@@ -1,0 +1,412 @@
+var { useModal , useOverlay , usePreventScroll  } = require("@react-aria/overlays");
+var { mergeProps , useLayoutEffect , useViewportSize  } = require("@react-aria/utils");
+var { classNames , useDOMRef , useStyleProps  } = require("@react-spectrum/utils");
+var _babelRuntimeHelpersObjectWithoutPropertiesLoose = $parcel$interopDefault(require("@babel/runtime/helpers/objectWithoutPropertiesLoose"));
+var _reactDom = $parcel$interopDefault(require("react-dom"));
+var { Provider  } = require("@react-spectrum/provider");
+var _reactTransitionGroupTransition = $parcel$interopDefault(require("react-transition-group/Transition"));
+var _react2 = require("react");
+var _react = $parcel$interopDefault(_react2);
+var { useCallback , useState , forwardRef , useRef , useEffect  } = _react2;
+var _babelRuntimeHelpersExtends = $parcel$interopDefault(require("@babel/runtime/helpers/extends"));
+require("./main.css");
+function $parcel$interopDefault(a) {
+    return a && a.__esModule ? a.default : a;
+}
+const $d6d5f972d86d8a448288809c5c267883$var$OPEN_STATES = {
+    entering: false,
+    entered: true
+};
+/**
+ * Timeout issues adding css animations to enter may be related to
+ * https://github.com/reactjs/react-transition-group/issues/189 or
+ * https://github.com/reactjs/react-transition-group/issues/22
+ * my VM isn't good enough to debug accurately and get a better answer.
+ *
+ * As a result, use enter 0 so that is-open is applied once entered
+ * it doesn't matter if we know when the css-animation is done on entering
+ * for exiting though, give time for the css-animation to play
+ * before removing from the DOM
+ * **note** hitting esc bypasses exit animation for anyone testing.
+ */ function $d6d5f972d86d8a448288809c5c267883$export$OpenTransition(props) {
+    return(/*#__PURE__*/ _react.createElement(_reactTransitionGroupTransition, _babelRuntimeHelpersExtends({
+        timeout: {
+            enter: 0,
+            exit: 350
+        }
+    }, props), (state)=>_react.Children.map(props.children, (child)=>child && /*#__PURE__*/ _react.cloneElement(child, {
+                isOpen: !!$d6d5f972d86d8a448288809c5c267883$var$OPEN_STATES[state]
+            })
+        )
+    ));
+}
+function $d0270a5a2198467ee027b9df554cc09$var$Overlay(props, ref) {
+    let { children , isOpen , container , onEnter , onEntering , onEntered , onExit , onExiting , onExited  } = props;
+    let [exited, setExited] = useState(!isOpen);
+    let handleEntered = useCallback(()=>{
+        setExited(false);
+        if (onEntered) onEntered();
+    }, [
+        onEntered
+    ]);
+    let handleExited = useCallback(()=>{
+        setExited(true);
+        if (onExited) onExited();
+    }, [
+        onExited
+    ]); // Don't un-render the overlay while it's transitioning out.
+    let mountOverlay = isOpen || !exited;
+    if (!mountOverlay) // Don't bother showing anything if we don't have to.
+    return null;
+    let contents = /*#__PURE__*/ _react.createElement(Provider, {
+        ref: ref,
+        UNSAFE_style: {
+            background: 'transparent',
+            isolation: 'isolate'
+        }
+    }, /*#__PURE__*/ _react.createElement($d6d5f972d86d8a448288809c5c267883$export$OpenTransition, {
+        in: isOpen,
+        appear: true,
+        onExit: onExit,
+        onExiting: onExiting,
+        onExited: handleExited,
+        onEnter: onEnter,
+        onEntering: onEntering,
+        onEntered: handleEntered
+    }, children));
+    return(/*#__PURE__*/ _reactDom.createPortal(contents, container || document.body));
+}
+let Overlay = /*#__PURE__*/ _react.forwardRef($d0270a5a2198467ee027b9df554cc09$var$Overlay);
+exports.Overlay = Overlay;
+// ASSET: /Users/govett/dev/react-spectrum-v3/packages/@react-spectrum/overlays/src/overlays.css
+var $a434c787f706f7c179fc4f21b517d3a$exports = {
+};
+$a434c787f706f7c179fc4f21b517d3a$exports = {
+    "spectrum-Popover": "_spectrum-Popover_1c0dd",
+    "react-spectrum-Popover": "_react-spectrum-Popover_1c0dd",
+    "spectrum-Dialog-content": "_spectrum-Dialog-content_1c0dd",
+    "spectrum-Modal-wrapper": "_spectrum-Modal-wrapper_1c0dd",
+    "react-spectrum-Modal-wrapper": "_react-spectrum-Modal-wrapper_1c0dd",
+    "spectrum-Modal": "_spectrum-Modal_1c0dd",
+    "react-spectrum-Modal": "_react-spectrum-Modal_1c0dd",
+    "spectrum-Tray": "_spectrum-Tray_1c0dd",
+    "react-spectrum-Tray": "_react-spectrum-Tray_1c0dd"
+};
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/popover/vars.css
+var $a9f4222934d4412568b57bdfebcfeb3$exports = {
+};
+$a9f4222934d4412568b57bdfebcfeb3$exports = {
+    "spectrum-Popover": "_spectrum-Popover_c37f7",
+    "is-open": "_is-open_c37f7",
+    "spectrum-Popover--bottom": "_spectrum-Popover--bottom_c37f7",
+    "spectrum-Popover--top": "_spectrum-Popover--top_c37f7",
+    "spectrum-Popover--right": "_spectrum-Popover--right_c37f7",
+    "spectrum-Popover--left": "_spectrum-Popover--left_c37f7",
+    "spectrum-Popover-tip": "_spectrum-Popover-tip_c37f7",
+    "spectrum-Popover-tip-triangle": "_spectrum-Popover-tip-triangle_c37f7",
+    "spectrum-Popover--dialog": "_spectrum-Popover--dialog_c37f7",
+    "spectrum-Popover--withTip": "_spectrum-Popover--withTip_c37f7"
+};
+/**
+ * Arrow placement can be done pointing right or down because those paths start at 0, x or y. Because the
+ * other two don't, they start at a fractional pixel value, it introduces rounding differences between browsers and
+ * between display types (retina with subpixels vs not retina). By flipping them with CSS we can ensure that
+ * the path always starts at 0 so that it perfectly overlaps the popover's border.
+ * See bottom of file for more explanation.
+ */ let $cb5ac2f1b271cf568ded3aa34c88ecd$var$arrowPlacement = {
+    left: 'right',
+    right: 'right',
+    top: 'bottom',
+    bottom: 'bottom'
+};
+function $cb5ac2f1b271cf568ded3aa34c88ecd$var$Popover(props, ref) {
+    let { children , placement , arrowProps , onClose , shouldCloseOnBlur , hideArrow , isKeyboardDismissDisabled , isNonModal , isDismissable =true  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "children",
+        "placement",
+        "arrowProps",
+        "onClose",
+        "shouldCloseOnBlur",
+        "hideArrow",
+        "isKeyboardDismissDisabled",
+        "isNonModal",
+        "isDismissable"
+    ]);
+    let domRef = useDOMRef(ref);
+    let { styleProps  } = useStyleProps(props);
+    return(/*#__PURE__*/ _react.createElement(Overlay, otherProps, /*#__PURE__*/ _react.createElement($cb5ac2f1b271cf568ded3aa34c88ecd$var$PopoverWrapper, _babelRuntimeHelpersExtends({
+    }, styleProps, {
+        ref: domRef,
+        placement: placement,
+        arrowProps: arrowProps,
+        onClose: onClose,
+        shouldCloseOnBlur: shouldCloseOnBlur,
+        isKeyboardDismissDisabled: isKeyboardDismissDisabled,
+        hideArrow: hideArrow,
+        isNonModal: isNonModal,
+        isDismissable: isDismissable
+    }), children)));
+}
+var $a9f4222934d4412568b57bdfebcfeb3$$interop$default = $parcel$interopDefault($a9f4222934d4412568b57bdfebcfeb3$exports);
+var $a434c787f706f7c179fc4f21b517d3a$$interop$default = $parcel$interopDefault($a434c787f706f7c179fc4f21b517d3a$exports);
+const $cb5ac2f1b271cf568ded3aa34c88ecd$var$PopoverWrapper = /*#__PURE__*/ forwardRef((props, ref)=>{
+    let { children , placement ='bottom' , arrowProps , isOpen , hideArrow , isNonModal , // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    isDismissable  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "children",
+        "placement",
+        "arrowProps",
+        "isOpen",
+        "hideArrow",
+        "shouldCloseOnBlur",
+        "isKeyboardDismissDisabled",
+        "isNonModal",
+        "isDismissable"
+    ]);
+    let { overlayProps  } = useOverlay(_babelRuntimeHelpersExtends({
+    }, props, {
+        isDismissable: isDismissable && isOpen
+    }), ref);
+    let { modalProps  } = useModal({
+        isDisabled: isNonModal
+    });
+    return(/*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, mergeProps(otherProps, overlayProps, modalProps), {
+        ref: ref,
+        className: classNames($a9f4222934d4412568b57bdfebcfeb3$$interop$default, 'spectrum-Popover', "spectrum-Popover--" + placement, {
+            'spectrum-Popover--withTip': !hideArrow,
+            'is-open': isOpen
+        }, classNames($a434c787f706f7c179fc4f21b517d3a$$interop$default, 'spectrum-Popover', 'react-spectrum-Popover'), otherProps.className),
+        role: "presentation"
+    }), children, hideArrow ? null : /*#__PURE__*/ _react.createElement($cb5ac2f1b271cf568ded3aa34c88ecd$var$Arrow, {
+        arrowProps: arrowProps,
+        direction: $cb5ac2f1b271cf568ded3aa34c88ecd$var$arrowPlacement[placement]
+    })));
+});
+let $cb5ac2f1b271cf568ded3aa34c88ecd$var$ROOT_2 = Math.sqrt(2);
+function $cb5ac2f1b271cf568ded3aa34c88ecd$var$Arrow(props) {
+    let [size, setSize] = useState(20);
+    let [borderWidth, setBorderWidth] = useState(1);
+    let ref = useRef(); // get the css value for the tip size and divide it by 2 for this arrow implementation
+    useLayoutEffect(()=>{
+        if (ref.current) {
+            let spectrumTipWidth = window.getComputedStyle(ref.current).getPropertyValue('--spectrum-popover-tip-size');
+            if (spectrumTipWidth !== '') setSize(parseInt(spectrumTipWidth, 10) / 2);
+            let spectrumBorderWidth = window.getComputedStyle(ref.current).getPropertyValue('--spectrum-popover-tip-borderWidth');
+            if (spectrumBorderWidth !== '') setBorderWidth(parseInt(spectrumBorderWidth, 10));
+        }
+    }, [
+        ref
+    ]);
+    let landscape = props.direction === 'top' || props.direction === 'bottom';
+    let mirror = props.direction === 'left' || props.direction === 'top';
+    let borderDiagonal = borderWidth * $cb5ac2f1b271cf568ded3aa34c88ecd$var$ROOT_2;
+    let halfBorderDiagonal = borderDiagonal / 2;
+    let secondary = 2 * size + 2 * borderDiagonal;
+    let primary = size + borderDiagonal;
+    let primaryStart = mirror ? primary : 0;
+    let primaryEnd = mirror ? halfBorderDiagonal : primary - halfBorderDiagonal;
+    let secondaryStart = halfBorderDiagonal;
+    let secondaryMiddle = secondary / 2;
+    let secondaryEnd = secondary - halfBorderDiagonal;
+    let pathData = landscape ? [
+        'M',
+        secondaryStart,
+        primaryStart,
+        'L',
+        secondaryMiddle,
+        primaryEnd,
+        'L',
+        secondaryEnd,
+        primaryStart
+    ] : [
+        'M',
+        primaryStart,
+        secondaryStart,
+        'L',
+        primaryEnd,
+        secondaryMiddle,
+        'L',
+        primaryStart,
+        secondaryEnd
+    ];
+    let arrowProps = props.arrowProps;
+    /* use ceil because the svg needs to always accomodate the path inside it */ return(/*#__PURE__*/ _react.createElement("svg", _babelRuntimeHelpersExtends({
+        xmlns: "http://www.w3.org/svg/2000",
+        width: Math.ceil(landscape ? secondary : primary),
+        height: Math.ceil(landscape ? primary : secondary),
+        style: props.style,
+        className: classNames($a9f4222934d4412568b57bdfebcfeb3$$interop$default, 'spectrum-Popover-tip'),
+        ref: ref
+    }, arrowProps), /*#__PURE__*/ _react.createElement("path", {
+        className: classNames($a9f4222934d4412568b57bdfebcfeb3$$interop$default, 'spectrum-Popover-tip-triangle'),
+        d: pathData.join(' ')
+    })));
+}
+let Popover = /*#__PURE__*/ forwardRef($cb5ac2f1b271cf568ded3aa34c88ecd$var$Popover);
+exports.Popover = Popover;
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/modal/vars.css
+var $b8ac61fc976db2b0e346a0671961$exports = {
+};
+$b8ac61fc976db2b0e346a0671961$exports = {
+    "spectrum-Modal": "_spectrum-Modal_cdccb",
+    "is-open": "_is-open_cdccb",
+    "spectrum-Modal-wrapper": "_spectrum-Modal-wrapper_cdccb",
+    "spectrum-Modal--responsive": "_spectrum-Modal--responsive_cdccb",
+    "spectrum-Modal--fullscreen": "_spectrum-Modal--fullscreen_cdccb",
+    "spectrum-Modal--fullscreenTakeover": "_spectrum-Modal--fullscreenTakeover_cdccb"
+};
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/underlay/vars.css
+var $f2a147f4891994bda5d87ce34e55004f$exports = {
+};
+$f2a147f4891994bda5d87ce34e55004f$exports = {
+    "spectrum-Underlay": "_spectrum-Underlay_8c345",
+    "is-open": "_is-open_8c345"
+};
+var $f2a147f4891994bda5d87ce34e55004f$$interop$default = $parcel$interopDefault($f2a147f4891994bda5d87ce34e55004f$exports);
+function $c648a952e23df4b2fc75f8a200e83b76$export$Underlay(_ref) {
+    let { isOpen  } = _ref;
+    return(/*#__PURE__*/ _react.createElement("div", {
+        className: classNames($f2a147f4891994bda5d87ce34e55004f$$interop$default, 'spectrum-Underlay', {
+            'is-open': isOpen
+        })
+    }));
+}
+function $a62d82478f31e7bc19e59228dca6318$var$Modal(props, ref) {
+    let { children , onClose , type  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "children",
+        "onClose",
+        "type"
+    ]);
+    let domRef = useDOMRef(ref);
+    let { styleProps  } = useStyleProps(props);
+    let { overlayProps , underlayProps  } = useOverlay(props, domRef);
+    return(/*#__PURE__*/ _react.createElement(Overlay, otherProps, /*#__PURE__*/ _react.createElement($c648a952e23df4b2fc75f8a200e83b76$export$Underlay, underlayProps), /*#__PURE__*/ _react.createElement($a62d82478f31e7bc19e59228dca6318$var$ModalWrapper, _babelRuntimeHelpersExtends({
+    }, styleProps, {
+        onClose: onClose,
+        type: type,
+        ref: domRef,
+        overlayProps: overlayProps
+    }), children)));
+}
+let $a62d82478f31e7bc19e59228dca6318$var$typeMap = {
+    fullscreen: 'fullscreen',
+    fullscreenTakeover: 'fullscreenTakeover'
+};
+var $b8ac61fc976db2b0e346a0671961$$interop$default = $parcel$interopDefault($b8ac61fc976db2b0e346a0671961$exports);
+let $a62d82478f31e7bc19e59228dca6318$var$ModalWrapper = /*#__PURE__*/ forwardRef(function(props, ref) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    let { children , isOpen , type , overlayProps  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "children",
+        "isOpen",
+        "type",
+        "overlayProps"
+    ]);
+    let typeVariant = $a62d82478f31e7bc19e59228dca6318$var$typeMap[type];
+    usePreventScroll();
+    let { modalProps  } = useModal();
+    let wrapperClassName = classNames($b8ac61fc976db2b0e346a0671961$$interop$default, 'spectrum-Modal-wrapper', classNames($a434c787f706f7c179fc4f21b517d3a$$interop$default, 'spectrum-Modal-wrapper', 'react-spectrum-Modal-wrapper'));
+    let modalClassName = classNames($b8ac61fc976db2b0e346a0671961$$interop$default, 'spectrum-Modal', {
+        'is-open': isOpen
+    }, classNames($a434c787f706f7c179fc4f21b517d3a$$interop$default, 'spectrum-Modal', 'react-spectrum-Modal'), {
+        ["spectrum-Modal--" + typeVariant]: typeVariant
+    }, otherProps.className);
+    let viewport = useViewportSize();
+    let style = {
+        '--spectrum-visual-viewport-height': viewport.height + 'px'
+    };
+    return(/*#__PURE__*/ _react.createElement("div", {
+        className: wrapperClassName,
+        style: style
+    }, /*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, mergeProps(otherProps, overlayProps, modalProps), {
+        ref: ref,
+        className: modalClassName
+    }), children)));
+});
+let Modal = /*#__PURE__*/ forwardRef($a62d82478f31e7bc19e59228dca6318$var$Modal);
+exports.Modal = Modal;
+// ASSET: /Users/govett/dev/react-spectrum-v3/node_modules/@adobe/spectrum-css-temp/components/tray/vars.css
+var $cf6719050fb6ee63a92f86b402a03d3c$exports = {
+};
+$cf6719050fb6ee63a92f86b402a03d3c$exports = {
+    "spectrum-Tray": "_spectrum-Tray_8bca2",
+    "is-open": "_is-open_8bca2",
+    "spectrum-Tray-wrapper": "_spectrum-Tray-wrapper_8bca2",
+    "spectrum-Tray--fixedHeight": "_spectrum-Tray--fixedHeight_8bca2"
+};
+function $c302f13166ea83bbd2ac9accda46696$var$Tray(props, ref) {
+    let { children , onClose , isFixedHeight , isNonModal  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "children",
+        "onClose",
+        "isFixedHeight",
+        "isNonModal"
+    ]);
+    let domRef = useDOMRef(ref);
+    let { styleProps  } = useStyleProps(props);
+    let { overlayProps , underlayProps  } = useOverlay(_babelRuntimeHelpersExtends({
+    }, props, {
+        isDismissable: true
+    }), domRef);
+    return(/*#__PURE__*/ _react.createElement(Overlay, otherProps, /*#__PURE__*/ _react.createElement($c648a952e23df4b2fc75f8a200e83b76$export$Underlay, underlayProps), /*#__PURE__*/ _react.createElement($c302f13166ea83bbd2ac9accda46696$var$TrayWrapper, _babelRuntimeHelpersExtends({
+    }, styleProps, {
+        onClose: onClose,
+        ref: domRef,
+        overlayProps: overlayProps,
+        isFixedHeight: isFixedHeight,
+        isNonModal: isNonModal
+    }), children)));
+}
+var $cf6719050fb6ee63a92f86b402a03d3c$$interop$default = $parcel$interopDefault($cf6719050fb6ee63a92f86b402a03d3c$exports);
+let $c302f13166ea83bbd2ac9accda46696$var$TrayWrapper = /*#__PURE__*/ forwardRef(function(props, ref) {
+    let { children , isOpen , isFixedHeight , isNonModal , overlayProps  } = props, otherProps = _babelRuntimeHelpersObjectWithoutPropertiesLoose(props, [
+        "children",
+        "isOpen",
+        "isFixedHeight",
+        "isNonModal",
+        "overlayProps"
+    ]);
+    usePreventScroll();
+    let { modalProps  } = useModal({
+        isDisabled: isNonModal
+    }); // We need to measure the window's height in JS rather than using percentages in CSS
+    // so that contents (e.g. menu) can inherit the max-height properly. Using percentages
+    // does not work properly because there is nothing to base the percentage on.
+    // We cannot use vh units because mobile browsers adjust the window height dynamically
+    // when the address bar/bottom toolbars show and hide on scroll and vh units are fixed.
+    // Also, the visual viewport is smaller than the layout viewport when the virtual keyboard
+    // is up, so use the VisualViewport API to ensure the tray is displayed above the keyboard.
+    let viewport = useViewportSize();
+    let [height, setHeight] = useState(viewport.height);
+    let timeoutRef = useRef();
+    useEffect(()=>{
+        clearTimeout(timeoutRef.current); // When the height is decreasing, and the keyboard is visible
+        // (visual viewport smaller than layout viewport), delay setting
+        // the new max height until after the animation is complete
+        // so that there isn't an empty space under the tray briefly.
+        if (viewport.height < height && viewport.height < window.innerHeight) timeoutRef.current = setTimeout(()=>{
+            setHeight(viewport.height);
+        }, 500);
+        else setHeight(viewport.height);
+    }, [
+        height,
+        viewport.height
+    ]);
+    let wrapperStyle = {
+        '--spectrum-visual-viewport-height': height + 'px'
+    };
+    let wrapperClassName = classNames($cf6719050fb6ee63a92f86b402a03d3c$$interop$default, 'spectrum-Tray-wrapper');
+    let className = classNames($cf6719050fb6ee63a92f86b402a03d3c$$interop$default, 'spectrum-Tray', {
+        'is-open': isOpen,
+        'spectrum-Tray--fixedHeight': isFixedHeight
+    }, classNames($a434c787f706f7c179fc4f21b517d3a$$interop$default, 'spectrum-Tray', 'react-spectrum-Tray'), otherProps.className);
+    let domProps = mergeProps(otherProps, overlayProps);
+    return(/*#__PURE__*/ _react.createElement("div", {
+        className: wrapperClassName,
+        style: wrapperStyle
+    }, /*#__PURE__*/ _react.createElement("div", _babelRuntimeHelpersExtends({
+    }, domProps, modalProps, {
+        className: className,
+        ref: ref
+    }), children)));
+});
+let Tray = /*#__PURE__*/ forwardRef($c302f13166ea83bbd2ac9accda46696$var$Tray);
+exports.Tray = Tray;
