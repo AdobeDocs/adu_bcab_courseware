@@ -18,20 +18,26 @@ async function main(params) {
     return errorResponse(400, errorMessage, logger);
   }
 
-  const { briefIds } = params;
+  try{
+    const { briefIds } = params;
+    const files = await filesLib.init();
 
-  const files = await filesLib.init();
+    for (const briefId of briefIds) {
+      await files.delete(`briefs/${briefId}.json`);
+    }
 
-  for (const briefId of briefIds) {
-    await files.delete(`briefs/${briefId}.json`);
+    const response = {
+      statusCode: 200,
+      body: briefIds
+    };
+
+    return response;
+  } catch (error) {
+    // log any server errors
+    logger.error(error);
+    // return with 500
+    return errorResponse(500, 'server error', logger);
   }
-
-  const response = {
-    statusCode: 200,
-    body: briefIds
-  };
-
-  return response;
 }
 
 exports.main = main;

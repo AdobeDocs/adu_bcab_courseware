@@ -135,7 +135,7 @@ export const CreateView = ({ ims }) => {
 
             setIsSubmitting(false);
           }}>
-          <TextField value={briefDate} onChange={setBriefDate} label="Brief date" placeholder="Brief date" />
+          <TextField value={briefDate} onChange={setBriefDate} label="Brief date" placeholder="Brief date" data-testid="briefDate" />
           <TextField value={copyDate} onChange={setCopyDate} label="Copy date" placeholder="Copy date" />
           <TextField
             value={releasePrintDate}
@@ -153,10 +153,11 @@ export const CreateView = ({ ims }) => {
             onChange={setSearchTerm}
             label="Search Assets"
             placeholder="Search Assets"
+            data-testid="searchTextField"
           />
 
           {suggestedAssets.length > 0 ? (
-            <Masonry breakpointCols={2} style={{ opacity: isLoadingAssets ? 0.2 : 1 }}>
+            <Masonry breakpointCols={2} style={{ opacity: isLoadingAssets ? 0.2 : 1 }} data-testid="sugestedAssets">
               {suggestedAssets.slice(0, 10).map((file, index) => (
                 <Well key={index}>
                   <Flex direction="column" gap="size-100">

@@ -5,6 +5,9 @@
 const { Config } = require('@adobe/aio-sdk').Core;
 const fs = require('fs');
 const fetch = require('node-fetch');
+require('dotenv').config() // load .env if available
+const { context, getToken, getTokenData } = require('@adobe/aio-lib-ims')
+let authToken;
 
 // get action url
 const namespace = Config.get('runtime.namespace');
@@ -22,4 +25,34 @@ test('returns a 401 when missing Authorization header', async () => {
       status: 401
     })
   );
+});
+
+test('returns a 200 with dog search', async () => {
+  let token = await getTestingAuthToken();
+  const res = await fetch(`${actionUrl}?keyword=dogs`,{method: 'GET',headers:{authorization: `Bearer ${token}` }});
+  expect(res).toEqual(
+    expect.objectContaining({
+      status: 200
+    })
+  );
+});
+
+const getTestingAuthToken = (async () =>{
+  if(!authToken){
+    const config = {
+      client_id: process.env.AIO_ims_contexts_training__project__J__1625172383287_client__id,
+        client_secret: process.env.AIO_ims_contexts_training__project__J__1625172383287_client__secret,
+        technical_account_id: process.env.AIO_ims_contexts_training__project__J__1625172383287_technical__account__id,
+        meta_scopes: [
+          "ent_user_sdk"
+        ],
+        ims_org_id: process.env.AIO_ims_contexts_training__project__J__1625172383287_ims__org__id,
+        private_key: process.env.AIO_ims_contexts_training__project__J__1625172383287_client__private_key
+    };
+    await context.set('example', config, true)
+    
+    authToken = await getToken('example')
+  }
+
+  return authToken;
 });

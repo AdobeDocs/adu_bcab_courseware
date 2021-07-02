@@ -1,137 +1,56 @@
 {
-  "project": {
-    "id": "4566206088344600075",
-    "name": "trainingproject",
-    "title": "training project",
-    "org": {
-      "id": "301276",
-      "name": "Adobe IO DEMO DEV",
-      "ims_org_id": "3C9419175E9D393C0A495E39@AdobeOrg",
-      "details": {
-        "services": [
+  project: {
+    id: "4566206088344600075",
+    name: "trainingproject",
+    title: "training project",
+    org: {
+      id: "301276",
+      name: "Adobe IO DEMO DEV",
+      ims_org_id: "3C9419175E9D393C0A495E39@AdobeOrg"
+    },
+    workspace: {
+      id: "4566206088344601510",
+      name: "Stage",
+      title: "Stage",
+      action_url: "https://301276-trainingproject-stage.adobeioruntime.net",
+      app_url: "https://301276-trainingproject-stage.adobeio-static.net",
+      details: {
+        credentials: [
           {
-            "name": "Adobe Stock",
-            "code": "StockSDK",
-            "type": "adobeid"
+            id: "176766",
+            name: "Project_1623717036214W",
+            integration_type: "oauthweb"
           },
           {
-            "name": "PDF Embed API",
-            "code": "ViewSDK",
-            "type": "adobeid"
+            id: "182393",
+            name: "training_project_J_1625172383287",
+            integration_type: "service"
+          }
+        ],
+        services: [
+          {
+            code: "StockSDK",
+            name: "Adobe Stock"
           },
           {
-            "name": "Lightroom Services",
-            "code": "LightroomPartnersSDK",
-            "type": "adobeid"
-          },
-          {
-            "name": "Content and Commerce AI",
-            "code": "ccai-sdk",
-            "type": "adobeid"
-          },
-          {
-            "name": "Creative Cloud Libraries",
-            "code": "CC-Libraries-SDK",
-            "type": "adobeid"
-          },
-          {
-            "name": "Adobe Analytics",
-            "code": "AdobeAnalyticsSDK",
-            "type": "analytics"
-          },
-          {
-            "name": "Adobe Analytics",
-            "code": "AdobeAnalyticsSDK",
-            "type": "entp"
-          },
-          {
-            "name": "Smart Content",
-            "code": "MCSmartContentServicesSDK",
-            "type": "entp"
-          },
-          {
-            "name": "Privacy Service API",
-            "code": "McGdprSDK",
-            "type": "entp"
-          },
-          {
-            "name": "Experience Platform Launch API",
-            "code": "McDtmSDK",
-            "type": "entp"
-          },
-          {
-            "name": "Asset Compute",
-            "code": "AssetComputeSDK",
-            "type": "entp"
-          },
-          {
-            "name": "Adobe Photoshop APIs (Trial)",
-            "code": "CIS SDK",
-            "type": "entp"
-          },
-          {
-            "name": "Cloud Manager",
-            "code": "CloudManagerSDK",
-            "type": "entp"
-          },
-          {
-            "name": "User Management API",
-            "code": "UserMgmtSDK",
-            "type": "entp"
-          },
-          {
-            "name": "Adobe Sign",
-            "code": "AdobeSignSDK",
-            "type": "entp"
-          },
-          {
-            "name": "I/O Events",
-            "code": "CloudIntegrationSDK",
-            "type": "entp"
-          },
-          {
-            "name": "Audience Manager API",
-            "code": "AudienceManagerCustomerSDK",
-            "type": "entp"
-          },
-          {
-            "name": "I/O Management API",
-            "code": "AdobeIOManagementAPISDK",
-            "type": "entp"
-          },
-          {
-            "name": "Adobe Target",
-            "code": "AdobeTargetSDK",
-            "type": "entp"
-          },
-          {
-            "name": "Places",
-            "code": "McPlacesSDK",
-            "type": "entp"
+            code: "UserMgmtSDK",
+            name: "User Management API"
           }
         ]
       }
-    },
-    "workspace": {
-      "id": "4566206088344601510",
-      "name": "Stage",
-      "title": "Stage",
-      "action_url": "https://301276-trainingproject-stage.adobeioruntime.net",
-      "app_url": "https://301276-trainingproject-stage.adobeio-static.net",
-      "details": {
-        "credentials": [
-          {
-            "id": "176766",
-            "name": "Project_1623717036214W",
-            "integration_type": "oauthweb"
-          }
+    }
+  },
+  ims: {
+    contexts: {
+      example: {
+        client_id: "9c632a7b9426499895eee19c64a03c7a",
+        client_secret: "p8e-N1C2_4i5DD0jD2YhnBX1MuVmsE-clEVv",
+        technical_account_id: "BABA451660DE29A00A495E95@techacct.adobe.com",
+        meta_scopes: [
+          "ent_user_sdk"
         ],
-        "services": [
-          {
-            "code": "StockSDK",
-            "name": "Adobe Stock"
-          }
-        ]
+        ims_org_id: "3C9419175E9D393C0A495E39@AdobeOrg",
+        private_key: "private.key"
       }
     }
   }
