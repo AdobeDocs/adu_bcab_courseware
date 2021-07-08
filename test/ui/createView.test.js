@@ -1,6 +1,5 @@
-import {render, waitFor} from '@testing-library/react';
-import {userEvent} from '@testing-library/user-event'; 
-import { Provider, defaultTheme, Grid, View } from '@adobe/react-spectrum';
+import React from 'react';
+import {render, waitFor, fireEvent, act} from '@testing-library/react';
 const { Core } = require('@adobe/aio-sdk');
 import { CreateView } from '../../web-src/src/components/CreateView';
 /*
@@ -682,8 +681,6 @@ const mockStockResponse = {
 const mockLoggerInstance = { info: jest.fn(), debug: jest.fn(), error: jest.fn() };
 Core.Logger.mockReturnValue(mockLoggerInstance);
 
-jest.mock('node-fetch');
-const fetch = require('node-fetch');
 beforeEach(() => {
     Core.Logger.mockClear();
     mockLoggerInstance.info.mockReset();
@@ -691,20 +688,19 @@ beforeEach(() => {
     mockLoggerInstance.error.mockReset();
   });
 
-test('loads and displays greeting', async () => {
-    const mockFetchResponse = {
-        ok: true,
-        json: () => Promise.resolve(mockStockResponse)
-    };
-    fetch.mockResolvedValue(mockFetchResponse);
-
-    render(<CreateView />); 
-    let searchTextField = screen.getByTestId('searchTextField'); 
-    userEvent.click(searchTextField); 
-    userEvent.type(document.activeElement, 'dogs');
-
-    await waitFor(() => screen.getByTestId('sugestedAssets'));
-
-    expect(screen.getByTestId('sugestedAssets')).toHaveTextContent('Dogs Peeking Eyes and Paws Over')
+test('loads and displays stock assets', async () => {
+    global.fetch = jest.fn().mockImplementationOnce(() => Promise.resolve({
+      ok: true,
+      text: () => Promise.resolve(JSON.stringify(mockStockResponse))
+    }));
+    
+    const view = render(<CreateView ims={{token: 'fake'}} />);
+    const input = view.getByTestId('stockSearch');
+    
+    act(() => {
+      fireEvent.change(input, { target: { value: 'dogs' } });
+    });
+    
+    await waitFor(() => view.getByText(mockStockResponse.files[0].title));
 })
 
