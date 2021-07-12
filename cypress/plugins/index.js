@@ -13,6 +13,17 @@
 // the project's config changing)
 
 const fs = require('fs');
+const JSON5 = require('json5');
+
+const readFile = (filename) => {
+  if (fs.existsSync(filename)) {
+    const content = fs.readFileSync(filename, 'utf8');
+    
+    return JSON5.parse(content);
+  }
+  
+  return null;
+};
 
 /**
  * @type {Cypress.PluginConfig}
@@ -23,12 +34,12 @@ module.exports = (on, config) => {
   // `config` is the resolved Cypress config
   
   on('task', {
-    readFileMaybe(filename) {
-      if (fs.existsSync(filename)) {
-        return fs.readFileSync(filename, 'utf8');
-      }
-      
-      return null;
+    readJSONFile(filename) {
+      return readFile(filename);
+    },
+    getAppURL() {
+      const {project} = readFile('.aio');
+      return `https://experience.adobe.com/#/@${project.org.name.toLowerCase().replace(/\s/g,'')}/custom-apps/${project.org.id}-${project.name}`;
     }
   })
 };

@@ -40,7 +40,7 @@
   },
   "scripts": {
     "test": "jest --passWithNoTests ./test",
-    "e2e": "./node_modules/.bin/cypress run --browser chrome --headless --spec \"cypress/integration/sign-in_spec.js\" && jest --collectCoverage=false --testRegex ./e2e",
+    "e2e": "./node_modules/.bin/cypress run --browser chrome --headless --spec \"cypress/integration/get-token_spec.js\" && jest --collectCoverage=false --testRegex ./e2e && ./node_modules/.bin/cypress run --browser chrome --spec \"cypress/integration/welcome-view_spec.js\"",
     "format": "npx prettier --write '**/*.{js,json}'"
   },
   "engines": {
