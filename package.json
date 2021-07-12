@@ -35,11 +35,12 @@
     "@testing-library/user-event": "^13.1.9",
     "cypress": "^7.6.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^27.0.0"
+    "jest": "^27.0.0",
+    "json5": "^2.2.0"
   },
   "scripts": {
     "test": "jest --passWithNoTests ./test",
-    "e2e": "jest --collectCoverage=false --testRegex ./e2e",
+    "e2e": "./node_modules/.bin/cypress run --browser chrome --headless --spec \"cypress/integration/sign-in_spec.js\" && jest --collectCoverage=false --testRegex ./e2e",
     "format": "npx prettier --write '**/*.{js,json}'"
   },
   "engines": {

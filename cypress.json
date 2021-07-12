@@ -1,1 +1,5 @@
-{ "chromeWebSecurity": false }
+{
+  "chromeWebSecurity": false,
+  "video": false,
+  "screenshotOnRunFailure": false
+}
