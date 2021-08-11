@@ -1,0 +1,75 @@
+extensions:
+  dx/excshell/1:
+    operations:
+      view:
+        - type: web
+          impl: index.html
+    runtimeManifest:
+      packages:
+        __APP_PACKAGE__:
+          license: Apache-2.0
+          actions:
+            publish-events:
+              function: actions/publish-events/index.js
+              web: 'yes'
+              runtime: 'nodejs:14'
+              inputs:
+                LOG_LEVEL: debug
+              annotations:
+                require-adobe-auth: true
+                final: true
+            stock-search:
+              function: actions/stock-search/index.js
+              web: 'yes'
+              runtime: 'nodejs:14'
+              inputs:
+                LOG_LEVEL: debug
+                stockApiKey: $STOCK_API_KEY
+              annotations:
+                require-adobe-auth: true
+                final: true
+            welcome-state:
+              function: actions/welcome-state/index.js
+              web: 'yes'
+              runtime: 'nodejs:14'
+              inputs:
+                LOG_LEVEL: debug
+              annotations:
+                require-adobe-auth: true
+                final: true
+            brief-save:
+              function: actions/brief-save/index.js
+              web: 'yes'
+              runtime: 'nodejs:14'
+              inputs:
+                LOG_LEVEL: debug
+              annotations:
+                require-adobe-auth: true
+                final: true
+            brief-list:
+              function: actions/brief-list/index.js
+              web: 'yes'
+              runtime: 'nodejs:14'
+              inputs:
+                LOG_LEVEL: debug
+              annotations:
+                require-adobe-auth: true
+                final: true
+            product-event:
+              function: actions/product-event/index.js
+              web: 'yes'
+              runtime: 'nodejs:14'
+              inputs:
+                LOG_LEVEL: debug
+              annotations:
+                require-adobe-auth: false
+                final: true
+            brief-delete:
+              function: actions/brief-delete/index.js
+              web: 'yes'
+              runtime: 'nodejs:14'
+              inputs:
+                LOG_LEVEL: debug
+              annotations:
+                require-adobe-auth: true
+                final: true
