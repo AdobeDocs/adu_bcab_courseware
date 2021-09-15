@@ -33,7 +33,7 @@ async function main(params) {
   //      since stateLib.init is async call we will need to aWAIT on it to complete.
   const state = await stateLib.init();
   // Get the name value from the params object
-  const { userId, userName } = params;
+  const { userId } = params;
   // from our state store now we get the name key
   const storedUser = await state.get(`${userId}`);
 
