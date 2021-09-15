@@ -38,31 +38,35 @@ async function main(params) {
   const storedUser = await state.get(`${userId}`);
 
   if (storedUser) {
-    let name = storedUser.value;
-
-    // Update user name
-    if (userName && storedUser.value !== userName) {
-      name = userName;
-      await state.put(`${userId}`, name, { ttl: 86400 });
-    }
-
-    body = {
-      message: `Hi ${name} ! Nice to see you again today.`
+    return {
+      statusCode: 200,
+      body: {
+        message: `Hi ${storedUser.value.fullName}. Nice to see you again today.`
+      }
     };
   } else {
+    if(!params.hasOwnProperty('userData')){
+      params.userData = {
+        "fullName": "No Name"
+      }
+    }
+
+    if(!params.userData.hasOwnProperty('fullName')){
+      params.userData.fullName = "No Name"
+    }
+
     // Now we are going to store userId in the key and userData as the value in the state store
     // We could set the time to live option to -1 for no expiry but since this is a training course we will make the data ttl 86400 (24 hours).
     // This means the data will be purged in 24hrs
-    const name = userName || DEFAULT_NAME;
-    await state.put(`${userId}`, name, { ttl: 86400 });
+    await state.put(`${userId}`, params.userData, { ttl: 86400 });
 
-    body = { message: `Welcome ${name} !` };
+    return {
+      statusCode: 200,
+      body: {
+        message: `Welcome ${params.userData.fullName}.`
+      }
+    };
   }
-
-  return {
-    statusCode: 200,
-    body
-  };
 }
 
 exports.main = main;
