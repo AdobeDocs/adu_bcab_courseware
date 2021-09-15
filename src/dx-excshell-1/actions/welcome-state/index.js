@@ -1,15 +1,14 @@
 /*****
  * Training example where we use the state to see if the user has ever logged in before...
  * TODO:// think of a better use case for state in our demo app
+ * 
+ * {"userId":"db3","userData":{"fullName":"Sally Smith"}}
  */
 const { Core } = require('@adobe/aio-sdk');
 const { errorResponse, getBearerToken, stringParameters, checkMissingRequestInputs } = require('../utils');
 const stateLib = require('@adobe/aio-lib-state');
 
 async function main(params) {
-  const DEFAULT_NAME = 'No name';
-  let body = {};
-
   // create a Logger
   const logger = Core.Logger('main', { level: params.LOG_LEVEL || 'info' });
   logger.debug(stringParameters(params));
