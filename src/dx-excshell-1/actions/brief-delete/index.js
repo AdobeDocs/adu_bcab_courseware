@@ -1,43 +1,45 @@
-const { Core } = require('@adobe/aio-sdk');
-const { errorResponse, stringParameters, checkMissingRequestInputs } = require('../utils');
-const filesLib = require('@adobe/aio-lib-files');
+/*
+* brief-delete
+*/
 
-async function main(params) {
+const { Core } = require('@adobe/aio-sdk')
+const { errorResponse, stringParameters, checkMissingRequestInputs } = require('../utils')
+const filesLib = require('@adobe/aio-lib-files')
+
+// main function that will be executed by Adobe I/O Runtime
+async function main (params) {
   // create a Logger
-  const logger = Core.Logger('main', { level: params.LOG_LEVEL || 'info' });
-  logger.debug(stringParameters(params));
+  const logger = Core.Logger('main', { level: params.LOG_LEVEL || 'info' })
 
-  const requiredParams = ['briefIds'];
+  try {
+    // 'info' is the default level if not set
+    logger.info('Calling the main action brief-delete')
 
-  const requiredHeaders = ['Authorization'];
-
-  const errorMessage = checkMissingRequestInputs(params, requiredParams, requiredHeaders);
-
-  if (errorMessage) {
-    // return and log client errors
-    return errorResponse(400, errorMessage, logger);
-  }
-
-  try{
-    const { briefIds } = params;
-    const files = await filesLib.init();
-
-    for (const briefId of briefIds) {
-      await files.delete(`briefs/${briefId}.json`);
+    // check for missing request input parameters and headers
+    const requiredParams = ['briefIds']
+    const requiredHeaders = ['Authorization']
+    const errorMessage = checkMissingRequestInputs(params, requiredParams, requiredHeaders)
+    if (errorMessage) {
+      // return and log client errors
+      return errorResponse(400, errorMessage, logger)
     }
 
-    const response = {
-      statusCode: 200,
-      body: briefIds
-    };
+    const files = await filesLib.init()
+    
+    for(let briefId of params.briefIds){
+      await files.delete(`briefs/${briefId}.json`)
+    }
 
-    return response;
+    return{
+      statusCode:200,
+      body: params.briefIds
+    }
   } catch (error) {
     // log any server errors
-    logger.error(error);
+    logger.error(error)
     // return with 500
-    return errorResponse(500, 'server error', logger);
+    return errorResponse(500, 'server error', logger)
   }
 }
 
-exports.main = main;
+exports.main = main
