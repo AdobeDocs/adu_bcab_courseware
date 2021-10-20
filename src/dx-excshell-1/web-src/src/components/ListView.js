@@ -32,21 +32,17 @@ const BRIEF_FIELDS = [
 
 const selection = new Set();
 
-export const ListView = ({ ims }) => {
+export const ListView = ({ actionCallHeaders }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [briefs, setBriefs] = useState(true);
   const [selectedBriefs, setSelectedBriefs] = useState(selection);
   const [isDialogOpen, setDialogIsOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const history = useHistory();
-  const headers = {};
-  // set the authorization header and org from the ims props object
-  headers.authorization = `Bearer ${ims.token}`;
-  headers['x-gw-ims-org-id'] = ims.org;
 
   useEffect(() => {
     (async () => {
-      const res = await actionWebInvoke(actions['brief-list'],headers);
+      const res = await actionWebInvoke(actions['brief-list'],actionCallHeaders);
 
       if (res.error) {
         alert(res.error.message);
@@ -148,12 +144,13 @@ export const ListView = ({ ims }) => {
 
                   <td className="spectrum-Table-cell">
                     <Flex gap="size-100" alignItems="center" wrap>
-                      {brief.selectedAssets.map((asset) => (
-                        // Display thumbnail assets and wrap them in a link so they can be viewed individually
-                        <a key={asset.id} href={asset.thumbnail_url} target="_blank">
-                          <img alt={asset.title} src={asset.thumbnail_url} width="50px" />
-                        </a>
-                      ))}
+                      {Array.isArray(brief.selectedAssets) ?
+                        brief.selectedAssets.map((asset) => (
+                          // Display thumbnail assets and wrap them in a link so they can be viewed individually
+                          <a key={asset.id} href={asset.thumbnail_url} target="_blank">
+                            <img alt={asset.title} src={asset.thumbnail_url} width="50px" />
+                          </a>
+                        )) : 'No Selected Assets'}
                     </Flex>
                   </td>
                 </tr>
@@ -174,9 +171,8 @@ export const ListView = ({ ims }) => {
               setIsDeleting(true);
 
               const res = await actionWebInvoke(
-                ims,
                 actions['brief-delete'],
-                {},
+                actionCallHeaders,
                 {
                   briefIds: Array.from(selection)
                 }

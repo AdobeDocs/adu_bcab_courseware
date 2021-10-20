@@ -23,7 +23,7 @@ import actions from '../config';
 
 const selectedAssets = new Set();
 
-export const CreateView = ({ ims }) => {
+export const CreateView = ({ actionCallHeaders }) => {
   // Brief fields
   const [briefDate, setBriefDate] = useState('');
   const [copyDate, setCopyDate] = useState('');
@@ -61,11 +61,6 @@ export const CreateView = ({ ims }) => {
     briefDate && copyDate && releasePrintDate && requestType && campaign && deliverables && description;
 
   useEffect(() => {
-    const headers = {};
-      // set the authorization header and org from the ims props object
-    headers.authorization = `Bearer ${ims.token}`;
-    headers['x-gw-ims-org-id'] = ims.org;
-
     if (keyword) {
       (async () => {
         setIsLoadingAssets(true);
@@ -73,7 +68,7 @@ export const CreateView = ({ ims }) => {
 
         const res = await actionWebInvoke(
           actions['stock-search'],
-          headers,
+          actionCallHeaders,
           {
             keyword
           }
@@ -114,9 +109,8 @@ export const CreateView = ({ ims }) => {
               setIsSubmitting(true);
           
               const res = await actionWebInvoke(
-                ims,
                 actions['brief-save'],
-                {},
+                actionCallHeaders,
                 {
                   briefDate,
                   copyDate,

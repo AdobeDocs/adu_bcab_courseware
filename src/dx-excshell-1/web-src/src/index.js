@@ -53,8 +53,14 @@ function bootstrapInExcShell() {
       org: imsOrg,
       token: imsToken
     };
+
+    //setup a reusable header object to use for calling all our Application Actions
+    let actionCallHeaders = {};
+    actionCallHeaders.authorization = `Bearer ${imsToken}`;
+    actionCallHeaders['x-gw-ims-org-id'] = imsOrg;
+
     // render the actual react application and pass along the runtime and ims objects to make it available to the App
-    ReactDOM.render(<App runtime={runtime} ims={ims} />, document.getElementById('root'));
+    ReactDOM.render(<App runtime={runtime} ims={ims} actionCallHeaders={actionCallHeaders}/>, document.getElementById('root'));
   });
 
   // set solution info, shortTitle is used when window is too small to display full title
