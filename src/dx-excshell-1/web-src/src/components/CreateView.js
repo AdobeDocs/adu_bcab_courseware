@@ -61,15 +61,19 @@ export const CreateView = ({ ims }) => {
     briefDate && copyDate && releasePrintDate && requestType && campaign && deliverables && description;
 
   useEffect(() => {
+    const headers = {};
+      // set the authorization header and org from the ims props object
+    headers.authorization = `Bearer ${ims.token}`;
+    headers['x-gw-ims-org-id'] = ims.org;
+
     if (keyword) {
       (async () => {
         setIsLoadingAssets(true);
         selectedAssets.clear();
 
         const res = await actionWebInvoke(
-          ims,
           actions['stock-search'],
-          {},
+          headers,
           {
             keyword
           }

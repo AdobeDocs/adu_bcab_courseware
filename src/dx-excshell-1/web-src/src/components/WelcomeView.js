@@ -13,16 +13,19 @@ export const WelcomeView = ({ ims }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState('');
   const history = useHistory();
+  const headers = {};
+  // set the authorization header and org from the ims props object
+  headers.authorization = `Bearer ${ims.token}`;
+  headers['x-gw-ims-org-id'] = ims.org;
 
   useEffect(() => {
     (async () => {
       const res = await actionWebInvoke(
-        ims,
         actions['welcome-state'],
-        {},
+        headers,
         {
           userId: ims.profile.userId,
-          userName: ims.profile.name
+          userData: { fullName: ims.profile.name }
         }
       );
 

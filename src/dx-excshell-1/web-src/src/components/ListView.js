@@ -39,10 +39,14 @@ export const ListView = ({ ims }) => {
   const [isDialogOpen, setDialogIsOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const history = useHistory();
+  const headers = {};
+  // set the authorization header and org from the ims props object
+  headers.authorization = `Bearer ${ims.token}`;
+  headers['x-gw-ims-org-id'] = ims.org;
 
   useEffect(() => {
     (async () => {
-      const res = await actionWebInvoke(ims, actions['brief-list']);
+      const res = await actionWebInvoke(actions['brief-list'],headers);
 
       if (res.error) {
         alert(res.error.message);

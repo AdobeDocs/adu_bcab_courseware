@@ -8,6 +8,8 @@
 const { Core } = require('@adobe/aio-sdk');
 const { errorResponse, stringParameters, checkMissingRequestInputs } = require('../utils');
 const stateLib = require('@adobe/aio-lib-state');
+//also valid to do 
+// const { Core,State } = require('@adobe/aio-sdk');
 
 async function main(params) {
   // create a Logger
