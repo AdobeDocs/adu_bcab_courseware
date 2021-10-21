@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react'
 import { Provider, defaultTheme, Grid, View } from '@adobe/react-spectrum';
 import ErrorBoundary from 'react-error-boundary';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
@@ -10,12 +10,14 @@ import { ListView } from './ListView';
 function App(props) {
   console.log('runtime object:', props.runtime);
   console.log('ims object:', props.ims);
+  console.log('actionCallHeaders object:', props.actionCallHeaders);
 
   // use exc runtime event handlers
   // respond to configuration change events (e.g. user switches org)
   props.runtime.on('configuration', ({ imsOrg, imsToken, locale }) => {
     console.log('configuration change', { imsOrg, imsToken, locale });
   });
+
   // respond to history change events
   props.runtime.on('history', ({ type, path }) => {
     console.log('history change', { type, path });
@@ -34,13 +36,13 @@ function App(props) {
             <View gridArea="content">
               <Switch>
                 <Route exact path="/">
-                  <WelcomeView ims={props.ims} />
+                  <WelcomeView ims={props.ims} actionCallHeaders={props.actionCallHeaders} />
                 </Route>
                 <Route path="/create">
-                  <CreateView ims={props.ims} />
+                  <CreateView actionCallHeaders={props.actionCallHeaders}/>
                 </Route>
                 <Route path="/list">
-                  <ListView ims={props.ims} />
+                  <ListView actionCallHeaders={props.actionCallHeaders}/>
                 </Route>
               </Switch>
             </View>

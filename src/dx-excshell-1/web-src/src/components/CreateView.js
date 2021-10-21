@@ -23,7 +23,7 @@ import actions from '../config';
 
 const selectedAssets = new Set();
 
-export const CreateView = ({ ims }) => {
+export const CreateView = ({ actionCallHeaders }) => {
   // Brief fields
   const [briefDate, setBriefDate] = useState('');
   const [copyDate, setCopyDate] = useState('');
@@ -67,9 +67,8 @@ export const CreateView = ({ ims }) => {
         selectedAssets.clear();
 
         const res = await actionWebInvoke(
-          ims,
           actions['stock-search'],
-          {},
+          actionCallHeaders,
           {
             keyword
           }
@@ -110,9 +109,8 @@ export const CreateView = ({ ims }) => {
               setIsSubmitting(true);
           
               const res = await actionWebInvoke(
-                ims,
                 actions['brief-save'],
-                {},
+                actionCallHeaders,
                 {
                   briefDate,
                   copyDate,
