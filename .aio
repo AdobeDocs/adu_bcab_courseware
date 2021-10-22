@@ -1,56 +1,55 @@
 {
-  project: {
-    id: "4566206088344600075",
-    name: "trainingproject",
-    title: "training project",
-    org: {
-      id: "301276",
-      name: "Adobe IO DEMO DEV",
-      ims_org_id: "3C9419175E9D393C0A495E39@AdobeOrg"
+  "project": {
+    "id": "4566206088344600075",
+    "name": "trainingproject",
+    "title": "training project",
+    "org": {
+      "id": "301276",
+      "name": "Adobe IO DEMO DEV",
+      "ims_org_id": "3C9419175E9D393C0A495E39@AdobeOrg"
     },
-    workspace: {
-      id: "4566206088344601510",
-      name: "Stage",
-      title: "Stage",
-      action_url: "https://301276-trainingproject-stage.adobeioruntime.net",
-      app_url: "https://301276-trainingproject-stage.adobeio-static.net",
-      details: {
-        credentials: [
+    "workspace": {
+      "id": "4566206088344601511",
+      "name": "dbengedev",
+      "title": "dbengedev",
+      "description": "Davids workspace",
+      "action_url": "https://301276-trainingproject-dbengedev.adobeioruntime.net",
+      "app_url": "https://301276-trainingproject-dbengedev.adobeio-static.net",
+      "details": {
+        "credentials": [
           {
-            id: "176766",
-            name: "Project_1623717036214W",
-            integration_type: "oauthweb"
-          },
-          {
-            id: "182393",
-            name: "training_project_J_1625172383287",
-            integration_type: "service"
+            "id": "201405",
+            "name": "Project_1631574713563W",
+            "integration_type": "oauthweb"
           }
         ],
-        services: [
+        "services": [
           {
-            code: "StockSDK",
-            name: "Adobe Stock"
-          },
-          {
-            code: "UserMgmtSDK",
-            name: "User Management API"
+            "code": "StockSDK",
+            "name": "Adobe Stock"
           }
         ]
-      }
-    }
-  },
-  ims: {
-    contexts: {
-      example: {
-        client_id: "9c632a7b9426499895eee19c64a03c7a",
-        client_secret: "p8e-N1C2_4i5DD0jD2YhnBX1MuVmsE-clEVv",
-        technical_account_id: "BABA451660DE29A00A495E95@techacct.adobe.com",
-        meta_scopes: [
-          "ent_user_sdk"
-        ],
-        ims_org_id: "3C9419175E9D393C0A495E39@AdobeOrg",
-        private_key: "private.key"
+      },
+      "endpoints": {
+        "dx/excshell/1": {
+          "view": [
+            {
+              "href": "https://301276-trainingproject-dbengedev.adobeio-static.net/index.html",
+              "metadata": {
+                "services": [
+                  {
+                    "code": "StockSDK",
+                    "name": "Adobe Stock"
+                  }
+                ],
+                "profile": {
+                  "client_id": "firefly-app",
+                  "scope": "ab.manage,additional_info.job_function,additional_info.projectedProductContext,additional_info.roles,additional_info,AdobeID,adobeio_api,adobeio.appregistry.read,audiencemanager_api,creative_cloud,mps,openid,read_organizations,read_pc.acp,read_pc.dma_tartan,read_pc,session"
+                }
+              }
+            }
+          ]
+        }
       }
     }
   }

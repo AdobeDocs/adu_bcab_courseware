@@ -110,8 +110,8 @@ export const ListView = ({ actionCallHeaders }) => {
               </tr>
             </thead>
             <tbody className="spectrum-Table-body" style={{ verticalAlign: 'middle' }}>
-              {briefs.map((brief) => (
-                <tr key={brief.id} className="spectrum-Table-row">
+              {briefs.map((brief,index) => (
+                <tr key={index} className="spectrum-Table-row">
                   <td className="spectrum-Table-cell">
                     <Checkbox
                       aria-label="Select brief"
@@ -119,8 +119,10 @@ export const ListView = ({ actionCallHeaders }) => {
                       onChange={() => {
                         // Toggle brief selection
                         if (selection.has(brief.id)) {
+                          console.log("brief is already selected deleting");
                           selection.delete(brief.id);
                         } else {
+                          console.log("brief is NOT already selected",brief.id);
                           selection.add(brief.id);
                         }
 
@@ -145,9 +147,9 @@ export const ListView = ({ actionCallHeaders }) => {
                   <td className="spectrum-Table-cell">
                     <Flex gap="size-100" alignItems="center" wrap>
                       {Array.isArray(brief.selectedAssets) ?
-                        brief.selectedAssets.map((asset) => (
+                        brief.selectedAssets.map((asset,index) => (
                           // Display thumbnail assets and wrap them in a link so they can be viewed individually
-                          <a key={asset.id} href={asset.thumbnail_url} target="_blank">
+                          <a key={index} href={asset.thumbnail_url} target="_blank">
                             <img alt={asset.title} src={asset.thumbnail_url} width="50px" />
                           </a>
                         )) : 'No Selected Assets'}
@@ -170,6 +172,7 @@ export const ListView = ({ actionCallHeaders }) => {
             onPrimaryAction={async () => {
               setIsDeleting(true);
 
+              console.log("calling to delete brief ids ",JSON.stringify(Array.from(selection)));
               const res = await actionWebInvoke(
                 actions['brief-delete'],
                 actionCallHeaders,
