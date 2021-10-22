@@ -22,7 +22,7 @@
     "react-router-dom": "^5.2.0",
     "regenerator-runtime": "^0.13.5",
     "use-debounce": "^6.0.1",
-    "uuid": "^8.0.0"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@adobe/aio-lib-ims": "^4.2.2",

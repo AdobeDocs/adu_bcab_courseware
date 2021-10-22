@@ -5,13 +5,14 @@
 * {"briefDate":"1-1-2021","copyDate":"2-3-2021","releasePrintDate":"3-1-2021","requestType":"new-brief","campaign":"123","deliverables":" ","description":"new magic shoe social campaign","selectedAssets":"1,2,3"}
 *
 * Debug tips
-* set DEBUG=@adobe/aio-lib-files* to see debug logs.
+* set DEBUG=@adobe/aio-lib-files* to see debug logs.
 *
 */
 
 const { Core } = require('@adobe/aio-sdk')
 const { errorResponse, stringParameters, checkMissingRequestInputs } = require('../utils')
 const filesLib = require('@adobe/aio-lib-files')
+const { v4 } = require('uuid');
 
 // main function that will be executed by Adobe I/O Runtime
 async function main (params) {
@@ -50,7 +51,7 @@ async function main (params) {
       briefRequest[requiredParams[fieldName]] = params[requiredParams[fieldName]];
     }
 
-    const requestFileId = new Date().getTime()
+    const requestFileId = v4();
     briefRequest['id'] = requestFileId
 
     const existingFile = await files.list(`briefs/${requestFileId}.json`)
