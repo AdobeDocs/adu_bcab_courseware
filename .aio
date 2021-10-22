@@ -9,17 +9,16 @@
       "ims_org_id": "3C9419175E9D393C0A495E39@AdobeOrg"
     },
     "workspace": {
-      "id": "4566206088344601511",
-      "name": "dbengedev",
-      "title": "dbengedev",
-      "description": "Davids workspace",
-      "action_url": "https://301276-trainingproject-dbengedev.adobeioruntime.net",
-      "app_url": "https://301276-trainingproject-dbengedev.adobeio-static.net",
+      "id": "4566206088344601510",
+      "name": "Stage",
+      "title": "Stage",
+      "action_url": "https://301276-trainingproject-stage.adobeioruntime.net",
+      "app_url": "https://301276-trainingproject-stage.adobeio-static.net",
       "details": {
         "credentials": [
           {
-            "id": "201405",
-            "name": "Project_1631574713563W",
+            "id": "213292",
+            "name": "Project_1634926937661W",
             "integration_type": "oauthweb"
           }
         ],
@@ -40,6 +39,10 @@
                   {
                     "code": "StockSDK",
                     "name": "Adobe Stock"
+                  },
+                  {
+                    "code": "UserMgmtSDK",
+                    "name": "User Management API"
                   }
                 ],
                 "profile": {
