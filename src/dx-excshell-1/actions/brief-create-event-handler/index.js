@@ -11,7 +11,7 @@ async function main(params) {
   const logger = Core.Logger('main', { level: params.LOG_LEVEL || 'info' });
 
   try {
-    logger.info('Calling the product-event action');
+    logger.info('Calling the brief-create-event-handler action');
 
     logger.debug(stringParameters(params));
 
@@ -40,6 +40,7 @@ async function main(params) {
       return response;
     } else {
       // HANDLE EVENT AND DO SOME WORK
+      
       return response;
     }
   } catch (error) {

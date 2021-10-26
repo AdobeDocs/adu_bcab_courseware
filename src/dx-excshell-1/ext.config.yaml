@@ -9,15 +9,6 @@ runtimeManifest:
     __APP_PACKAGE__:
       license: Apache-2.0
       actions:
-        publish-events:
-          function: actions/publish-events/index.js
-          web: 'yes'
-          runtime: 'nodejs:14'
-          inputs:
-            LOG_LEVEL: debug
-          annotations:
-            require-adobe-auth: true
-            final: true
         stock-search:
           function: actions/stock-search/index.js
           web: 'yes'
@@ -58,8 +49,8 @@ runtimeManifest:
           annotations:
             require-adobe-auth: true
             final: true
-        product-event:
-          function: actions/product-event/index.js
+        brief-create-event-handler:
+          function: actions/brief-create-event-handler/index.js
           web: 'yes'
           runtime: 'nodejs:14'
           inputs:
