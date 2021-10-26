@@ -21,9 +21,22 @@
             "id": "201405",
             "name": "Project_1631574713563W",
             "integration_type": "oauthweb"
+          },
+          {
+            "id": "214186",
+            "name": "training_project_J_1635200096010",
+            "integration_type": "service"
           }
         ],
         "services": [
+          {
+            "code": "AdobeIOManagementAPISDK",
+            "name": "I/O Management API"
+          },
+          {
+            "code": "CloudIntegrationSDK",
+            "name": "I/O Events"
+          },
           {
             "code": "StockSDK",
             "name": "Adobe Stock"

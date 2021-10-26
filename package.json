@@ -12,6 +12,7 @@
     "@spectrum-css/typography": "^3.0.2",
     "@spectrum-css/vars": "^3.0.2",
     "@spectrum-icons/workflow": "^3.2.0",
+    "cloudevents": "^5.0.0",
     "cloudevents-sdk": "^1.0.0",
     "core-js": "^3.6.4",
     "node-fetch": "^2.6.0",

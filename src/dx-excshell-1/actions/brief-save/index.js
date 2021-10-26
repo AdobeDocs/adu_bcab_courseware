@@ -9,9 +9,11 @@
 *
 */
 
-const { Core } = require('@adobe/aio-sdk')
+const { Core, Events} = require('@adobe/aio-sdk')
 const { errorResponse, stringParameters, checkMissingRequestInputs } = require('../utils')
 const filesLib = require('@adobe/aio-lib-files')
+const cloudEventV1 = require('cloudevents-sdk/v1')
+const uuid = require('uuid')
 
 // main function that will be executed by Adobe I/O Runtime
 async function main (params) {
@@ -57,6 +59,24 @@ async function main (params) {
 
     if(!existingFile.length){
       await files.write(`briefs/${requestFileId}.json`,JSON.stringify(briefRequest))
+
+      /*  Send Event */
+      const payload = {"briefRequestId":requestFileId}
+      const token = getBearerToken(params)
+      // initialize the client
+      const orgId = params.__ow_headers['x-gw-ims-org-id']
+      const eventsClient = await Events.init(orgId, params.apiKey, token)
+      const cloudEvent = createCloudEvent(params.providerId, params.eventCode, payload)
+
+    // Publish to I/O Events
+    const published = await eventsClient.publishEvent(cloudEvent)
+    let statusCode = 200
+    if (published === 'OK') {
+      logger.info('Published successfully to I/O Events')
+    } else if (published === undefined) {
+      logger.info('Published to I/O Events but there were not interested registrations')
+    }
+
       return{
         statusCode: 200,
         body: briefRequest
@@ -71,6 +91,15 @@ async function main (params) {
     // return with 500
     return errorResponse(500, 'server error', logger)
   }
+}
+
+function createCloudEvent(providerId, eventCode, payload) {
+  let cloudevent = cloudEventV1.event()
+    .data(payload)
+    .source('urn:uuid:' + providerId)
+    .type(eventCode)
+    .id(uuid.v4())
+  return cloudevent.format()
 }
 
 exports.main = main
