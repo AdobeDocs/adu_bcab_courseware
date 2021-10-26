@@ -68,14 +68,13 @@ async function main (params) {
       const eventsClient = await Events.init(orgId, params.apiKey, token)
       const cloudEvent = createCloudEvent(params.providerId, params.eventCode, payload)
 
-    // Publish to I/O Events
-    const published = await eventsClient.publishEvent(cloudEvent)
-    let statusCode = 200
-    if (published === 'OK') {
-      logger.info('Published successfully to I/O Events')
-    } else if (published === undefined) {
-      logger.info('Published to I/O Events but there were not interested registrations')
-    }
+      // Publish to I/O Events
+      const published = await eventsClient.publishEvent(cloudEvent)
+      if (published === 'OK') {
+        logger.info('Published successfully to I/O Events')
+      } else if (published === undefined) {
+        logger.info('Published to I/O Events but there were not interested registrations')
+      }
 
       return{
         statusCode: 200,
