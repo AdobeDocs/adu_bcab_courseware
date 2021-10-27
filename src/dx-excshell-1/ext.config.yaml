@@ -34,9 +34,9 @@ runtimeManifest:
           runtime: 'nodejs:14'
           inputs:
             LOG_LEVEL: debug
-            apiKey: $YOUR-SERVICE_API_KEY
-            providerId: $YOUR-PROVIDER_ID
-            eventCode: $YOUR-EVENT_CODE
+            eventsApiKey: $EVENTS-SERVICE_API_KEY
+            eventsProviderId: $EVENTS-PROVIDER_ID
+            briefSaveEventCode: $BRIEFSAVE-EVENT_CODE
           annotations:
             require-adobe-auth: true
             final: true
@@ -55,6 +55,9 @@ runtimeManifest:
           runtime: 'nodejs:14'
           inputs:
             LOG_LEVEL: debug
+            trelloKey: $TRELLO_KEY
+            trelloToken: $TRELLO_TOKEN
+            trelloListId: $TRELLO_LISTID
           annotations:
             require-adobe-auth: false
             final: true

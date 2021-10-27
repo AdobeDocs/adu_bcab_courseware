@@ -10,9 +10,9 @@
 */
 
 const { Core, Events} = require('@adobe/aio-sdk')
-const { errorResponse, stringParameters, checkMissingRequestInputs } = require('../utils')
-const filesLib = require('@adobe/aio-lib-files')
-const cloudEventV1 = require('cloudevents-sdk/v1')
+const { errorResponse, stringParameters, checkMissingRequestInputs, getBearerToken } = require('../utils') //changed to bring in bearer token so we can make the events call
+const filesLib = require('@adobe/aio-lib-files') 
+const cloudEventV1 = require('cloudevents-sdk/v1') //added so we can make a proper new event message
 const uuid = require('uuid')
 
 // main function that will be executed by Adobe I/O Runtime
@@ -61,12 +61,15 @@ async function main (params) {
       await files.write(`briefs/${requestFileId}.json`,JSON.stringify(briefRequest))
 
       /*  Send Event */
-      const payload = {"briefRequestId":requestFileId}
+      const payload = {
+        "briefRequestId":requestFileId,
+        "briefCampaign":params['campaign']
+      }
       const token = getBearerToken(params)
       // initialize the client
       const orgId = params.__ow_headers['x-gw-ims-org-id']
-      const eventsClient = await Events.init(orgId, params.apiKey, token)
-      const cloudEvent = createCloudEvent(params.providerId, params.eventCode, payload)
+      const eventsClient = await Events.init(orgId, params.eventsApiKey, token)
+      const cloudEvent = createCloudEvent(params.eventsProviderId, params.briefSaveEventCode, payload)
 
       // Publish to I/O Events
       const published = await eventsClient.publishEvent(cloudEvent)
