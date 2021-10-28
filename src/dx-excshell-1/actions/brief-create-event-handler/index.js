@@ -47,7 +47,7 @@ async function main(params) {
       const cardDescription = `Campaign ${params.data.briefCampaign}`;
 
       // HANDLE EVENT AND DO SOME WORK NAMELY POST data about new creative brief to our Trello Board
-      const apiEndpoint = `https://api.trello.com/1/cards?name=${cardName}&desc=${cardDescription}&idList=${params.trelloListId}&key=${trelloKey}&token=${trelloToken}`;
+      const apiEndpoint = `https://api.trello.com/1/cards?name=${cardName}&desc=${cardDescription}&idList=${params.trelloListId}&key=${params.trelloKey}&token=${params.trelloToken}`;
       logger.debug(`In new brief created event handler and calling ${apiEndpoint}`);
 
       const callOptions = {

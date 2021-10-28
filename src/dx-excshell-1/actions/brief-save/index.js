@@ -76,7 +76,7 @@ async function main (params) {
       if (published === 'OK') {
         logger.info('Published successfully to I/O Events')
       } else if (published === undefined) {
-        logger.info('Published to I/O Events but there were not interested registrations')
+        logger.error('Published to I/O Events but there were not interested registrations')
       }
 
       return{
