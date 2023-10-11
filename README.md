@@ -1,7 +1,7 @@
 # Adobe Digital University
-## Firefly Building custom applications basics - courseware
+## App Builder Building custom applications basics - courseware
 
-Firefly is built to tie Adobe products together but we as trainers will have no idea what products the students will be entitled to use or what the enterprise owns.   Even if the enterprise has licenses for a product that does not necessarily mean that product is set up to be used for "Training use" or that the student has permissions to use that application and its API's.  To mitigate these risks we need a story that does not require Adobe product entitlement but will demonstrate core Firefly principles.
+App Builder is built to tie Adobe products together but we as trainers will have no idea what products the students will be entitled to use or what the enterprise owns.   Even if the enterprise has licenses for a product that does not necessarily mean that product is set up to be used for "Training use" or that the student has permissions to use that application and its API's.  To mitigate these risks we need a story that does not require Adobe product entitlement but will demonstrate core Firefly principles.
 
 We needed a cohesive story to tell across all the training modules so the students will be able to relate learned concepts and see how they work together in a functional system.  For example, when they do work in the Actions Basics Course they will be building the services in the Frontend Building Basics course. 
 
